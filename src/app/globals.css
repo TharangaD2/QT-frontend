@@ -1,0 +1,183 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --primary: 221.2 83.2% 53.3%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --accent: 210 100% 56%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 47.4% 11.2%;
+  --border: 214 32% 91%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215 16% 46%;
+}
+
+@keyframes shine {
+  0% {
+    left: -75%;
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    left: 125%;
+    opacity: 0;
+  }
+}
+
+.animate-shine {
+  animation: shine 1.2s linear infinite;
+}
+
+.gradient-animate {
+  background: linear-gradient(120deg, #6EECA0, #45d6e2, #6EECA0);
+  background-size: 300% 300%;
+  animation: gradientMove 6s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.bg-3d-section {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url('/img/abouthero.jpg');
+}
+
+
+.bg-app-maintence {
+  background-image: url('/img/appImplementation.jpg');
+}
+
+.bg-business-consultancy {
+  background-image: url('/img/exploreservices.jpg');
+}
+
+.bg-app-development {
+  background-image: url('/img/appdevelopment.jpg');
+}
+
+.bg-blog {
+  background-image: url('/img/blog.jpg');
+}
+
+.bg-contact {
+  background-image: url('/img/contact.jpg');
+}
+
+.bg-business-one {
+  background-image: url('/img/bone.jpg');
+}
+
+/* Sidebar CSS */
+.social-sidebar {
+  position: fixed;
+  top: 45%;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  z-index: 1000;
+}
+
+.social-sidebar a {
+  background-color: rgba(209, 209, 209, 0.8);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-decoration: none;
+  border-radius: 5px 0 0 5px;
+  overflow: hidden;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.social-sidebar a i {
+  font-size: 18px;
+  width: 40px;
+  text-align: center;
+  padding-left: 25%;
+}
+
+.social-sidebar a span {
+  white-space: nowrap;
+  padding-right: 15px;
+  font-size: 14px;
+  opacity: 0;
+  transform: translateX(10px);
+  transition: all 0.3s ease;
+  color: black;
+}
+
+.social-sidebar a:hover {
+  width: 150px;
+  background-color: white;
+}
+
+.social-sidebar a:hover span {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.facebook {
+  color: #1877f2;
+}
+
+.facebook::before {
+  background: #1877f2;
+}
+
+.instagram {
+  color: #e1306c;
+}
+
+.instagram::before {
+  background: #e1306c;
+}
+
+.linkedin {
+  color: #0077b5;
+}
+
+.linkedin::before {
+  background: #0077b5;
+}
+
+.meeting {
+  color: black;
+}
+
+.meeting::before {
+  background: black;
+}
+
+.whatsapp {
+  color: #25d366;
+}
+
+.whatsapp::before {
+  background: #25d366;
+}
