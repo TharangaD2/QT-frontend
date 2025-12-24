@@ -388,12 +388,12 @@ export default function Home() {
   const teamMembers: TeamMember[] = teamMembersData.length > 0 ? teamMembersData.map((item) => ({
     name: item.member_name,
     role: item.member_post,
-    image: item.member_image?.url || "https://api.dicebear.com/7.x/avataaars/svg?seed=Michael1",
+    image: item.member_image?.url,
     bio: item.member_desc,
     social: {
-      linkedin: item.linkedln_link || "#",
-      instagram: item.instagram_link || "#",
-      email: item.mail_link || "info@quintessential.com"
+      linkedin: item.linkedln_link,
+      instagram: item.instagram_link,
+      email: item.mail_link
     }
   })) : [];
 
@@ -428,7 +428,7 @@ export default function Home() {
       content: item.message,
       name: item.customer_name,
       role: item.customer_position,
-      image: item.customer_pic ? item.customer_pic.url : `https://api.dicebear.com/7.x/avataaars/svg?seed=${item.customer_name.replace(" ", "")}`,
+      image: item.customer_pic ? item.customer_pic.url : ``,
       rating: rating
     };
   }) : [];
@@ -623,13 +623,14 @@ export default function Home() {
 
 
 
-      {/* IMAGE RING SECTION */}
+      {/* IMAGE RING SECTION 
 
       <section>
         <div className="w-full h-[600px] overflow-hidden mt-10">
           <ThreeDImageRing images={items} />
         </div>
       </section>
+      */}
 
 
 
@@ -671,7 +672,7 @@ export default function Home() {
                 </motion.h2>
 
                 <motion.div
-                  className="space-y-4 lg:text-lg md:text-xl leading-relaxed text-muted-foreground text-justify"
+                  className="space-y-4 lg:text-lg md:text-xl leading-relaxed text-muted-foreground"
                   initial={{ opacity: 0, x: -30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-100px" }}
@@ -730,14 +731,16 @@ export default function Home() {
                   whileHover={{ scale: 1.02 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <Image
-                    src={aboutData?.about_image ? aboutData.about_image.url : "/img/aboutus.jpg"}
-                    alt="Team collaboration"
-                    width={500}
-                    height={300}
-                    className="w-full h-[200px] sm:h-[280px] md:h-[350px] object-cover"
-                    unoptimized
-                  />
+                  {aboutData?.about_image && aboutData.about_image.url ? (
+                    <Image
+                      src={aboutData.about_image.url}
+                      alt="Team collaboration"
+                      width={500}
+                      height={300}
+                      className="w-full h-[200px] sm:h-[280px] md:h-[350px] object-cover"
+                      unoptimized
+                    />
+                  ) : null}
                   <div className="absolute inset-0 bg-linear-to-t from-background/80 via-transparent to-transparent" />
                 </motion.div>
 
@@ -957,13 +960,15 @@ export default function Home() {
                 <div className="relative overflow-hidden transition-all duration-300 border rounded-2xl bg-card border-border/50 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10">
                   {/* Image */}
                   <div className="relative overflow-hidden aspect-square bg-linear-to-br from-primary/10 to-accent/10">
-                    <motion.img
-                      src={member.image}
-                      alt={member.name}
-                      className="object-cover w-full h-full"
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.4 }}
-                    />
+                    {member.image ? (
+                      <motion.img
+                        src={member.image}
+                        alt={member.name}
+                        className="object-cover w-full h-full"
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ duration: 0.4 }}
+                      />
+                    ) : null}
                     {/* Social overlay */}
                     <motion.div
                       initial={{ opacity: 0 }}
@@ -1057,13 +1062,14 @@ export default function Home() {
                     />
 
                     {/* Logo */}
-                    <motion.img
-                      src={tech.logo}
-                      alt={tech.name}
-                      className="relative z-10 object-contain w-16 h-16 transition-all duration-300 filter  group-hover:grayscale-0"
-
-                      whileHover={{ filter: "grayscale(0%)" }}
-                    />
+                    {tech.logo ? (
+                      <motion.img
+                        src={tech.logo}
+                        alt={tech.name}
+                        className="relative z-10 object-contain w-16 h-16 transition-all duration-300 filter  group-hover:grayscale-0"
+                        whileHover={{ filter: "grayscale(0%)" }}
+                      />
+                    ) : null}
 
                     {/* Name */}
                     <motion.div
@@ -1193,14 +1199,16 @@ export default function Home() {
 
                   {/* Author Info */}
                   <div className="flex items-center gap-4">
-                    <motion.img
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ duration: 0.5, delay: 0.5 }}
-                      src={testimonials[currentIndex].image}
-                      alt={testimonials[currentIndex].name}
-                      className="w-16 h-16 p-1 rounded-full bg-linear-to-br from-primary/10 to-accent/10"
-                    />
+                    {testimonials[currentIndex].image ? (
+                      <motion.img
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ duration: 0.5, delay: 0.5 }}
+                        src={testimonials[currentIndex].image}
+                        alt={testimonials[currentIndex].name}
+                        className="w-16 h-16 p-1 rounded-full bg-linear-to-br from-primary/10 to-accent/10"
+                      />
+                    ) : null}
                     <div>
                       <h4 className="font-semibold text-foreground">
                         {testimonials[currentIndex].name}

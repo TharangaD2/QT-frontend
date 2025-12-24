@@ -38,3 +38,30 @@ export async function getHomePage() {
     throw error;
   }
 }
+export async function getPage(slug: string) {
+  const baseUrl = (WP_BASE_URL || "").replace(/\/$/, "");
+  const url = `${baseUrl}/wp-json/wp/v2/pages?slug=${slug}&_acf_format=standard`;
+
+  console.log(`Fetching Page ${slug} from:`, url);
+
+  try {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), 10000);
+
+    const res = await fetch(url, {
+      cache: "no-store",
+      signal: controller.signal,
+    });
+    clearTimeout(id);
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch page ${slug}: ${res.status}`);
+    }
+
+    const data = await res.json();
+    return Array.isArray(data) && data.length > 0 ? data[0] : null;
+  } catch (error) {
+    console.error(`Error in getPage (${slug}):`, error);
+    throw error;
+  }
+}

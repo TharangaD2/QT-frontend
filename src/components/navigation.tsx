@@ -25,7 +25,7 @@ export default function Navigation() {
 
   const navItems: NavItem[] = [
     { name: "Home", href: "/" },
-   
+
     {
       name: "Services",
       submenu: [
@@ -37,7 +37,7 @@ export default function Navigation() {
       ],
     },
     { name: "Blog", href: "/blog" },
-     { name: "About", href: "/aboutDetails" },
+    { name: "About", href: "/aboutDetails" },
     { name: "Contact", href: "/contact" },
   ];
 
@@ -46,11 +46,10 @@ export default function Navigation() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-background/95 backdrop-blur-md shadow-sm border-b border-border bg-gray-200"
-          : "bg-transparent"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+        ? "bg-background/95 backdrop-blur-md shadow-sm border-b border-border bg-gray-200"
+        : "bg-transparent"
+        }`}
     >
       <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="flex items-center justify-between h-16 sm:h-20">
@@ -124,7 +123,7 @@ export default function Navigation() {
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden p-2 rounded-lg transition-colors hover:bg-accent " 
+            className="md:hidden p-2 rounded-lg transition-colors hover:bg-accent "
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? (
@@ -155,9 +154,8 @@ export default function Navigation() {
                     >
                       {item.name}
                       <ChevronDown
-                        className={`w-4 h-4 transition-transform ${
-                          isServicesOpen ? "rotate-180" : ""
-                        }`}
+                        className={`w-4 h-4 transition-transform ${isServicesOpen ? "rotate-180" : ""
+                          }`}
                       />
                     </button>
 

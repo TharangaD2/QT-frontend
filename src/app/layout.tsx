@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import SocialSidebar from "@/components/socialSidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,54 +39,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
 
-        {/* Social Sidebar */}
-        <div className="social-sidebar">
-          <a
-            href="https://facebook.com/QuintessentialTechnologies"
-            className="facebook"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <i className="fab fa-facebook-f"></i>
-            <span className="ml-5">Facebook</span>
-          </a>
-          <a
-            href="https://instagram.com/quintessentialtechnology"
-            className="instagram"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <i className="fab fa-instagram"></i>
-            <span className="ml-5">Instagram</span>
-          </a>
-          <a
-            href="https://linkedin.com/company/quintessential-technologie"
-            className="linkedin"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <i className="fab fa-linkedin-in"></i>
-            <span className="ml-5">LinkedIn</span>
-          </a>
-          <a
-            href="#schedule"
-            className="meeting"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <i className="fa-solid fa-calendar-check"></i>
-            <span className="ml-5">Schedule Meeting</span>
-          </a>
-          <a
-            href="https://wa.me/971561289803"
-            className="whatsapp"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <i className="fab fa-whatsapp"></i>
-            <span className="ml-5">WhatsApp</span>
-          </a>
-        </div>
+        <SocialSidebar />
       </body>
     </html>
   );

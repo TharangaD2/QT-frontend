@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -9,7 +11,10 @@ import {
   Mail,
   Phone,
   MapPin,
+  Loader2,
 } from "lucide-react";
+import { getPage } from "@/lib/wordpress";
+import { getIconComponent } from "@/lib/icons";
 
 type FooterLink = {
   name: string;
@@ -23,8 +28,49 @@ type SocialLink = {
   color: string;
 };
 
+interface WPContactDetail {
+  acf_fc_layout: "contact_details";
+  contact_label: string;
+  contact_data: string;
+}
+
+interface WPSocialMediaData {
+  acf_fc_layout: "social_media_data";
+  soical_icon: string;
+  social_link: {
+    title: string;
+    url: string;
+    target: string;
+  };
+}
+
+interface WPContactPage {
+  acf: {
+    contact_data: WPContactDetail[];
+    social_media: WPSocialMediaData[];
+  };
+}
+
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const [data, setData] = React.useState<WPContactPage | null>(null);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const wpData = await getPage("contact");
+        if (wpData) {
+          setData(wpData);
+        }
+      } catch (error) {
+        console.error("Failed to fetch footer data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
 
   const footerLinks: Record<string, FooterLink[]> = {
     company: [
@@ -36,15 +82,18 @@ export default function Footer() {
       { name: "Privacy Policy", href: "/privacy" },
     ],
     Applications: [
-      { name: "SAP Business One", href: "/businessOne" },
-      { name: "SAP by Design", href: "/sapDesign" },
+      { name: "SAP Business One", href: "/applications/businessOne" },
+      { name: "SAP by Design", href: "/applications/sapDesign" },
       { name: "Microsoft Dynamic 365", href: "#services" },
       { name: "SAGE ERP 300", href: "#services" },
       { name: "Oracle Netsuit", href: "#services" },
     ],
   };
 
-  const socialLinks: SocialLink[] = [
+  const wpSocialMedia = data?.acf.social_media || [];
+  const wpContactData = data?.acf.social_media ? data.acf.contact_data : [];
+
+  const defaultSocialLinks: SocialLink[] = [
     {
       icon: MessageCircle,
       name: "WhatsApp",
@@ -71,11 +120,43 @@ export default function Footer() {
     },
   ];
 
+  const socialLinks: SocialLink[] = wpSocialMedia.length > 0
+    ? wpSocialMedia.map((item) => {
+      const icon = getIconComponent(item.soical_icon);
+      const colorMap: Record<string, string> = {
+        "dashicons-facebook-alt": "hover:text-blue-600",
+        "dashicons-whatsapp": "hover:text-green-600",
+        "dashicons-instagram": "hover:text-pink-600",
+        "dashicons-linkedin": "hover:text-blue-700",
+        "dashicons-email-alt": "hover:text-primary",
+      };
+
+      return {
+        icon,
+        name: item.social_link.title || item.soical_icon.replace("dashicons-", ""),
+        link: item.social_link.url,
+        color: colorMap[item.soical_icon] || "hover:text-primary",
+      };
+    })
+    : defaultSocialLinks;
+
+  const contactDetails = wpContactData.reduce((acc: any, item) => {
+    const label = item.contact_label.toLowerCase();
+    if (label.includes("email")) acc.email = item.contact_data;
+    if (label.includes("phone")) acc.phone = item.contact_data;
+    if (label.includes("address")) acc.address = item.contact_data;
+    return acc;
+  }, {
+    email: "sales@quintsn.com",
+    phone: "+971 561 289 803",
+    address: "No:401, Mohammad Saleh al GURG, Dubai, UAE."
+  });
+
   return (
     <footer className="border-t border-border/50 bg-gray-200">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 pt-10 pb-5">
         <div className="grid grid-cols-1 gap-8 mb-10 md:grid-cols-2 lg:grid-cols-5 lg:gap-12">
-          
+
           {/* Company Info */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center mb-4 space-x-2">
@@ -88,7 +169,7 @@ export default function Footer() {
               </div>
             </Link>
 
-            <p className="mb-2 text-[14px] leading-relaxed text-muted-foreground text-justify mr-10">
+            <p className="mb-2 text-[14px] leading-relaxed text-muted-foreground mr-10">
               Quintessential Technologies: ERP and Business Technology Consulting for Growth.
               We empower Trading & Service companies across MENA, North America, and MEA.
             </p>
@@ -116,24 +197,24 @@ export default function Footer() {
             <h3 className="mb-4 font-semibold capitalize text-foreground">Contact</h3>
 
             <a
-              href="mailto:sales@quintsn.com"
+              href={`mailto:${contactDetails.email}`}
               className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
             >
               <Mail className="w-4 h-4" />
-              sales@quintsn.com
+              {contactDetails.email}
             </a>
 
             <a
-              href="tel:+971561289803"
+              href={`tel:${contactDetails.phone.replace(/\s+/g, "")}`}
               className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
             >
               <Phone className="w-4 h-4" />
-              +971 561 289 803
+              {contactDetails.phone}
             </a>
 
             <div className="flex items-start gap-2 text-muted-foreground">
               <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
-              <span>No:401, Mohammad Saleh al GURG, Dubai, UAE.</span>
+              <span>{contactDetails.address}</span>
             </div>
           </div>
 

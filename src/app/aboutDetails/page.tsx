@@ -363,7 +363,7 @@ function AboutDetailsContent({ data }: { data: WpPage }) {
                                 </motion.h2>
 
                                 <motion.div
-                                    className="space-y-4 lg:text-lg md:text-xl leading-relaxed text-muted-foreground text-justify"
+                                    className="space-y-4 lg:text-lg md:text-xl leading-relaxed text-muted-foreground"
                                     initial={{ opacity: 0, x: -30 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: true, margin: "-100px" }}

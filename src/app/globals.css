@@ -58,36 +58,8 @@
   }
 }
 
-.bg-3d-section {
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-    url('/img/abouthero.jpg');
-}
 
 
-.bg-app-maintence {
-  background-image: url('/img/appImplementation.jpg');
-}
-
-.bg-business-consultancy {
-  background-image: url('/img/exploreservices.jpg');
-}
-
-.bg-app-development {
-  background-image: url('/img/appdevelopment.jpg');
-}
-
-.bg-blog {
-  background-image: url('/img/blog.jpg');
-}
-
-.bg-contact {
-  background-image: url('/img/contact.jpg');
-}
-
-.bg-business-one {
-  background-image: url('/img/bone.jpg');
-}
 
 /* Sidebar CSS */
 .social-sidebar {
@@ -167,11 +139,11 @@
 }
 
 .meeting {
-  color: black;
+  color: #1877f2;
 }
 
 .meeting::before {
-  background: black;
+  background: #1877f2;
 }
 
 .whatsapp {
