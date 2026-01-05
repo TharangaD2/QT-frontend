@@ -12,6 +12,7 @@ import {
   Phone,
   MapPin,
   Loader2,
+  ChevronDown,
 } from "lucide-react";
 import { getPage } from "@/lib/wordpress";
 import { getIconComponent } from "@/lib/icons";
@@ -19,6 +20,7 @@ import { getIconComponent } from "@/lib/icons";
 type FooterLink = {
   name: string;
   href: string;
+  submenu?: { name: string; href: string }[];
 };
 
 type SocialLink = {
@@ -44,10 +46,42 @@ interface WPSocialMediaData {
   };
 }
 
+interface WPSubMenu {
+  sub_menu: {
+    title: string;
+    url: string;
+    target: string;
+  } | string;
+}
+
+interface WPNavigationItem {
+  menu_name: string;
+  menu_link: {
+    title: string;
+    url: string;
+    target: string;
+  } | string;
+  sub_menu: WPSubMenu[] | false;
+}
+
+interface WPLogo {
+  url: string;
+  alt: string;
+}
+
+interface WPNavigationData {
+  acf_fc_layout: "nav_items";
+  logo: WPLogo;
+  nav_items: WPNavigationItem[];
+  btn_text: string;
+  btn_link: string;
+}
+
 interface WPContactPage {
   acf: {
     contact_data: WPContactDetail[];
     social_media: WPSocialMediaData[];
+    navigation: WPNavigationData[];
   };
 }
 
@@ -55,6 +89,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
   const [data, setData] = React.useState<WPContactPage | null>(null);
   const [loading, setLoading] = React.useState(true);
+  const [isServicesOpen, setIsServicesOpen] = React.useState(false);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -72,11 +107,37 @@ export default function Footer() {
     fetchData();
   }, []);
 
+  const navData = data?.acf.navigation?.[0];
+
+  const dynamicServices = navData ? (
+    navData.nav_items
+      .find(item => item.menu_name.toLowerCase().includes("services"))
+      ?.sub_menu || []
+  )
+    .filter((sub): sub is WPSubMenu => typeof sub.sub_menu === 'object')
+    .map((sub) => {
+      const subObj = sub.sub_menu as { title: string; url: string };
+      return {
+        name: subObj.title,
+        href: subObj.url,
+      };
+    }) : [
+    { name: "Business Consultancy", href: "/businessConsultancy" },
+    { name: "Application Implementation", href: "/appMaintenance" },
+    { name: "Application Development", href: "/appDevelopment" },
+    { name: "Digital Marketing", href: "/" },
+    { name: "Artificial Inteligent (AI)", href: "/" },
+  ];
+
   const footerLinks: Record<string, FooterLink[]> = {
     company: [
       { name: "Home", href: "/" },
       { name: "About Us", href: "/aboutDetails" },
-      { name: "Services", href: "/servicesDetails" },
+      {
+        name: "Services",
+        href: "/servicesDetails",
+        submenu: dynamicServices
+      },
       { name: "Blog", href: "/blog" },
       { name: "Contact Us", href: "/contact" },
       { name: "Privacy Policy", href: "/privacy" },
@@ -225,12 +286,44 @@ export default function Footer() {
               <ul className="space-y-1">
                 {links.map((link) => (
                   <li key={link.name}>
-                    <a
-                      href={link.href}
-                      className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                    >
-                      {link.name}
-                    </a>
+                    {link.submenu ? (
+                      <div>
+                        <button
+                          onClick={() => setIsServicesOpen(!isServicesOpen)}
+                          className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors focus:outline-none"
+                        >
+                          {link.name}
+                          <ChevronDown
+                            className={`w-3 h-3 transition-transform ${isServicesOpen ? "rotate-180" : ""
+                              }`}
+                          />
+                        </button>
+                        <div
+                          className={`overflow-hidden transition-all duration-300 ${isServicesOpen ? "max-h-96 mt-2 opacity-100" : "max-h-0 opacity-0"
+                            }`}
+                        >
+                          <ul className="pl-4 space-y-1 border-l border-border/50 ml-1">
+                            {link.submenu.map((sub) => (
+                              <li key={sub.name}>
+                                <a
+                                  href={sub.href}
+                                  className="text-[13px] text-muted-foreground/80 hover:text-primary transition-colors"
+                                >
+                                  {sub.name}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    ) : (
+                      <a
+                        href={link.href}
+                        className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        {link.name}
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>

@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, Loader2 } from "lucide-react";
 import { Button } from "./ui/button";
+import { getPage } from "@/lib/wordpress";
 
 interface NavItem {
   name: string;
@@ -11,11 +12,50 @@ interface NavItem {
   submenu?: { name: string; href: string }[];
 }
 
+interface WPSubMenu {
+  sub_menu: {
+    title: string;
+    url: string;
+    target: string;
+  } | string;
+}
+
+interface WPNavigationItem {
+  menu_name: string;
+  menu_link: {
+    title: string;
+    url: string;
+    target: string;
+  } | string;
+  sub_menu: WPSubMenu[] | false;
+}
+
+interface WPLogo {
+  url: string;
+  alt: string;
+}
+
+interface WPNavigationData {
+  acf_fc_layout: "nav_items";
+  logo: WPLogo;
+  nav_items: WPNavigationItem[];
+  btn_text: string;
+  btn_link: string;
+}
+
+interface WPContactPage {
+  acf: {
+    navigation: WPNavigationData[];
+  };
+}
+
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [isServicesHover, setIsServicesHover] = useState(false);
+  const [data, setData] = useState<WPContactPage | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -23,9 +63,45 @@ export default function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navItems: NavItem[] = [
-    { name: "Home", href: "/" },
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const wpData = await getPage("contact");
+        if (wpData) {
+          setData(wpData);
+        }
+      } catch (error) {
+        console.error("Failed to fetch navigation data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
 
+  const navData = data?.acf.navigation?.[0];
+
+  const navItems: NavItem[] = navData ? navData.nav_items.map((item) => {
+    const navItem: NavItem = {
+      name: item.menu_name,
+      href: typeof item.menu_link === 'object' ? item.menu_link.url : (item.menu_link || "#"),
+    };
+
+    if (item.sub_menu && Array.isArray(item.sub_menu)) {
+      navItem.submenu = item.sub_menu
+        .filter((sub) => typeof sub.sub_menu === 'object')
+        .map((sub) => {
+          const subObj = sub.sub_menu as { title: string; url: string };
+          return {
+            name: subObj.title,
+            href: subObj.url,
+          };
+        });
+    }
+
+    return navItem;
+  }) : [
+    { name: "Home", href: "/" },
     {
       name: "Services",
       submenu: [
@@ -40,6 +116,10 @@ export default function Navigation() {
     { name: "About", href: "/aboutDetails" },
     { name: "Contact", href: "/contact" },
   ];
+
+  const logoUrl = navData?.logo?.url || "/img/logo.png";
+  const btnText = navData?.btn_text || "Schedule A Meeting";
+  const btnLink = navData?.btn_link || "/contact";
 
   return (
     <motion.nav
@@ -58,7 +138,7 @@ export default function Navigation() {
             <motion.div whileHover={{ scale: 1.05 }} className="flex items-center">
               <div className="w-24 sm:w-32 md:w-40 h-8 sm:h-9 md:h-16 overflow-hidden rounded-lg">
                 <img
-                  src="/img/logo.png"
+                  src={logoUrl}
                   alt="Logo"
                   className="w-full h-full object-contain"
                 />
@@ -69,7 +149,7 @@ export default function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1 text-left">
             {navItems.map((item) =>
-              item.submenu ? (
+              item.submenu && item.submenu.length > 0 ? (
                 <div
                   key={item.name}
                   className="relative"
@@ -117,7 +197,7 @@ export default function Navigation() {
             )}
 
             <Button size="sm" className="ml-2 lg:ml-4" asChild>
-              <a href="/contact">Schedule A Meeting</a>
+              <a href={btnLink}>{btnText}</a>
             </Button>
           </div>
 
@@ -146,7 +226,7 @@ export default function Navigation() {
           >
             <div className="px-4 py-4 space-y-2">
               {navItems.map((item) =>
-                item.submenu ? (
+                item.submenu && item.submenu.length > 0 ? (
                   <div key={item.name}>
                     <button
                       className="flex items-center justify-between w-full px-4 py-3 text-sm font-medium rounded-lg text-muted-foreground hover:bg-accent"
@@ -197,10 +277,10 @@ export default function Navigation() {
 
               <Button className="w-full mt-2" asChild>
                 <a
-                  href="/contact"
+                  href={btnLink}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Get Started
+                  {btnText}
                 </a>
               </Button>
             </div>
