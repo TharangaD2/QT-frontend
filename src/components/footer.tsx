@@ -155,7 +155,7 @@ export default function Footer() {
   const footerLinks: Record<string, FooterLink[]> = {
     company: [
       { name: "Home", href: "/" },
-      { name: "About Us", href: "/aboutDetails" },
+      { name: "About Us", href: "/about-us" },
       { name: "Blog", href: "/blog" },
       { name: "Contact Us", href: "/contact" },
       { name: "Privacy Policy", href: "/privacy" },

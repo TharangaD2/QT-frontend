@@ -113,7 +113,7 @@ export default function Navigation() {
       ],
     },
     { name: "Blog", href: "/blog" },
-    { name: "About", href: "/aboutDetails" },
+    { name: "About", href: "/about-us" },
     { name: "Contact", href: "/contact" },
   ];
 
