@@ -1,4 +1,5 @@
 import ApplicationTemplate from "@/components/templates/applicationTemplate";
+import ServiceTemplate from "@/components/templates/serviceTemplate";
 import { getPage } from "@/lib/wordpress";
 import { applicationsData, ApplicationData, Feature } from "@/data/applicationsData";
 
@@ -66,38 +67,64 @@ interface WPApplication {
     reference_section: WPReferenceData[];
 }
 
-export default async function DynamicApplicationPage({
+export default async function CatchAllSlugPage({
     params,
 }: {
-    params: Promise<{ applicationId: string }>;
+    params: Promise<{ slug: string }>;
 }) {
-    const { applicationId } = await params;
+    const { slug } = await params;
+
+    // 1. Try to handle as a Service first (based on known service IDs)
+    const serviceIds = ["appDevelopment", "businessConsultancy", "appMaintenance"];
+    if (serviceIds.includes(slug)) {
+        try {
+            const wpPage = await getPage("service");
+            if (wpPage && wpPage.acf) {
+                const acf = wpPage.acf;
+                const services = acf.services || [];
+                let serviceAcf = null;
+
+                if (slug === "appDevelopment") {
+                    serviceAcf = services[0];
+                } else if (slug === "businessConsultancy") {
+                    serviceAcf = services[1];
+                } else if (slug === "appMaintenance") {
+                    serviceAcf = services[2];
+                }
+
+                if (serviceAcf) {
+                    const displayData = mapWpServiceData(serviceAcf, acf.logo_section);
+                    if (displayData) {
+                        return <ServiceTemplate data={displayData} />;
+                    }
+                }
+            }
+        } catch (error) {
+            console.error("Error fetching dynamic service data:", error);
+        }
+    }
+
+    // 2. Try to handle as an Application
     let displayData: ApplicationData | null = null;
-
     try {
-        // Fetch the "applications" page from WordPress by slug
         const wpPage = await getPage("applications");
-
         if (wpPage && wpPage.acf) {
             const applications = wpPage.acf.applications as WPApplication[];
-
             if (applications && applications.length > 0) {
-                // Find the application by ID or default to the first one for 'businessOne'
                 let wpApp: WPApplication | undefined;
 
-                if (applicationId === "businessOne") {
+                if (slug === "businessOne") {
                     wpApp = applications[0];
-                } else if (applicationId === "sapDesign") {
-                    wpApp = applications[1]; // Assuming SAP Design is the second one in WP as well
+                } else if (slug === "sapDesign") {
+                    wpApp = applications[1];
                 } else {
-                    // Attempt to find by hero title if more exist
                     wpApp = applications.find(app =>
-                        app.applications_hero?.[0]?.hero_title.toLowerCase().includes(applicationId.toLowerCase())
+                        app.applications_hero?.[0]?.hero_title.toLowerCase().includes(slug.toLowerCase())
                     );
                 }
 
                 if (wpApp) {
-                    displayData = mapWpApplicationData(wpApp, applicationId);
+                    displayData = mapWpApplicationData(wpApp, slug);
                 }
             }
         }
@@ -105,32 +132,34 @@ export default async function DynamicApplicationPage({
         console.error("Error fetching dynamic application data:", error);
     }
 
-    // Fallback to static data
+    // Fallback to static application data
     if (!displayData) {
-        displayData = applicationsData[applicationId];
+        displayData = (applicationsData as any)[slug];
     }
 
-    if (!displayData) {
+    if (displayData) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50">
-                <div className="text-center">
-                    <h1 className="text-4xl font-bold text-gray-900 mb-4">404</h1>
-                    <p className="text-xl text-gray-600">Application "{applicationId}" not found.</p>
-                </div>
-            </div>
+            <>
+                <head>
+                    <title>{displayData.title}</title>
+                </head>
+                <ApplicationTemplate data={displayData} />
+            </>
         );
     }
 
+    // 3. 404 if neither
     return (
-        <>
-            <head>
-                <title>{displayData.title}</title>
-            </head>
-            <ApplicationTemplate data={displayData} />
-        </>
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+            <div className="text-center">
+                <h1 className="text-4xl font-bold text-gray-900 mb-4">404</h1>
+                <p className="text-xl text-gray-600">Page "{slug}" not found.</p>
+            </div>
+        </div>
     );
 }
 
+// --- Mapping function for Applications ---
 function mapWpApplicationData(wpApp: WPApplication, id: string): ApplicationData {
     const hero = wpApp.applications_hero?.[0];
     const content = wpApp.content_section?.[0];
@@ -158,7 +187,7 @@ function mapWpApplicationData(wpApp: WPApplication, id: string): ApplicationData
                 title: f.feature_title,
                 description: f.feature_para,
                 subFeatures: (f.feature_point || [])
-                    .filter(p => p.point_title && p.point_para) // Filter out empty points
+                    .filter(p => p.point_title && p.point_para)
                     .map(p => ({
                         title: p.point_title,
                         description: p.point_para,
@@ -182,5 +211,46 @@ function mapWpApplicationData(wpApp: WPApplication, id: string): ApplicationData
             title: video?.reference_title || "",
             youtubeId: video?.youtube_id || "",
         },
+    };
+}
+
+// --- Mapping function for Services ---
+function mapWpServiceData(serviceAcf: any, logoSection: any[]) {
+    const hero = serviceAcf.hero_section?.[0];
+    if (!hero) return null;
+
+    const mappedSections = (serviceAcf.service_desc || [])
+        .flatMap((sd: any) => sd.desc_data || [])
+        .map((d: any) => ({
+            title: d.desc_title,
+            text: d.desc_para,
+            image: d.desc_image?.url,
+            imageSide: d.image_side,
+        }));
+
+    const reasonTitle = serviceAcf.reason_title;
+    const featureItems = (serviceAcf.reason_data_section || []).map((r: any) => ({
+        title: r.data_title,
+        text: r.data_para,
+        image: r.data_image?.url,
+        imageSide: r.img_side,
+    }));
+
+    const logoData = logoSection?.[0];
+    const techLogos = (logoData?.logo_icons || []).map((icon: any) => ({
+        name: icon.logo_img?.title,
+        logo: icon.logo_img?.url,
+    }));
+
+    return {
+        title: hero.page_title,
+        heroTitle: hero.hero_title,
+        heroDescription: hero.hero_para,
+        heroImage: hero.hero_image?.url,
+        sections: mappedSections,
+        featureItems: featureItems,
+        featureTitle: reasonTitle,
+        technologies: techLogos.length > 0 ? techLogos : null,
+        technologyTitle: logoData?.logo_title,
     };
 }

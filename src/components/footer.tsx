@@ -129,6 +129,29 @@ export default function Footer() {
     { name: "Artificial Inteligent (AI)", href: "/" },
   ];
 
+  const dynamicApplications = navData ? (
+    navData.nav_items
+      .find(item => {
+        const name = item.menu_name.toLowerCase();
+        return name.includes("applications") || name.includes("erp");
+      })
+      ?.sub_menu || []
+  )
+    .filter((sub): sub is WPSubMenu => typeof sub.sub_menu === 'object')
+    .map((sub) => {
+      const subObj = sub.sub_menu as { title: string; url: string };
+      return {
+        name: subObj.title,
+        href: subObj.url,
+      };
+    }) : [
+    { name: "SAP Business One", href: "/businessOne" },
+    { name: "SAP by Design", href: "/sapDesign" },
+    { name: "Microsoft Dynamic 365", href: "#" },
+    { name: "SAGE ERP 300", href: "#" },
+    { name: "Oracle Netsuit", href: "#" },
+  ];
+
   const footerLinks: Record<string, FooterLink[]> = {
     company: [
       { name: "Home", href: "/" },
@@ -138,13 +161,7 @@ export default function Footer() {
       { name: "Privacy Policy", href: "/privacy" },
     ],
     Services: dynamicServices,
-    Applications: [
-      { name: "SAP Business One", href: "/applications/businessOne" },
-      { name: "SAP by Design", href: "/applications/sapDesign" },
-      { name: "Microsoft Dynamic 365", href: "#services" },
-      { name: "SAGE ERP 300", href: "#services" },
-      { name: "Oracle Netsuit", href: "#services" },
-    ],
+    Applications: dynamicApplications,
   };
 
   const wpSocialMedia = data?.acf.social_media || [];
