@@ -8,6 +8,7 @@ import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 
 import { Compass, Eye, Heart, CircleCheckBig, BrainCircuit, Blocks, Lightbulb, LucideIcon, Loader2 } from "lucide-react";
+import { getPage } from "@/lib/wordpress";
 
 // --- Types & Interfaces ---
 
@@ -686,13 +687,9 @@ export default function AboutDetails() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch("http://quintsnweb.local/wp-json/wp/v2/pages/123");
-                const json = await res.json();
-                // The endpoint returns an array [Object], so we take the first item
-                if (Array.isArray(json) && json.length > 0) {
-                    setData(json[0]);
-                } else if (json && !Array.isArray(json)) {
-                    setData(json);
+                const wpData = await getPage("123");
+                if (wpData) {
+                    setData(wpData);
                 }
             } catch (error) {
                 console.error("Failed to fetch About page data:", error);

@@ -38,11 +38,14 @@ export async function getHomePage() {
     throw error;
   }
 }
-export async function getPage(slug: string) {
+export async function getPage(idOrSlug: string | number) {
   const baseUrl = (WP_BASE_URL || "").replace(/\/$/, "");
-  const url = `${baseUrl}/wp-json/wp/v2/pages?slug=${slug}&_acf_format=standard`;
+  const isId = typeof idOrSlug === 'number' || !isNaN(Number(idOrSlug));
+  const url = isId
+    ? `${baseUrl}/wp-json/wp/v2/pages/${idOrSlug}?_acf_format=standard`
+    : `${baseUrl}/wp-json/wp/v2/pages?slug=${idOrSlug}&_acf_format=standard`;
 
-  console.log(`Fetching Page ${slug} from:`, url);
+  console.log(`Fetching Page ${idOrSlug} from:`, url);
 
   try {
     const controller = new AbortController();
@@ -55,13 +58,16 @@ export async function getPage(slug: string) {
     clearTimeout(id);
 
     if (!res.ok) {
-      throw new Error(`Failed to fetch page ${slug}: ${res.status}`);
+      throw new Error(`Failed to fetch page ${idOrSlug}: ${res.status}`);
     }
 
     const data = await res.json();
+    if (isId) {
+      return data;
+    }
     return Array.isArray(data) && data.length > 0 ? data[0] : null;
   } catch (error) {
-    console.error(`Error in getPage (${slug}):`, error);
+    console.error(`Error in getPage (${idOrSlug}):`, error);
     throw error;
   }
 }

@@ -133,15 +133,11 @@ export default function Footer() {
     company: [
       { name: "Home", href: "/" },
       { name: "About Us", href: "/aboutDetails" },
-      {
-        name: "Services",
-        href: "/servicesDetails",
-        submenu: dynamicServices
-      },
       { name: "Blog", href: "/blog" },
       { name: "Contact Us", href: "/contact" },
       { name: "Privacy Policy", href: "/privacy" },
     ],
+    Services: dynamicServices,
     Applications: [
       { name: "SAP Business One", href: "/applications/businessOne" },
       { name: "SAP by Design", href: "/applications/sapDesign" },
@@ -216,7 +212,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-border/50 bg-gray-200">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 pt-10 pb-5">
-        <div className="grid grid-cols-1 gap-8 mb-10 md:grid-cols-2 lg:grid-cols-5 lg:gap-12">
+        <div className="grid grid-cols-1 gap-8 mb-10 md:grid-cols-2 lg:grid-cols-6 lg:gap-12">
 
           {/* Company Info */}
           <div className="lg:col-span-2">
