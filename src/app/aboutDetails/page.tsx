@@ -383,9 +383,9 @@ function AboutDetailsContent({ data }: { data: WpPage }) {
                                     transition={{ duration: 0.8, delay: 0.5 }}
                                 >
                                     {[
-                                        { title: descData?.service_page_nav, href: "/businessConsultant" },
-                                        { title: descData?.service_page2, href: "/appMaintenance" },
-                                        { title: descData?.service_page3, href: "/appDevelopment" },
+                                        { title: descData?.service_page_nav, href: "/business-consultancy" },
+                                        { title: descData?.service_page2, href: "/application-implementation" },
+                                        { title: descData?.service_page3, href: "/application-development" },
                                     ]
                                         .filter(item => item.title)
                                         .map((item, index) => (

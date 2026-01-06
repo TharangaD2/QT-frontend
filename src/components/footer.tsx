@@ -122,11 +122,11 @@ export default function Footer() {
         href: subObj.url,
       };
     }) : [
-    { name: "Business Consultancy", href: "/businessConsultancy" },
-    { name: "Application Implementation", href: "/appMaintenance" },
-    { name: "Application Development", href: "/appDevelopment" },
-    { name: "Digital Marketing", href: "/" },
-    { name: "Artificial Inteligent (AI)", href: "/" },
+    { name: "Business Consultancy", href: "/business-consultancy" },
+    { name: "Application Implementation", href: "/application-implementation" },
+    { name: "Application Development", href: "/application-development" },
+    { name: "Digital Marketing", href: "/digital-marketing" },
+    { name: "Artificial Inteligent (AI)", href: "/artificial-intelligent" },
   ];
 
   const dynamicApplications = navData ? (
