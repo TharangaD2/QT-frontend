@@ -75,7 +75,7 @@ export default async function CatchAllSlugPage({
     const { slug } = await params;
 
     // 1. Try to handle as a Service first (based on known service IDs)
-    const serviceIds = ["appDevelopment", "businessConsultancy", "appMaintenance", "ai"];
+    const serviceIds = ["application-development", "business-consultancy", "application-implementation", "artificial-intelligent", "digital-marketing"];
     if (serviceIds.includes(slug)) {
         try {
             const wpPage = await getPage("service");
@@ -84,14 +84,16 @@ export default async function CatchAllSlugPage({
                 const services = acf.services || [];
                 let serviceAcf = null;
 
-                if (slug === "appDevelopment") {
+                if (slug === "application-development") {
                     serviceAcf = services[0];
-                } else if (slug === "businessConsultancy") {
+                } else if (slug === "business-consultancy") {
                     serviceAcf = services[1];
-                } else if (slug === "appMaintenance") {
+                } else if (slug === "application-implementation") {
                     serviceAcf = services[2];
-                } else if (slug === "ai") {
+                } else if (slug === "artificial-intelligent") {
                     serviceAcf = services[3];
+                } else if (slug === "digital-marketing") {
+                    serviceAcf = services[4];
                 }
 
                 if (serviceAcf) {
