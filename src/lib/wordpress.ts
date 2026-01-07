@@ -71,3 +71,86 @@ export async function getPage(idOrSlug: string | number) {
     throw error;
   }
 }
+export async function getPosts(limit: number = 10) {
+  const baseUrl = (WP_BASE_URL || "").replace(/\/$/, "");
+  const url = `${baseUrl}/wp-json/wp/v2/posts?per_page=${limit}&_acf_format=standard&_embed`;
+
+  console.log("Fetching Posts from:", url);
+
+  try {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), 10000);
+
+    const res = await fetch(url, {
+      cache: "no-store",
+      signal: controller.signal,
+    });
+    clearTimeout(id);
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch posts: ${res.status}`);
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error("Error in getPosts:", error);
+    throw error;
+  }
+}
+
+export async function getPostBySlug(slug: string) {
+  const baseUrl = (WP_BASE_URL || "").replace(/\/$/, "");
+  const url = `${baseUrl}/wp-json/wp/v2/posts?slug=${slug}&_acf_format=standard&_embed`;
+
+  console.log(`Fetching Post ${slug} from:`, url);
+
+  try {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), 10000);
+
+    const res = await fetch(url, {
+      cache: "no-store",
+      signal: controller.signal,
+    });
+    clearTimeout(id);
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch post ${slug}: ${res.status}`);
+    }
+
+    const data = await res.json();
+    return Array.isArray(data) && data.length > 0 ? data[0] : null;
+  } catch (error) {
+    console.error(`Error in getPostBySlug (${slug}):`, error);
+    throw error;
+  }
+}
+
+export async function getCategoryBySlug(slug: string) {
+  const baseUrl = (WP_BASE_URL || "").replace(/\/$/, "");
+  const url = `${baseUrl}/wp-json/wp/v2/categories?slug=${slug.toLowerCase()}`;
+
+  try {
+    const res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) throw new Error(`Category fetch failed: ${res.status}`);
+    const data = await res.json();
+    return Array.isArray(data) && data.length > 0 ? data[0] : null;
+  } catch (error) {
+    console.error("Error in getCategoryBySlug:", error);
+    return null;
+  }
+}
+
+export async function getPostsByCategory(categoryId: number, limit: number = 10) {
+  const baseUrl = (WP_BASE_URL || "").replace(/\/$/, "");
+  const url = `${baseUrl}/wp-json/wp/v2/posts?categories=${categoryId}&per_page=${limit}&_acf_format=standard&_embed`;
+
+  try {
+    const res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) throw new Error(`Posts fetch failed: ${res.status}`);
+    return await res.json();
+  } catch (error) {
+    console.error("Error in getPostsByCategory:", error);
+    return [];
+  }
+}

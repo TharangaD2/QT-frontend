@@ -183,11 +183,12 @@ function BlogContent({ data }: { data: WPBlogPage }) {
         {/* Background gradient */}
         <div className="absolute inset-0 bg-linear-to-b from-background via-muted/20 to-background" />
 
-        <div className="container relative z-10 mx-auto mt-20">
+        <div className="container relative z-10 mx-auto mt-20 px-4">
+
           {/* Masonry Grid */}
           <div className="grid gap-8 mx-auto md:grid-cols-2 lg:grid-cols-2 max-w-7xl">
             {cards.map((study, index) => (
-              <Link href={study.link_page || "#"} key={index} className="block">
+              <Link href={`/category?type=${study.category}`} key={index} className="block">
                 <motion.div
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
