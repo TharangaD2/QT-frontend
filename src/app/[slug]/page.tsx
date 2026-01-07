@@ -1,6 +1,7 @@
 import ApplicationTemplate from "@/components/templates/applicationTemplate";
 import ServiceTemplate from "@/components/templates/serviceTemplate";
-import { getPage } from "@/lib/wordpress";
+import BlogPostTemplate from "@/components/templates/blogPostTemplate";
+import { getPage, getPostBySlug } from "@/lib/wordpress";
 import { applicationsData, ApplicationData, Feature } from "@/data/applicationsData";
 
 interface WPImage {
@@ -152,7 +153,32 @@ export default async function CatchAllSlugPage({
         );
     }
 
-    // 3. 404 if neither
+    // 3. Try to handle as a Blog Post
+    try {
+        const wpPost = await getPostBySlug(slug);
+        if (wpPost) {
+            let categoryName = "Insights";
+            if (wpPost._embedded?.['wp:term']) {
+                const terms = wpPost._embedded['wp:term'][0];
+                if (terms && terms.length > 0) categoryName = terms[0].name;
+            }
+
+            const postData = {
+                title: wpPost.title.rendered,
+                content: wpPost.content.rendered,
+                date: wpPost.date,
+                author: wpPost._embedded?.author?.[0]?.name,
+                category: categoryName,
+                featuredImage: wpPost._embedded?.['wp:featuredmedia']?.[0]?.source_url
+            };
+
+            return <BlogPostTemplate data={postData} />;
+        }
+    } catch (error) {
+        console.error("Error fetching dynamic post data:", error);
+    }
+
+    // 4. 404 if neither
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50">
             <div className="text-center">

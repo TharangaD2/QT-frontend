@@ -183,7 +183,7 @@ function BlogContent({ data, posts, loadingPosts, filterType }: { data: WPBlogPa
                 alt: post.title.rendered,
                 title: post.title.rendered
             },
-            link_page: post.link
+            link_page: `/${post.slug}`
         };
     });
 
