@@ -56,7 +56,7 @@ export default function BlogPostTemplate({ data }: BlogPostTemplateProps) {
 
                     {/* Featured Image (if available, show it naturally below title) */}
                     {data.featuredImage && (
-                        <div className="mb-12 rounded-3xl overflow-hidden shadow-2xl aspect-[4/3] relative">
+                        <div className="mb-12 rounded-3xl overflow-hidden shadow-2xl aspect-[16/9] relative max-w-2xl mx-auto">
                             <Image
                                 src={data.featuredImage}
                                 alt={data.title}
