@@ -40,7 +40,7 @@ export default function BlogPostTemplate({ data }: BlogPostTemplateProps) {
                             <span dangerouslySetInnerHTML={{ __html: data.title }} />
                         </h1>
 
-                        <div className="flex flex-wrap items-center gap-6 text-gray-500 font-medium tracking-wide border-b border-gray-100 pb-8">
+                        {/*<div className="flex flex-wrap items-center gap-6 text-gray-500 font-medium tracking-wide border-b border-gray-100 pb-8">
                             <div className="flex items-center gap-2">
                                 <Calendar className="w-4 h-4 text-primary" />
                                 <span>{new Date(data.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
@@ -51,7 +51,7 @@ export default function BlogPostTemplate({ data }: BlogPostTemplateProps) {
                                     <span>{data.author}</span>
                                 </div>
                             )}
-                        </div>
+                        </div>*/}
                     </header>
 
                     {/* Featured Image (if available, show it naturally below title) */}
