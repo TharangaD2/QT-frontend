@@ -56,7 +56,7 @@ export default function BlogPostTemplate({ data }: BlogPostTemplateProps) {
 
                     {/* Featured Image (if available, show it naturally below title) */}
                     {data.featuredImage && (
-                        <div className="mb-12 rounded-3xl overflow-hidden shadow-2xl aspect-[16/9] relative">
+                        <div className="mb-12 rounded-3xl overflow-hidden shadow-2xl aspect-[4/3] relative">
                             <Image
                                 src={data.featuredImage}
                                 alt={data.title}
@@ -74,15 +74,7 @@ export default function BlogPostTemplate({ data }: BlogPostTemplateProps) {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6 }}
-                            className="prose prose-lg sm:prose-xl max-w-none 
-                                prose-headings:text-gray-900 prose-headings:font-bold prose-headings:tracking-tight
-                                prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl
-                                prose-p:text-gray-700 prose-p:leading-relaxed prose-p:mb-6
-                                prose-img:rounded-3xl prose-img:shadow-2xl prose-img:my-10
-                                prose-a:text-primary prose-a:no-underline hover:prose-a:underline
-                                prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-primary/5 prose-blockquote:p-6 prose-blockquote:rounded-r-2xl prose-blockquote:italic
-                                prose-ul:list-disc prose-ol:list-decimal prose-li:text-gray-700
-                                [&>h2]:mt-12 [&>h2]:mb-6 [&>h3]:mt-10 [&>h3]:mb-4"
+                            className="wp-content max-w-none prose-lg sm:prose-xl"
                             dangerouslySetInnerHTML={{ __html: data.content }}
                         />
                     </article>
