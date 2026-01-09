@@ -969,7 +969,7 @@ export default function Home() {
                         transition={{ duration: 0.4 }}
                       />
                     ) : null}
-                    {/* Social overlay */}
+                    {/* Social overlay 
                     <motion.div
                       initial={{ opacity: 0 }}
                       whileHover={{ opacity: 1 }}
@@ -986,7 +986,7 @@ export default function Home() {
                           <Mail className="w-5 h-5 text-white" />
                         </motion.a>
                       </div>
-                    </motion.div>
+                    </motion.div>*/}
                   </div>
 
                   {/* Content */}
