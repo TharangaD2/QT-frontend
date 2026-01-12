@@ -535,12 +535,16 @@ export default function Home() {
               transition={{ duration: 1, delay: 0.3 }}
               className="max-w-5xl space-y-6 text-center"
             >
+              <h3 className="text-lg font-semibold tracking-wide bg-gradient-to-r from-[oklch(0.62_0.18_195)] to-[oklch(0.55_0.15_200)] bg-clip-text text-transparent">
+                {slide.slider_tag}
+              </h3>
               <motion.h1
                 className="text-6xl font-bold tracking-tight md:text-6xl lg:text-7xl text-balance"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
               >
+
                 <span className="bg-gradient-to-r from-[oklch(0.75_0.20_195)] via-[oklch(0.62_0.18_195)] to-[oklch(0.55_0.15_200)] bg-clip-text text-transparent ">
                   {slide.slider_header}
                 </span>

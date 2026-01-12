@@ -347,7 +347,7 @@ export default function Footer() {
         {/* Bottom Section – No space after copyright */}
         <div className="border-t ">
           <p className="text-xs text-muted-foreground text-center">
-            Copyright © {currentYear} ERP & CRM Consulting Services | Powered by ERP & CRM Consulting Services
+            Copyright © {currentYear}  Quintessential LLC ERP Consulting Services, Developments, and AI Solutions. All Rights Reserved
           </p>
         </div>
       </div>
