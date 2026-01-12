@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import ApplicationTemplate from "@/components/templates/applicationTemplate";
 import ServiceTemplate from "@/components/templates/serviceTemplate";
 import BlogPostTemplate from "@/components/templates/blogPostTemplate";
@@ -66,6 +68,37 @@ interface WPApplication {
     button_data: WPButtonData[];
     customer_data: WPCustomerData[];
     reference_section: WPReferenceData[];
+}
+
+import { Metadata } from "next";
+
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+    const { slug } = await params;
+
+    // Attempt to get title from WordPress data or fallback
+    let title = slug.charAt(0).toUpperCase() + slug.slice(1).replace(/-/g, ' ');
+
+    try {
+        const wpPage = await getPostBySlug(slug) || await getPage(slug);
+        if (wpPage) {
+            title = wpPage.title.rendered;
+        } else if (slug in applicationsData) {
+            title = (applicationsData as any)[slug].title;
+        }
+    } catch (e) {
+        // Silently fail
+    }
+
+    return {
+        title: title,
+        alternates: {
+            canonical: `/${slug}`,
+        }
+    };
 }
 
 export default async function CatchAllSlugPage({
@@ -144,12 +177,7 @@ export default async function CatchAllSlugPage({
 
     if (displayData) {
         return (
-            <>
-                <head>
-                    <title>{displayData.title}</title>
-                </head>
-                <ApplicationTemplate data={displayData} />
-            </>
+            <ApplicationTemplate data={displayData} />
         );
     }
 

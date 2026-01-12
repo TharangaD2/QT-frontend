@@ -32,9 +32,11 @@ export async function getHomePage() {
     }
 
     return data[0];
-  } catch (error) {
+  } catch (error: any) {
+    if (error.digest === 'DYNAMIC_SERVER_USAGE') {
+      throw error;
+    }
     console.error("Error in getHomePage:", error);
-    // Rethrow so the component can handle it
     throw error;
   }
 }
@@ -66,7 +68,10 @@ export async function getPage(idOrSlug: string | number) {
       return data;
     }
     return Array.isArray(data) && data.length > 0 ? data[0] : null;
-  } catch (error) {
+  } catch (error: any) {
+    if (error.digest === 'DYNAMIC_SERVER_USAGE') {
+      throw error;
+    }
     console.error(`Error in getPage (${idOrSlug}):`, error);
     throw error;
   }
@@ -92,7 +97,10 @@ export async function getPosts(limit: number = 10) {
     }
 
     return await res.json();
-  } catch (error) {
+  } catch (error: any) {
+    if (error.digest === 'DYNAMIC_SERVER_USAGE') {
+      throw error;
+    }
     console.error("Error in getPosts:", error);
     throw error;
   }
@@ -120,7 +128,10 @@ export async function getPostBySlug(slug: string) {
 
     const data = await res.json();
     return Array.isArray(data) && data.length > 0 ? data[0] : null;
-  } catch (error) {
+  } catch (error: any) {
+    if (error.digest === 'DYNAMIC_SERVER_USAGE') {
+      throw error;
+    }
     console.error(`Error in getPostBySlug (${slug}):`, error);
     throw error;
   }

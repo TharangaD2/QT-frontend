@@ -220,10 +220,10 @@ interface Home {
 }
 
 
-export default function Home() {
+export default function Home({ initialData }: { initialData: Home | null }) {
 
 
-  const [page, setPage] = useState<Home | null>(null);
+  const [page, setPage] = useState<Home | null>(initialData);
 
 
   const heroImages = page?.acf?.hero_slider
@@ -471,6 +471,9 @@ export default function Home() {
   }, [heroImages.length]);
 
   useEffect(() => {
+    // Only fetch if initialData was not provided
+    if (page) return;
+
     async function fetchData() {
       try {
         const data = await getHomePage();
@@ -482,7 +485,7 @@ export default function Home() {
       }
     }
     fetchData();
-  }, []);
+  }, [page]);
 
 
 

@@ -1,38 +1,22 @@
-"use client";
+export const dynamic = "force-dynamic";
 
-import { motion } from "framer-motion";
-
+import { getHomePage } from "@/lib/wordpress";
 import Navigation from "@/components/navigation";
-
-
 import Footer from "@/components/footer";
 import ScrollToTop from "@/components/scrollToTop";
-
 import ScrollProgress from "@/components/scrollProgress";
-
-import ImageRing from "@/components/imageRing";
 import Home from "@/components/home";
 
+export default async function HomePage() {
+  const initialData = await getHomePage();
 
-export default function HomePage() {
   return (
-    <motion.div
-      className="min-h-screen bg-background overflow-hidden"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-    >
-
+    <div className="min-h-screen bg-background overflow-hidden">
       <ScrollProgress />
       <Navigation />
-
-      <Home />
-
-
+      <Home initialData={initialData} />
       <Footer />
       <ScrollToTop />
-
-
-    </motion.div>
+    </div>
   );
 }
