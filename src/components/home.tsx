@@ -690,7 +690,7 @@ export default function Home() {
                   </p>
                 </motion.div>
 
-                {/* Stats with Hover Zoom Animation */}
+                {/* Stats with Hover Zoom Animation 
                 <motion.div
                   className="flex flex-wrap gap-6 sm:gap-8 pt-4"
                   initial={{ opacity: 0, x: -30 }}
@@ -714,11 +714,11 @@ export default function Home() {
                     >
                       {item.title}
 
-                      {/* Hover Glow Effect */}
+                      
                       <span className="absolute -inset-1 rounded-lg bg-primary/10 blur opacity-0 hover:opacity-100 transition-opacity duration-300 -z-10" />
                     </motion.a>
                   ))}
-                </motion.div>
+                </motion.div> */}
 
               </motion.div>
 
