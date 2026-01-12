@@ -253,7 +253,7 @@ function mapWpServiceData(serviceAcf: any, logoSection: any[]) {
         .flatMap((sd: any) => sd.desc_data || [])
         .map((d: any) => ({
             title: d.desc_title,
-            text: d.desc_para,
+            text: [d.desc_para, d.desc_para2, d.desc_para3].filter(Boolean),
             image: d.desc_image?.url,
             imageSide: d.image_side,
         }));
