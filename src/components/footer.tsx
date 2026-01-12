@@ -243,7 +243,7 @@ export default function Footer() {
               </div>
             </Link>
 
-            <p className="mb-2 text-[14px] leading-relaxed text-muted-foreground mr-10">
+            <p className="mb-2 text-[14px] leading-relaxed text-muted-foreground">
               Quintessential Technologies: ERP and Business Technology Consulting for Growth.
               We empower Trading & Service companies across MENA, North America, and MEA.
             </p>
