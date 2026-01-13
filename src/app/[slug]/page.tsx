@@ -305,6 +305,7 @@ function mapWpServiceData(serviceAcf: any, logoSection: any[]) {
         heroTitle: hero.hero_title,
         heroDescription: hero.hero_para,
         heroImage: hero.hero_image?.url,
+        heroVideo: hero.hero_vedio?.url,
         sections: mappedSections,
         featureItems: featureItems,
         featureTitle: reasonTitle,

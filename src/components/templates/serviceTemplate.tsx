@@ -63,7 +63,7 @@ export default function ServiceTemplate({ data }: { data: any }) {
             className="absolute inset-0 overflow-hidden h-[400px] sm:h-[600px]"
             style={{ y }}
           >
-            {data.heroImage && (
+            {data.heroImage ? (
               <Image
                 src={data.heroImage}
                 alt={data.heroTitle || "Hero Section"}
@@ -72,7 +72,16 @@ export default function ServiceTemplate({ data }: { data: any }) {
                 priority
                 unoptimized
               />
-            )}
+            ) : data.heroVideo ? (
+              <video
+                src={data.heroVideo}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            ) : null}
             {/* Floating shapes */}
             <motion.div
               className="absolute w-40 h-40 sm:w-64 sm:h-64 rounded-full top-20 left-10 bg-primary/5 blur-3xl"
