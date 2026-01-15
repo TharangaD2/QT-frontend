@@ -33,6 +33,7 @@ import {
   ChevronLeft, ChevronRight, Quote, Star, Instagram
 } from "lucide-react";
 import { Button } from "./ui/button";
+import { useMetaEvents } from "./MetaEventsTracker";
 
 interface Service {
   icon: typeof Code2 | typeof Cloud | typeof Smartphone | typeof Database;
@@ -490,8 +491,43 @@ export default function Home({ initialData }: { initialData: Home | null }) {
 
 
 
+  const { trackPurchase } = useMetaEvents();
+
+  const handleTestPurchase = () => {
+    const testData = {
+      event_name: "Purchase",
+      event_time: Math.floor(Date.now() / 1000),
+      action_source: "website",
+      user_data: {
+        em: ["7b17fb0bd173f625b58636fb796407c22b3d16fc78302d79f0fd30c2fc2fc068"],
+        ph: [null],
+      },
+      attribution_data: {
+        attribution_share: "0.3",
+      },
+      custom_data: {
+        currency: "USD",
+        value: "142.52",
+      },
+      original_event_data: {
+        event_name: "Purchase",
+        event_time: Math.floor(Date.now() / 1000),
+      },
+    };
+    trackPurchase(testData);
+  };
+
   return (
     <main className="w-full overflow-hidden">
+      {/* Test CAPI Button - Only for verification 
+      <div className="fixed top-20 right-4 z-[9999]">
+        <Button
+          onClick={handleTestPurchase}
+          className="bg-red-600 hover:bg-red-700 text-white shadow-2xl"
+        >
+          Test Purchase CAPI
+        </Button>
+      </div>*/}
 
 
       {/*  HERO SECTION */}
