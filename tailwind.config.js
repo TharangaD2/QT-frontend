@@ -27,6 +27,9 @@ module.exports = {
         },
         border: "hsl(var(--border))",
       },
+      fontFamily: {
+        poppins: ["var(--font-poppins)", "sans-serif"],
+      },
     },
   },
   plugins: [],
