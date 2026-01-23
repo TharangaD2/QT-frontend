@@ -334,13 +334,26 @@ export default function DigitalMarketing() {
                 <FAQ reasonSec={reasonSec} />
 
                 {/* ================= NEWSLETTER ================= */}
-                <section className="py-20 bg-gradient-to-r from-[#0B1C3F] to-[#132B6B] text-white">
+                <section className="relative py-20 bg-gradient-to-r from-[#0B1C3F] to-[#132B6B] text-black overflow-hidden">
+                    {subscribe?.background && (
+                        <div className="absolute inset-0">
+                            <video
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                className="w-full h-full object-cover"
+                            >
+                                <source src={subscribe.background.url} type="video/mp4" />
+                            </video>
+                        </div>
+                    )}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
-                        className="max-w-4xl mx-auto px-6 text-center"
+                        className="relative z-10 max-w-4xl mx-auto px-6 text-center"
                     >
                         <p className="text-sm uppercase tracking-wide mb-2">
                             {subscribe?.tag || "Join our elite client list"}
@@ -350,7 +363,7 @@ export default function DigitalMarketing() {
                             {subscribe?.title || "Stay Tuned To Our Updates And Useful Info We Enjoy Sharing."}
                         </h2>
 
-                        <p className="text-gray-300 mb-8">
+                        <p className="text-black/80 mb-8">
                             {subscribe?.short_des || "We are looking forward to hear from you so don’t hesitate to contact us."}
                         </p>
 
@@ -360,7 +373,7 @@ export default function DigitalMarketing() {
                                     id="name"
                                     type="text"
                                     placeholder="Name"
-                                    className="bg-transparent border-b border-white/30 py-2 outline-none focus:border-white transition-colors text-white placeholder:text-white/20"
+                                    className="bg-transparent border-b border-black/30 py-2 outline-none focus:border-black transition-colors text-black placeholder:text-black/50"
                                 />
                             </div>
                             <div className="flex flex-col gap-2 text-left">
@@ -368,7 +381,7 @@ export default function DigitalMarketing() {
                                     id="email"
                                     type="email"
                                     placeholder="Email"
-                                    className="bg-transparent border-b border-white/30 py-2 outline-none focus:border-white transition-colors text-white placeholder:text-white/20"
+                                    className="bg-transparent border-b border-black/30 py-2 outline-none focus:border-black transition-colors text-black placeholder:text-black/50"
                                 />
                             </div>
                             <div className="flex flex-col gap-2 text-left">
@@ -376,12 +389,12 @@ export default function DigitalMarketing() {
                                     id="mobile"
                                     type="tel"
                                     placeholder="Mobile Number"
-                                    className="bg-transparent border-b border-white/30 py-2 outline-none focus:border-white transition-colors text-white placeholder:text-white/20"
+                                    className="bg-transparent border-b border-black/30 py-2 outline-none focus:border-black transition-colors text-black placeholder:text-black/50"
                                 />
                             </div>
                         </form>
 
-                        <button className="mt-12 px-10 py-3 bg-white text-[#0B1C3F] font-bold rounded-full hover:scale-105 transition-transform shadow-lg">
+                        <button className="mt-12 px-10 py-3 bg-[#0B1C3F] text-white font-bold rounded-full hover:scale-105 transition-transform shadow-lg">
                             Subscribe Now
                         </button>
                     </motion.div>

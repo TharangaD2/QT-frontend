@@ -140,6 +140,7 @@ export interface SubscribeSection {
   tag: string;
   title: string;
   short_des: string;
+  background: ACFVideo | false;
 }
 
 export interface DigitalMarketingACF {
