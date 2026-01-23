@@ -100,8 +100,35 @@ export interface ServiceCard {
   service_image: ACFImage;
   service_title: string;
   card_para: string;
-  full_para: string;
+  full_para: FullParaData[] | string | false;
   arrow_img: ACFImage | false;
+}
+
+export interface FullParaPoint {
+  point: string;
+}
+
+export interface FullParaKeyPoint {
+  heading: string;
+  shortpara: string;
+}
+
+export interface FullParaData {
+  acf_fc_layout: "full_para_data";
+  main_title: string;
+  sub_title: string;
+  para1: string;
+  para2: string;
+  point_title1: string;
+  points: FullParaPoint[];
+  subtitle2: string;
+  keypoints: FullParaKeyPoint[];
+  point_title2: string;
+  booking_title: string;
+  booking_para1: string;
+  booking_para2: string;
+  book_btn_text: string;
+  book_btn_link: string;
 }
 
 export interface ServicesGrid {

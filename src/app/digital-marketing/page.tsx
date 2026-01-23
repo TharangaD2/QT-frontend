@@ -258,9 +258,64 @@ export default function DigitalMarketing() {
                                             </div>
                                             <div>
                                                 <h2 className="text-3xl font-bold mb-4">{selectedService.service_title}</h2>
-                                                <p className="text-gray-300 leading-relaxed">
-                                                    {selectedService.full_para}
-                                                </p>
+                                                {Array.isArray(selectedService.full_para) && selectedService.full_para.length > 0 ? (
+                                                    (() => {
+                                                        const fullPara = selectedService.full_para[0];
+                                                        return (
+                                                            <div className="space-y-8 text-gray-300">
+                                                                <div>
+                                                                    <h3 className="text-2xl font-bold mb-4 text-white">{fullPara.sub_title}</h3>
+                                                                    <p className="leading-relaxed">
+                                                                        {fullPara.para1}<br />
+                                                                        {fullPara.para2}
+                                                                    </p>
+                                                                </div>
+
+                                                                <div>
+                                                                    <h4 className="text-xl font-bold mb-3 text-[#EC9E35]">{fullPara.point_title1}</h4>
+                                                                    <ul className="list-disc pl-5 space-y-2">
+                                                                        {fullPara.points.map((point, i) => (
+                                                                            <li key={i}>{point.point}</li>
+                                                                        ))}
+                                                                    </ul>
+                                                                </div>
+
+                                                                <div>
+                                                                    <h4 className="text-xl font-bold mb-3 text-[#EC9E35]">{fullPara.subtitle2}</h4>
+                                                                    <div className="space-y-4">
+                                                                        {fullPara.keypoints.map((item, i) => (
+                                                                            <div key={i}>
+                                                                                <strong className="block text-white">{item.heading}</strong>
+                                                                                <span className="text-gray-400">{item.shortpara}</span>
+                                                                            </div>
+                                                                        ))}
+                                                                    </div>
+                                                                </div>
+
+                                                                <div>
+                                                                    <h4 className="text-xl font-bold mb-3 text-[#EC9E35]">{fullPara.point_title2}</h4>
+                                                                    {/* Note: The API response for 'point_title2' section (Who This Is For) does not currently provide a list of items like 'points' or 'keypoints'. 
+                                                                        If data becomes available, we can map it here. For now, we only display the title. */}
+                                                                </div>
+
+                                                                <div className="bg-white/10 p-6 rounded-xl border border-white/20 text-center">
+                                                                    <h4 className="text-xl font-bold mb-2 text-white">{fullPara.booking_title}</h4>
+                                                                    <p className="mb-6">
+                                                                        {fullPara.booking_para1}
+                                                                        {fullPara.booking_para2}
+                                                                    </p>
+                                                                    <Link href={fullPara.book_btn_link || "/contact"} className="inline-block px-8 py-3 bg-[#EC9E35] text-white font-bold rounded-full hover:scale-105 transition-transform">
+                                                                        {fullPara.book_btn_text}
+                                                                    </Link>
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    })()
+                                                ) : (
+                                                    <p className="text-gray-300 leading-relaxed">
+                                                        {typeof selectedService.full_para === 'string' ? selectedService.full_para : ''}
+                                                    </p>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
@@ -353,7 +408,7 @@ export default function DigitalMarketing() {
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
-                        className="relative z-10 max-w-4xl mx-auto px-6 text-center"
+                        className="max-w-4xl mx-auto px-6 text-center"
                     >
                         <p className="text-sm uppercase tracking-wide mb-2">
                             {subscribe?.tag || "Join our elite client list"}
@@ -363,7 +418,7 @@ export default function DigitalMarketing() {
                             {subscribe?.title || "Stay Tuned To Our Updates And Useful Info We Enjoy Sharing."}
                         </h2>
 
-                        <p className="text-black/80 mb-8">
+                        <p className="text-gray-300 mb-8">
                             {subscribe?.short_des || "We are looking forward to hear from you so don’t hesitate to contact us."}
                         </p>
 
@@ -373,7 +428,7 @@ export default function DigitalMarketing() {
                                     id="name"
                                     type="text"
                                     placeholder="Name"
-                                    className="bg-transparent border-b border-black/30 py-2 outline-none focus:border-black transition-colors text-black placeholder:text-black/50"
+                                    className="bg-transparent border-b border-white/30 py-2 outline-none focus:border-white transition-colors text-white placeholder:text-white/20"
                                 />
                             </div>
                             <div className="flex flex-col gap-2 text-left">
@@ -381,7 +436,7 @@ export default function DigitalMarketing() {
                                     id="email"
                                     type="email"
                                     placeholder="Email"
-                                    className="bg-transparent border-b border-black/30 py-2 outline-none focus:border-black transition-colors text-black placeholder:text-black/50"
+                                    className="bg-transparent border-b border-white/30 py-2 outline-none focus:border-white transition-colors text-white placeholder:text-white/20"
                                 />
                             </div>
                             <div className="flex flex-col gap-2 text-left">
@@ -389,12 +444,12 @@ export default function DigitalMarketing() {
                                     id="mobile"
                                     type="tel"
                                     placeholder="Mobile Number"
-                                    className="bg-transparent border-b border-black/30 py-2 outline-none focus:border-black transition-colors text-black placeholder:text-black/50"
+                                    className="bg-transparent border-b border-white/30 py-2 outline-none focus:border-white transition-colors text-white placeholder:text-white/20"
                                 />
                             </div>
                         </form>
 
-                        <button className="mt-12 px-10 py-3 bg-[#0B1C3F] text-white font-bold rounded-full hover:scale-105 transition-transform shadow-lg">
+                        <button className="mt-12 px-10 py-3 bg-white text-[#0B1C3F] font-bold rounded-full hover:scale-105 transition-transform shadow-lg">
                             Subscribe Now
                         </button>
                     </motion.div>
