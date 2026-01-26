@@ -113,17 +113,25 @@ export interface FullParaKeyPoint {
   shortpara: string;
 }
 
+export interface FullParaSection {
+  point_title2: string;
+  points: { pointlist: string }[];
+}
+
 export interface FullParaData {
   acf_fc_layout: "full_para_data";
   main_title: string;
   sub_title: string;
   para1: string;
   para2: string;
+  title?: string;
+  para?: string;
   point_title1: string;
-  points: FullParaPoint[];
+  points: FullParaPoint[] | false;
   subtitle2: string;
   keypoints: FullParaKeyPoint[];
   point_title2: string;
+  points_data: FullParaSection[] | false;
   booking_title: string;
   booking_para1: string;
   booking_para2: string;

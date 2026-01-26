@@ -8,7 +8,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { getPage } from "@/lib/wordpress";
-import { DigitalMarketingPageData, ServiceCard } from "@/types/digital-marketing";
+import { DigitalMarketingPageData, ServiceCard, FullParaData, FullParaPoint, FullParaKeyPoint, FullParaSection } from "@/types/digital-marketing";
 
 export default function DigitalMarketing() {
     const [pageData, setPageData] = useState<DigitalMarketingPageData | null>(null);
@@ -259,10 +259,9 @@ export default function DigitalMarketing() {
                                             <div>
                                                 <h2 className="text-3xl font-bold mb-4">{selectedService.service_title}</h2>
                                                 {Array.isArray(selectedService.full_para) && selectedService.full_para.length > 0 ? (
-                                                    (() => {
-                                                        const fullPara = selectedService.full_para[0];
-                                                        return (
-                                                            <div className="space-y-8 text-gray-300">
+                                                    (selectedService.full_para as FullParaData[]).slice(0, 1).map((fullPara, index) => (
+                                                        <div key={index} className="space-y-8 text-gray-300">
+                                                            {fullPara.sub_title && (
                                                                 <div>
                                                                     <h3 className="text-2xl font-bold mb-4 text-white">{fullPara.sub_title}</h3>
                                                                     <p className="leading-relaxed">
@@ -270,20 +269,31 @@ export default function DigitalMarketing() {
                                                                         {fullPara.para2}
                                                                     </p>
                                                                 </div>
+                                                            )}
 
+                                                            {(fullPara.title || fullPara.para) && (
+                                                                <div>
+                                                                    {fullPara.title && <h4 className="text-xl font-bold mb-3 text-[#EC9E35]">{fullPara.title}</h4>}
+                                                                    {fullPara.para && <p className="leading-relaxed">{fullPara.para}</p>}
+                                                                </div>
+                                                            )}
+
+                                                            {fullPara.point_title1 && Array.isArray(fullPara.points) && fullPara.points.length > 0 && (
                                                                 <div>
                                                                     <h4 className="text-xl font-bold mb-3 text-[#EC9E35]">{fullPara.point_title1}</h4>
                                                                     <ul className="list-disc pl-5 space-y-2">
-                                                                        {fullPara.points.map((point, i) => (
+                                                                        {fullPara.points.map((point: FullParaPoint, i: number) => (
                                                                             <li key={i}>{point.point}</li>
                                                                         ))}
                                                                     </ul>
                                                                 </div>
+                                                            )}
 
+                                                            {fullPara.subtitle2 && Array.isArray(fullPara.keypoints) && fullPara.keypoints.length > 0 && (
                                                                 <div>
                                                                     <h4 className="text-xl font-bold mb-3 text-[#EC9E35]">{fullPara.subtitle2}</h4>
                                                                     <div className="space-y-4">
-                                                                        {fullPara.keypoints.map((item, i) => (
+                                                                        {fullPara.keypoints.map((item: FullParaKeyPoint, i: number) => (
                                                                             <div key={i}>
                                                                                 <strong className="block text-white">{item.heading}</strong>
                                                                                 <span className="text-gray-400">{item.shortpara}</span>
@@ -291,13 +301,24 @@ export default function DigitalMarketing() {
                                                                         ))}
                                                                     </div>
                                                                 </div>
+                                                            )}
 
-                                                                <div>
-                                                                    <h4 className="text-xl font-bold mb-3 text-[#EC9E35]">{fullPara.point_title2}</h4>
-                                                                    {/* Note: The API response for 'point_title2' section (Who This Is For) does not currently provide a list of items like 'points' or 'keypoints'. 
-                                                                        If data becomes available, we can map it here. For now, we only display the title. */}
+                                                            {Array.isArray(fullPara.points_data) && (fullPara.points_data as FullParaSection[]).map((section: FullParaSection, idx: number) => (
+                                                                <div key={idx}>
+                                                                    {section.point_title2 && (
+                                                                        <h4 className="text-xl font-bold mb-3 text-[#EC9E35]">{section.point_title2}</h4>
+                                                                    )}
+                                                                    {Array.isArray(section.points) && section.points.length > 0 && (
+                                                                        <ul className="list-disc pl-5 space-y-2">
+                                                                            {section.points.map((p: { pointlist: string }, i: number) => (
+                                                                                <li key={i}>{p.pointlist}</li>
+                                                                            ))}
+                                                                        </ul>
+                                                                    )}
                                                                 </div>
+                                                            ))}
 
+                                                            {fullPara.booking_title && (
                                                                 <div className="bg-white/10 p-6 rounded-xl border border-white/20 text-center">
                                                                     <h4 className="text-xl font-bold mb-2 text-white">{fullPara.booking_title}</h4>
                                                                     <p className="mb-6">
@@ -305,12 +326,12 @@ export default function DigitalMarketing() {
                                                                         {fullPara.booking_para2}
                                                                     </p>
                                                                     <Link href={fullPara.book_btn_link || "/contact"} className="inline-block px-8 py-3 bg-[#EC9E35] text-white font-bold rounded-full hover:scale-105 transition-transform">
-                                                                        {fullPara.book_btn_text}
+                                                                        {fullPara.book_btn_text || "Book Now"}
                                                                     </Link>
                                                                 </div>
-                                                            </div>
-                                                        );
-                                                    })()
+                                                            )}
+                                                        </div>
+                                                    ))
                                                 ) : (
                                                     <p className="text-gray-300 leading-relaxed">
                                                         {typeof selectedService.full_para === 'string' ? selectedService.full_para : ''}
