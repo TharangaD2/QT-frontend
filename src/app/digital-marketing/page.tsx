@@ -220,7 +220,7 @@ export default function DigitalMarketing() {
                         </div>
                     </div>
 
-                    {/* Service Details Modal */}
+                    {/* Service Details n Modal*/}
                     <AnimatePresence>
                         {selectedService && (
                             <motion.div
