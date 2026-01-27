@@ -84,7 +84,7 @@ export interface HeroSection {
 
 export interface AboutSection {
   acf_fc_layout: "about_section_data";
-  aboout_tag: string;
+  about_tag: string;
   about_title: string;
   about_para: string;
   about_section_analytics: {
@@ -92,7 +92,11 @@ export interface AboutSection {
     count_label: string;
   }[];
   about_button_text: string;
-  about_btn_link: string;
+  about_btn_link: {
+    title: string;
+    url: string;
+    target: string;
+  };
   about_sec_img: ACFImage;
 }
 
@@ -115,7 +119,7 @@ export interface FullParaKeyPoint {
 
 export interface FullParaSection {
   point_title2: string;
-  points: { pointlist: string }[];
+  points: { points: string }[];
 }
 
 export interface FullParaData {

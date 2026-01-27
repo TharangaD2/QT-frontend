@@ -124,7 +124,7 @@ export default function DigitalMarketing() {
                             transition={{ duration: 0.8 }}
                         >
                             <p className="text-sm font-semibold mb-2" style={{ color: '#1C2961' }}>
-                                {about?.aboout_tag || "Who we are"}
+                                {about?.about_tag || "Who we are"}
                             </p>
                             <h2 className="text-3xl font-bold mb-4" style={{ color: '#1C2961' }}>
                                 {about?.about_title || "Where Vision Meets Digital Mastery"}
@@ -154,9 +154,14 @@ export default function DigitalMarketing() {
                                     )}
                             </div>
 
-                            <button className="mt-8 px-6 py-3 border rounded-lg transition" style={{ borderColor: '#1C2961', color: '#1C2961' }}>
+                            <Link
+                                href={about?.about_btn_link?.url || "/about"}
+                                target={about?.about_btn_link?.target || ""}
+                                className="inline-block mt-8 px-6 py-3 border rounded-lg transition"
+                                style={{ borderColor: '#1C2961', color: '#1C2961' }}
+                            >
                                 {about?.about_button_text || "About Us"}
-                            </button>
+                            </Link>
                         </motion.div>
 
                         <motion.div
@@ -310,8 +315,8 @@ export default function DigitalMarketing() {
                                                                     )}
                                                                     {Array.isArray(section.points) && section.points.length > 0 && (
                                                                         <ul className="list-disc pl-5 space-y-2">
-                                                                            {section.points.map((p: { pointlist: string }, i: number) => (
-                                                                                <li key={i}>{p.pointlist}</li>
+                                                                            {section.points.map((p: { points: string }, i: number) => (
+                                                                                <li key={i}>{p.points}</li>
                                                                             ))}
                                                                         </ul>
                                                                     )}
