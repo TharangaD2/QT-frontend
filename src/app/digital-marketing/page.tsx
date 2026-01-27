@@ -55,7 +55,7 @@ export default function DigitalMarketing() {
 
     return (
         <div className="min-h-screen bg-background overflow-hidden font-poppins">
-            <Navigation />
+            <Navigation isDarkBg={true} />
             <main className="w-full bg-white text-gray-800">
 
                 {/* ================= HERO SECTION ================= */}
@@ -415,7 +415,7 @@ export default function DigitalMarketing() {
                 <FAQ reasonSec={reasonSec} />
 
                 {/* ================= NEWSLETTER ================= */}
-                <section className="relative py-20 bg-gradient-to-r from-[#0B1C3F] to-[#132B6B] text-black overflow-hidden">
+                <section className="relative py-20 bg-gradient-to-r from-[#0B1C3F] to-[#132B6B] text-white overflow-hidden">
                     {subscribe?.background && (
                         <div className="absolute inset-0">
                             <video
@@ -427,6 +427,8 @@ export default function DigitalMarketing() {
                             >
                                 <source src={subscribe.background.url} type="video/mp4" />
                             </video>
+                            {/* Overlay to ensure text readability */}
+                            <div className="absolute inset-0 bg-black/40" />
                         </div>
                     )}
                     <motion.div
@@ -434,7 +436,7 @@ export default function DigitalMarketing() {
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
-                        className="max-w-4xl mx-auto px-6 text-center"
+                        className="relative z-10 max-w-4xl mx-auto px-6 text-center"
                     >
                         <p className="text-sm uppercase tracking-wide mb-2">
                             {subscribe?.tag || "Join our elite client list"}

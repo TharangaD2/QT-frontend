@@ -49,7 +49,7 @@ interface WPContactPage {
   };
 }
 
-export default function Navigation() {
+export default function Navigation({ isDarkBg = false }: { isDarkBg?: boolean }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
@@ -156,7 +156,12 @@ export default function Navigation() {
                   onMouseEnter={() => setIsServicesHover(true)}
                   onMouseLeave={() => setIsServicesHover(false)}
                 >
-                  <button className="flex items-center px-3 lg:px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-all">
+                  <button className={`flex items-center px-3 lg:px-4 py-2 text-sm font-medium transition-all ${isScrolled
+                      ? "text-muted-foreground hover:text-foreground"
+                      : isDarkBg
+                        ? "text-white hover:text-white/80"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}>
                     {item.name}
                     <ChevronDown className="w-4 h-4 ml-1" />
                   </button>
@@ -186,7 +191,12 @@ export default function Navigation() {
                 <motion.a
                   key={item.name}
                   href={item.href}
-                  className="relative px-3 lg:px-4 py-2 text-sm font-medium transition-colors text-muted-foreground hover:text-foreground group"
+                  className={`relative px-3 lg:px-4 py-2 text-sm font-medium transition-colors group ${isScrolled
+                      ? "text-muted-foreground hover:text-foreground"
+                      : isDarkBg
+                        ? "text-white hover:text-white/80"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
                   whileHover={{ y: -2 }}
                   transition={{ duration: 0.2 }}
                 >
@@ -203,7 +213,8 @@ export default function Navigation() {
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden p-2 rounded-lg transition-colors hover:bg-accent "
+            className={`md:hidden p-2 rounded-lg transition-colors hover:bg-accent ${!isScrolled && isDarkBg ? "text-white" : ""
+              }`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? (
