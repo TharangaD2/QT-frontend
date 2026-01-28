@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import SocialSidebar from "@/components/socialSidebar";
 import Script from "next/script";
+import JsonLd from "@/components/JsonLd";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -75,7 +76,6 @@ const organizationData = {
   }
 };
 
-import JsonLd from "@/components/JsonLd";
 
 export default function RootLayout({
   children,

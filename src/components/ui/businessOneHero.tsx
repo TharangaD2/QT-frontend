@@ -1,10 +1,22 @@
-import { motion,useScroll,useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "./button";
 
 export default function BusinessOneHero() {
   const ref = useRef(null);
+  const [particles, setParticles] = useState<any[]>([]);
+
+  useEffect(() => {
+    const generatedParticles = [...Array(6)].map((_, i) => ({
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      duration: 3 + Math.random() * 2,
+      delay: Math.random() * 2,
+    }));
+    setParticles(generatedParticles);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
@@ -59,22 +71,22 @@ export default function BusinessOneHero() {
       </motion.div>
 
       {/* Floating Particles */}
-      {[...Array(6)].map((_, i) => (
+      {particles.map((particle, i) => (
         <motion.div
           key={i}
           className="absolute w-2 h-2 rounded-full bg-primary/20"
           style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
+            left: particle.left,
+            top: particle.top,
           }}
           animate={{
             y: [-20, 20],
             opacity: [0.2, 0.5, 0.2],
           }}
           transition={{
-            duration: 3 + Math.random() * 2,
+            duration: particle.duration,
             repeat: Infinity,
-            delay: Math.random() * 2,
+            delay: particle.delay,
           }}
         />
       ))}

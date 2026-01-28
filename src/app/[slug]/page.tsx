@@ -1,10 +1,11 @@
-export const dynamic = "force-dynamic";
 
 import ApplicationTemplate from "@/components/templates/applicationTemplate";
 import ServiceTemplate from "@/components/templates/serviceTemplate";
 import BlogPostTemplate from "@/components/templates/blogPostTemplate";
-import { getPage, getPostBySlug } from "@/lib/wordpress";
+import { getPage, getPostBySlug, getRankMathSEO, parseRankMathMetadata, extractJsonLd } from "@/lib/wordpress";
+import JsonLd from "@/components/JsonLd";
 import { applicationsData, ApplicationData, Feature } from "@/data/applicationsData";
+import { Metadata } from "next";
 
 interface WPImage {
     url: string;
@@ -70,18 +71,20 @@ interface WPApplication {
     reference_section: WPReferenceData[];
 }
 
-import { Metadata } from "next";
-
 export async function generateMetadata({
     params,
 }: {
     params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
     const { slug } = await params;
+    const seoHead = await getRankMathSEO(`/${slug}`);
 
-    // Attempt to get title from WordPress data or fallback
+    if (seoHead) {
+        return parseRankMathMetadata(seoHead);
+    }
+
+    // Fallback if Rank Math SEO is not available
     let title = slug.charAt(0).toUpperCase() + slug.slice(1).replace(/-/g, ' ');
-
     try {
         const wpPage = await getPostBySlug(slug) || await getPage(slug);
         if (wpPage) {
@@ -101,12 +104,15 @@ export async function generateMetadata({
     };
 }
 
+
 export default async function CatchAllSlugPage({
     params,
 }: {
     params: Promise<{ slug: string }>;
 }) {
     const { slug } = await params;
+    const seoHead = await getRankMathSEO(`/${slug}`);
+    const jsonLdData = seoHead ? extractJsonLd(seoHead) : [];
 
     // 1. Try to handle as a Service first (based on known service IDs)
     const serviceIds = ["application-development", "business-consultancy", "application-implementation", "artificial-intelligent", "digital-marketing"];
@@ -133,7 +139,14 @@ export default async function CatchAllSlugPage({
                 if (serviceAcf) {
                     const displayData = mapWpServiceData(serviceAcf, acf.logo_section);
                     if (displayData) {
-                        return <ServiceTemplate data={displayData} />;
+                        return (
+                            <>
+                                {jsonLdData.map((data, index) => (
+                                    <JsonLd key={index} data={data} />
+                                ))}
+                                <ServiceTemplate data={displayData} />
+                            </>
+                        );
                     }
                 }
             }
@@ -177,7 +190,12 @@ export default async function CatchAllSlugPage({
 
     if (displayData) {
         return (
-            <ApplicationTemplate data={displayData} />
+            <>
+                {jsonLdData.map((data, index) => (
+                    <JsonLd key={index} data={data} />
+                ))}
+                <ApplicationTemplate data={displayData} />
+            </>
         );
     }
 
@@ -200,7 +218,14 @@ export default async function CatchAllSlugPage({
                 featuredImage: wpPost._embedded?.['wp:featuredmedia']?.[0]?.source_url
             };
 
-            return <BlogPostTemplate data={postData} />;
+            return (
+                <>
+                    {jsonLdData.map((data, index) => (
+                        <JsonLd key={index} data={data} />
+                    ))}
+                    <BlogPostTemplate data={postData} />
+                </>
+            );
         }
     } catch (error) {
         console.error("Error fetching dynamic post data:", error);
