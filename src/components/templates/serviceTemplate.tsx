@@ -47,123 +47,82 @@ export default function ServiceTemplate({ data }: { data: any }) {
 
   return (
     <>
-      <Navigation />
+      <Navigation isDarkBg={true} />
 
-      <section className="px-4 py-24 min-h-screen relative overflow-hidden">
-        <head>
-          <title>{data.title}</title>
-        </head>
-        {/* HERO */}
-        <section
-          ref={ref}
-          className="relative h-[400px]  flex items-center justify-center overflow-hidden mb-24"
-        >
-          {/* Parallax background image */}
-          <motion.div
-            className="absolute inset-0 overflow-hidden h-[400px] sm:h-[600px]"
-            style={{ y }}
+      <section className="relative min-h-screen bg-black text-white flex items-center justify-center overflow-hidden">
+        {/* HERO BACKGROUND */}
+        <div className="absolute inset-0 z-0">
+          {data.heroVideo ? (
+            <video
+              src={data.heroVideo}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover opacity-40"
+            />
+          ) : data.heroImage ? (
+            <Image
+              src={data.heroImage}
+              alt={data.heroTitle || "Hero Section"}
+              fill
+              className="object-cover opacity-40"
+              priority
+              unoptimized
+            />
+          ) : (
+            <div className="absolute inset-0 bg-black opacity-40" />
+          )}
+        </div>
+
+        {/* Hero Text */}
+        <div className="relative z-10 max-w-5xl px-6 text-center">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-sm tracking-widest uppercase text-gray-300 mb-3"
           >
-            {data.heroImage ? (
-              <Image
-                src={data.heroImage}
-                alt={data.heroTitle || "Hero Section"}
-                fill
-                className="object-cover"
-                priority
-                unoptimized
-              />
-            ) : data.heroVideo ? (
-              <video
-                src={data.heroVideo}
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-            ) : null}
-            {/* Floating shapes */}
-            <motion.div
-              className="absolute w-40 h-40 sm:w-64 sm:h-64 rounded-full top-20 left-10 bg-primary/5 blur-3xl"
-              animate={{
-                x: [0, 50, 0],
-                y: [0, 30, 0],
-                scale: [1, 1.1, 1],
-              }}
-              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-            />
+            {data.heroTag || "Grow your business with us"}
+          </motion.p>
 
-            <motion.div
-              className="absolute rounded-full top-40 right-20 w-72 h-72 sm:w-96 sm:h-96 bg-accent/10 blur-3xl"
-              animate={{
-                x: [0, -30, 0],
-                y: [0, 50, 0],
-                scale: [1, 1.2, 1],
-              }}
-              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-            />
-
-            <motion.div
-              className="absolute rounded-full bottom-20 left-1/3 w-56 h-56 sm:w-72 sm:h-72 bg-primary/8 blur-3xl"
-              animate={{
-                x: [0, 40, 0],
-                y: [0, -20, 0],
-                scale: [1, 1.15, 1],
-              }}
-              transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-            />
-
-            {/* Floating particles */}
-            {particles.map((particle, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-2 h-2 rounded-full bg-primary/20"
-                style={{
-                  left: particle.left,
-                  top: particle.top,
-                }}
-                animate={{ y: [-20, 20], opacity: [0.2, 0.5, 0.2] }}
-                transition={{
-                  duration: particle.duration,
-                  repeat: Infinity,
-                  delay: particle.delay,
-                }}
-              />
-            ))}
-          </motion.div>
-
-          {/* Dark overlay */}
-          <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-
-          {/* Hero Text */}
-          {/* Hero Text */}
-          <motion.div
-            className="relative z-10 px-4 text-center max-w-7xl mx-auto"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}   // ← ALWAYS ANIMATE ON PAGE LOAD
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            style={{ opacity }}
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight"
           >
-            <motion.h1
-              className="sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}   // ← FIXED
-              transition={{ delay: 0.2, duration: 0.6 }}
-            >
-              {data.heroTitle}
-            </motion.h1>
+            {data.heroTitle} <br />
+            {data.heroHighlight && (
+              <span style={{ color: '#EC9E35' }}>
+                {data.heroHighlight}
+              </span>
+            )}
+          </motion.h1>
 
-            <motion.p
-              className="  md:text-xl lg:text-lg text-white max-w-3xl mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}   // ← FIXED
-              transition={{ delay: 0.35, duration: 0.6 }}
-            >
-              {data.heroDescription}
-            </motion.p>
-          </motion.div>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35, duration: 0.6 }}
+            className="mt-6 md:text-xl lg:text-lg text-gray-200 max-w-3xl mx-auto"
+          >
+            {data.heroDescription}
+          </motion.p>
 
-        </section>
+          <motion.button
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="mt-8 px-8 py-3 rounded-full border-2 border-white text-white font-semibold hover:bg-[#EC9E35] hover:text-white transition"
+          >
+            {data.heroBtnText || "Schedule a Meeting"}
+          </motion.button>
+        </div>
+      </section>
+
+      <section className="px-4 py-24 relative overflow-hidden">
 
         {/* SECTIONS */}
         {data.sections.map((section: any, i: number) => (

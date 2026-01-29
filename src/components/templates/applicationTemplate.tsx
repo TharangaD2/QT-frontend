@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
@@ -10,26 +10,7 @@ import { ApplicationData } from "@/data/applicationsData";
 
 export default function ApplicationTemplate({ data }: { data: ApplicationData }) {
     const [expandedIndex, setExpandedIndex] = useState<number | null>(0);
-    const [particles, setParticles] = useState<any[]>([]);
-    const heroRef = useRef(null);
-
-    useEffect(() => {
-        const generatedParticles = [...Array(12)].map((_, i) => ({
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            duration: 3 + Math.random() * 2,
-            delay: Math.random() * 2,
-        }));
-        setParticles(generatedParticles);
-    }, []);
-
-    const { scrollYProgress } = useScroll({
-        target: heroRef,
-        offset: ["start start", "end start"],
-    });
-
-    const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-    const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+    const sectionRef = useRef<HTMLElement | null>(null);
 
     const toggleExpand = (index: number) => {
         setExpandedIndex(expandedIndex === index ? null : index);
@@ -37,78 +18,73 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
 
     return (
         <>
-            <Navigation />
+            <Navigation isDarkBg={true} />
 
-            <main className="min-h-screen bg-gray-50 px-4 py-24 relative overflow-hidden">
+            <main className="w-full overflow-hidden">
                 {/* HERO SECTION */}
-                <section ref={heroRef} className="relative h-[400px] flex items-center justify-center overflow-hidden mb-24">
-                    <motion.div style={{ y }} className={`absolute inset-0 overflow-hidden ${data.hero.bgClass} bg-cover bg-center bg-no-repeat h-[400px] sm:h-[600px]`}>
-                        {data.hero.heroImage && (
-                            <Image
-                                src={data.hero.heroImage}
-                                alt={data.hero.title}
-                                fill
-                                className="object-cover"
-                                priority
-                                unoptimized
-                            />
-                        )}
-                        {/* Overlay */}
-                        <div className="absolute inset-0 bg-black/50" />
+                <section ref={sectionRef} className="relative min-h-screen bg-black text-white flex items-center justify-center overflow-hidden">
+                    {data.hero.heroImage ? (
+                        <Image
+                            src={data.hero.heroImage}
+                            alt={data.hero.title}
+                            fill
+                            className="object-cover opacity-40"
+                            priority
+                            unoptimized
+                        />
+                    ) : (
+                        <div className={`absolute inset-0 ${data.hero.bgClass} bg-cover bg-center bg-no-repeat opacity-40`} />
+                    )}
 
-                        <motion.div
-                            className="absolute w-40 h-40 sm:w-64 sm:h-64 rounded-full top-20 left-10 bg-primary/5 blur-3xl"
-                            animate={{ x: [0, 50, 0], y: [0, 30, 0], scale: [1, 1.1, 1] }}
-                            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                        />
-                        <motion.div
-                            className="absolute rounded-full top-40 right-20 w-72 h-72 sm:w-96 sm:h-96 bg-accent/10 blur-3xl"
-                            animate={{ x: [0, -30, 0], y: [0, 50, 0], scale: [1, 1.2, 1] }}
-                            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-                        />
-                        <motion.div
-                            className="absolute rounded-full bottom-20 left-1/3 w-56 h-56 sm:w-72 sm:h-72 bg-primary/8 blur-3xl"
-                            animate={{ x: [0, 40, 0], y: [0, -20, 0], scale: [1, 1.15, 1] }}
-                            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-                        />
-                    </motion.div>
+                    <div className="relative z-10 max-w-5xl px-6 text-center">
+                        <motion.p
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6 }}
+                            className="text-sm tracking-widest uppercase text-gray-300 mb-3"
+                        >
+                            Advanced Solutions
+                        </motion.p>
 
-                    {/* Floating Particles */}
-                    {particles.map((particle, i) => (
-                        <motion.div
-                            key={i}
-                            className="absolute w-2 h-2 rounded-full bg-primary/20"
-                            style={{ left: particle.left, top: particle.top }}
-                            animate={{ y: [-20, 20], opacity: [0.2, 0.5, 0.2] }}
-                            transition={{ duration: particle.duration, repeat: Infinity, delay: particle.delay }}
-                        />
-                    ))}
-
-                    <motion.div style={{ opacity }} className="relative z-10 px-4 py-20 mx-auto text-center max-w-7xl sm:px-6 lg:px-8">
                         <motion.h1
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.3 }}
-                            className="mb-8 text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                            className="text-4xl md:text-5xl lg:text-7xl font-bold leading-tight"
                         >
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/90 to-white/80">
-                                {data.hero.title}
-                            </span>
+                            {data.hero.title}
                         </motion.h1>
 
                         <motion.p
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.4 }}
-                            className="max-w-3xl mx-auto mb-10 text-lg sm:text-xl text-balance text-white/90 font-medium leading-relaxed"
+                            transition={{ duration: 0.8, delay: 0.3 }}
+                            className="max-w-3xl mx-auto mt-6 text-lg sm:text-xl text-white/90"
                         >
                             {data.hero.description}
                         </motion.p>
-                    </motion.div>
+
+                        <motion.button
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.6, delay: 0.4 }}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="mt-8 px-8 py-3 rounded-full border-2 border-white text-white font-semibold hover:bg-[#EC9E35] hover:text-white transition"
+                            onClick={() => {
+                                const mainContent = document.getElementById("main-content");
+                                if (mainContent) {
+                                    mainContent.scrollIntoView({ behavior: "smooth" });
+                                }
+                            }}
+                        >
+                            Learn More
+                        </motion.button>
+                    </div>
                 </section>
 
                 {/* INTRODUCTION & FEATURES */}
-                <div className="py-20 px-6">
+                <div id="main-content" className="py-20 px-6">
                     <div className="max-w-7xl mx-auto">
                         <div className="text-center mb-16">
                             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
