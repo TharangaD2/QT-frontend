@@ -4,6 +4,7 @@ import "./globals.css";
 import SocialSidebar from "@/components/socialSidebar";
 import Script from "next/script";
 import JsonLd from "@/components/JsonLd";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -142,6 +143,7 @@ export default function RootLayout({
         {children}
 
         <SocialSidebar />
+        <Toaster />
       </body>
     </html>
   );

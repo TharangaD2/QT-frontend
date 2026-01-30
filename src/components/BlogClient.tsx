@@ -93,6 +93,12 @@ export default function BlogClient({ data }: { data: WPBlogPage }) {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         className="mt-8 px-8 py-3 rounded-full border-2 border-white text-white font-semibold hover:bg-[#EC9E35] hover:text-white transition"
+                        onClick={() => {
+                            const caseStudiesSection = document.getElementById("case-studies");
+                            if (caseStudiesSection) {
+                                caseStudiesSection.scrollIntoView({ behavior: "smooth" });
+                            }
+                        }}
                     >
                         {(hero as any)?.hero_btn_text || "Explore Blog"}
                     </motion.button>

@@ -374,11 +374,14 @@ export default function ContactClient({ data }: { data: WPContactPage }) {
 
                                     return (
                                         <div key={key} className="mb-4">
+                                            <label className="block mb-2 text-sm font-medium text-foreground capitalize">
+                                                {key} <span className="text-red-500">*</span>
+                                            </label>
                                             <Component
                                                 name={key}
                                                 value={val}
                                                 onChange={handleChange}
-                                                placeholder={key.toUpperCase()}
+                                                placeholder={`Enter your ${key}`}
                                                 required
                                                 className={`w-full ${isMessage ? "min-h-[140px] resize-none" : ""
                                                     }`}

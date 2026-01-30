@@ -6,7 +6,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useRef } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import { X, CheckCircle2 } from "lucide-react";
+import { toast } from "sonner";
 import { DigitalMarketingPageData, ServiceCard, FullParaData, FullParaPoint, FullParaKeyPoint, FullParaSection } from "@/types/digital-marketing";
 
 interface Props {
@@ -15,6 +16,32 @@ interface Props {
 
 export default function DigitalMarketingClient({ pageData }: Props) {
     const [selectedService, setSelectedService] = useState<ServiceCard | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        mobile: ""
+    });
+
+    const handleSubscribe = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
+        toast.success("Subscribed successfully!", {
+            description: "Thank you for joining our newsletter.",
+            icon: <CheckCircle2 className="w-5 h-5 text-green-600" />,
+        });
+
+        setFormData({ name: "", email: "", mobile: "" });
+        setIsSubmitting(false);
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, [e.target.id]: e.target.value });
+    };
 
     const acf = pageData.acf;
     const hero = acf.hero_section?.[0];
@@ -421,36 +448,53 @@ export default function DigitalMarketingClient({ pageData }: Props) {
                             {subscribe?.short_des || "We are looking forward to hear from you so don’t hesitate to contact us."}
                         </p>
 
-                        <form className="grid md:grid-cols-3 gap-8">
+                        <form onSubmit={handleSubscribe} className="grid md:grid-cols-3 gap-8">
                             <div className="flex flex-col gap-2 text-left">
                                 <input
                                     id="name"
                                     type="text"
+                                    required
+                                    value={formData.name}
+                                    onChange={handleInputChange}
                                     placeholder="Name"
-                                    className="bg-transparent border-b border-white/30 py-2 outline-none focus:border-white transition-colors text-white placeholder:text-white/20"
+                                    className="bg-transparent border-b border-white/30 py-2 outline-none focus:border-white transition-colors text-white placeholder:text-white/80"
+                                    style={{ WebkitBoxShadow: '0 0 0 30px transparent inset', WebkitTextFillColor: 'white', transition: 'background-color 5000s ease-in-out 0s' }}
                                 />
                             </div>
                             <div className="flex flex-col gap-2 text-left">
                                 <input
                                     id="email"
                                     type="email"
+                                    required
+                                    value={formData.email}
+                                    onChange={handleInputChange}
                                     placeholder="Email"
-                                    className="bg-transparent border-b border-white/30 py-2 outline-none focus:border-white transition-colors text-white placeholder:text-white/20"
+                                    className="bg-transparent border-b border-white/30 py-2 outline-none focus:border-white transition-colors text-white placeholder:text-white/80"
+                                    style={{ WebkitBoxShadow: '0 0 0 30px transparent inset', WebkitTextFillColor: 'white', transition: 'background-color 5000s ease-in-out 0s' }}
                                 />
                             </div>
                             <div className="flex flex-col gap-2 text-left">
                                 <input
                                     id="mobile"
                                     type="tel"
+                                    required
+                                    value={formData.mobile}
+                                    onChange={handleInputChange}
                                     placeholder="Mobile Number"
-                                    className="bg-transparent border-b border-white/30 py-2 outline-none focus:border-white transition-colors text-white placeholder:text-white/20"
+                                    className="bg-transparent border-b border-white/30 py-2 outline-none focus:border-white transition-colors text-white placeholder:text-white/80"
+                                    style={{ WebkitBoxShadow: '0 0 0 30px transparent inset', WebkitTextFillColor: 'white', transition: 'background-color 5000s ease-in-out 0s' }}
                                 />
                             </div>
+                            <button
+                                type="submit"
+                                disabled={isSubmitting}
+                                className="col-span-1 md:col-span-3 mt-12 px-10 py-3 bg-white text-[#0B1C3F] font-bold rounded-full hover:scale-105 transition-transform shadow-lg disabled:opacity-70 disabled:hover:scale-100 mx-auto block"
+                            >
+                                {isSubmitting ? "Subscribing..." : "Subscribe Now"}
+                            </button>
                         </form>
 
-                        <button className="mt-12 px-10 py-3 bg-white text-[#0B1C3F] font-bold rounded-full hover:scale-105 transition-transform shadow-lg">
-                            Subscribe Now
-                        </button>
+
                     </motion.div>
                 </section>
             </main>

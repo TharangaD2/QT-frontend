@@ -603,7 +603,7 @@ export default function Home({ initialData }: { initialData: Home | null }) {
                   boxShadow: "0 0 30px rgba(0, 217, 255, 0.5)",
                 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={scrollToNext}
+
                 className="px-8 py-4  rounded-full bg-gradient-to-r from-[oklch(0.62_0.18_195)] to-[oklch(0.55_0.15_200)] text-white font-semibold text-lg shadow-lg transition-all duration-300 "
               >
                 {slide.button_text}
