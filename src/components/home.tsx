@@ -533,7 +533,7 @@ export default function Home({ initialData }: { initialData: Home | null }) {
       {/*  HERO SECTION */}
 
 
-      <section id="hero" className="relative w-full h-screen overflow-hidden">
+      <section id="hero" className="relative w-full h-auto md:min-h-screen overflow-hidden">
 
         {/* Background slideshow */}
         {heroImages.map((image: string, index: number) => (
@@ -562,7 +562,7 @@ export default function Home({ initialData }: { initialData: Home | null }) {
         {page?.acf?.hero_slider?.map((slide: any, index: number) => (
           <motion.div
             key={index}
-            className="relative z-10 flex flex-col items-center justify-center h-full px-6"
+            className="relative z-10 flex flex-col items-center justify-center h-full px-6 py-32 md:py-0"
             style={{
               opacity: opacityHero,
               display: currentImageIndex === index ? 'flex' : 'none'

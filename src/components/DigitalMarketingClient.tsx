@@ -57,7 +57,7 @@ export default function DigitalMarketingClient({ pageData }: Props) {
             <main className="w-full bg-white text-gray-800">
 
                 {/* ================= HERO SECTION ================= */}
-                <section className="relative min-h-screen bg-black text-white flex items-center justify-center overflow-hidden">
+                <section className="relative h-auto md:min-h-screen py-32 md:py-0 bg-black text-white flex items-center justify-center overflow-hidden">
                     {hero?.hero_vedio ? (
                         <video
                             autoPlay
