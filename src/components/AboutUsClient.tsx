@@ -195,7 +195,7 @@ export default function AboutUsClient({ data }: { data: WpPage }) {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
-                        className="text-4xl md:text-5xl lg:text-7xl font-bold leading-tight"
+                        className="text-3xl md:text-5xl lg:text-7xl font-bold leading-tight"
                     >
                         {heroData?.about_hero_title}
                     </motion.h1>
@@ -204,7 +204,7 @@ export default function AboutUsClient({ data }: { data: WpPage }) {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.3 }}
-                        className="max-w-3xl mx-auto mt-6 text-lg sm:text-xl text-white/90"
+                        className="max-w-3xl mx-auto mt-6 text-sm md:text-xl text-white/90 px-4"
                     >
                         {heroData?.about_hero_para}
                     </motion.p>
@@ -251,7 +251,7 @@ export default function AboutUsClient({ data }: { data: WpPage }) {
                             {descData?.about_desc_title}
                         </h2>
 
-                        <p className="max-w-3xl mx-auto text-base sm:text-lg text-muted-foreground px-2">
+                        <p className="max-w-3xl mx-auto text-sm sm:text-lg text-muted-foreground px-2">
                             {descData?.about_desc_para}
                         </p>
                     </motion.div>
@@ -262,7 +262,7 @@ export default function AboutUsClient({ data }: { data: WpPage }) {
                         >
                             <motion.div className="space-y-6">
                                 <motion.h2
-                                    className="sm:text-4xl md:text-5xl lg:text-5xl font-bold tracking-tight"
+                                    className="text-2xl sm:text-4xl md:text-5xl lg:text-5xl font-bold tracking-tight"
                                     initial={{ opacity: 0, x: -30 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: true, margin: "-100px" }}
@@ -272,7 +272,7 @@ export default function AboutUsClient({ data }: { data: WpPage }) {
                                 </motion.h2>
 
                                 <motion.div
-                                    className="space-y-4 lg:text-lg md:text-xl leading-relaxed text-muted-foreground"
+                                    className="space-y-4 text-sm md:text-xl lg:text-lg leading-relaxed text-muted-foreground"
                                     initial={{ opacity: 0, x: -30 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: true, margin: "-100px" }}
@@ -369,12 +369,12 @@ export default function AboutUsClient({ data }: { data: WpPage }) {
                         transition={{ duration: 0.6 }}
                         className="mb-16 text-center"
                     >
-                        <h2 className="mb-4 text-3xl font-bold sm:text-4xl md:text-5xl text-foreground text-balance">
+                        <h2 className="mb-4 text-2xl font-bold sm:text-4xl md:text-5xl text-foreground text-balance">
                             {excellenceHeader?.excellence_header}
                         </h2>
                     </motion.div>
 
-                    <div className="grid gap-6  md:grid-cols-2 lg:grid-cols-3">
+                    <div className="grid grid-cols-2 gap-3 md:gap-6 md:grid-cols-2 lg:grid-cols-3">
                         {excellence.map((excellence, index) => (
                             <div key={index}>
                                 <motion.div
@@ -384,12 +384,12 @@ export default function AboutUsClient({ data }: { data: WpPage }) {
                                     whileHover={{ y: -10, scale: 1.03 }}
                                     className="relative cursor-pointer group"
                                 >
-                                    <div className="h-full p-6 transition-all duration-300 border rounded-xl bg-card border-border/50 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 bg-gray-100">
-                                        <h3 className="mb-3 text-lg font-semibold transition-colors text-foreground group-hover:text-primary">
+                                    <div className="h-full p-4 md:p-6 transition-all duration-300 border rounded-xl bg-card border-border/50 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 bg-gray-100">
+                                        <h3 className="mb-3 text-base md:text-lg font-semibold transition-colors text-foreground group-hover:text-primary">
                                             {excellence.title}
                                         </h3>
 
-                                        <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+                                        <p className="mb-4 text-[12px] md:text-sm leading-relaxed text-muted-foreground">
                                             {excellence.description}
                                         </p>
 
@@ -429,7 +429,7 @@ export default function AboutUsClient({ data }: { data: WpPage }) {
                         </h2>
                     </motion.div>
 
-                    <div className="grid gap-6  md:grid-cols-2 lg:grid-cols-4">
+                    <div className="grid grid-cols-2 gap-3 md:gap-6 md:grid-cols-2 lg:grid-cols-4">
                         {reason.map((reason, index) => (
                             <div key={index}>
                                 <motion.div
@@ -439,21 +439,21 @@ export default function AboutUsClient({ data }: { data: WpPage }) {
                                     whileHover={{ y: -10, scale: 1.03 }}
                                     className="relative cursor-pointer group"
                                 >
-                                    <div className="h-full p-6 transition-all duration-300 border rounded-xl bg-card border-border/50 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10">
+                                    <div className="h-full p-4 md:p-6 transition-all duration-300 border rounded-xl bg-card border-border/50 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10">
                                         <motion.div
                                             whileHover={{ scale: 1.1, rotate: 5 }}
                                             animate={{ y: [0, -5, 0] }}
                                             transition={{ y: { duration: 2, repeat: Infinity, ease: "easeInOut", delay: index * 0.2 } }}
-                                            className="flex items-center justify-center mb-4 transition-all rounded-lg w-14 h-14 bg-linear-to-br from-primary/10 to-accent/10 group-hover:from-primary/20 group-hover:to-accent/20 group-hover:shadow-lg group-hover:shadow-primary/20"
+                                            className="flex items-center justify-center mb-4 transition-all rounded-lg w-10 h-10 md:w-14 md:h-14 bg-linear-to-br from-primary/10 to-accent/10 group-hover:from-primary/20 group-hover:to-accent/20 group-hover:shadow-lg group-hover:shadow-primary/20"
                                         >
-                                            <reason.icon className="w-7 h-7 text-primary" />
+                                            <reason.icon className="w-5 h-5 md:w-7 md:h-7 text-primary" />
                                         </motion.div>
 
-                                        <h3 className="mb-3 text-lg font-semibold transition-colors text-foreground group-hover:text-primary">
+                                        <h3 className="mb-3 text-base md:text-lg font-semibold transition-colors text-foreground group-hover:text-primary">
                                             {reason.title}
                                         </h3>
 
-                                        <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+                                        <p className="mb-4 text-[12px] md:text-sm leading-relaxed text-muted-foreground">
                                             {reason.description}
                                         </p>
 
@@ -490,15 +490,15 @@ export default function AboutUsClient({ data }: { data: WpPage }) {
                             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                             {missionSectionData?.mission_sec_tag}
                         </motion.div>
-                        <h2 className="mb-4 text-3xl font-bold sm:text-4xl md:text-5xl text-foreground text-balance">
+                        <h2 className="mb-4 text-2xl font-bold sm:text-4xl md:text-5xl text-foreground text-balance">
                             {missionSectionData?.mission_sec_title}
                         </h2>
-                        <p className="max-w-3xl mx-auto text-lg text-muted-foreground text-balance">
+                        <p className="max-w-3xl mx-auto text-sm md:text-lg text-muted-foreground text-balance px-4">
                             {missionSectionData?.mission_sec_para}
                         </p>
                     </motion.div>
 
-                    <div className="grid gap-8 lg:grid-cols-3">
+                    <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
                         {cards.map((card, index) => (
                             <motion.div
                                 key={index}
@@ -513,19 +513,19 @@ export default function AboutUsClient({ data }: { data: WpPage }) {
                                 className="relative group"
                             >
                                 <div
-                                    className={`h-full p-8 rounded-2xl bg-linear-to-br ${card.gradient} border border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10`}
+                                    className={`h-full p-4 md:p-8 rounded-2xl bg-linear-to-br ${card.gradient} border border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10`}
                                 >
                                     <motion.div
                                         whileHover={{ scale: 1.1, rotate: 5 }}
                                         transition={{ duration: 0.3 }}
-                                        className={`w-16 h-16 rounded-xl bg-linear-to-br ${card.iconBg} flex items-center justify-center mb-6 group-hover:shadow-lg group-hover:shadow-primary/20 transition-shadow`}
+                                        className={`w-12 h-12 md:w-16 md:h-16 rounded-xl bg-linear-to-br ${card.iconBg} flex items-center justify-center mb-6 group-hover:shadow-lg group-hover:shadow-primary/20 transition-shadow`}
                                     >
-                                        <card.icon className="w-8 h-8 text-primary" />
+                                        <card.icon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
                                     </motion.div>
 
-                                    <h3 className="mb-4 text-2xl font-semibold text-foreground">{card.title}</h3>
+                                    <h3 className="mb-3 text-lg md:text-2xl font-semibold text-foreground">{card.title}</h3>
 
-                                    <p className="leading-relaxed text-muted-foreground">{card.content}</p>
+                                    <p className="text-[12px] md:text-sm leading-relaxed text-muted-foreground line-clamp-4">{card.content}</p>
 
                                     <div className="absolute w-8 h-8 transition-opacity border-t-2 border-r-2 rounded-tr-lg opacity-0 top-4 right-4 border-primary/20 group-hover:opacity-100" />
                                 </div>

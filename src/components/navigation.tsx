@@ -136,7 +136,7 @@ export default function Navigation({ isDarkBg = false }: { isDarkBg?: boolean })
           {/* Logo */}
           <a href="/" className="flex items-center space-x-2">
             <motion.div whileHover={{ scale: 1.05 }} className="flex items-center">
-              <div className="w-24 sm:w-32 md:w-40 h-8 sm:h-9 md:h-16 overflow-hidden rounded-lg">
+              <div className="w-20 sm:w-32 md:w-40 h-6 sm:h-9 md:h-16 overflow-hidden rounded-lg">
                 <img
                   src={logoUrl}
                   alt="Logo"
@@ -157,10 +157,10 @@ export default function Navigation({ isDarkBg = false }: { isDarkBg?: boolean })
                   onMouseLeave={() => setIsServicesHover(false)}
                 >
                   <button className={`flex items-center px-3 lg:px-4 py-2 text-sm font-medium transition-all ${isScrolled
-                      ? "text-muted-foreground hover:text-foreground"
-                      : isDarkBg
-                        ? "text-white hover:text-white/80"
-                        : "text-muted-foreground hover:text-foreground"
+                    ? "text-muted-foreground hover:text-foreground"
+                    : isDarkBg
+                      ? "text-white hover:text-white/80"
+                      : "text-muted-foreground hover:text-foreground"
                     }`}>
                     {item.name}
                     <ChevronDown className="w-4 h-4 ml-1" />
@@ -192,10 +192,10 @@ export default function Navigation({ isDarkBg = false }: { isDarkBg?: boolean })
                   key={item.name}
                   href={item.href}
                   className={`relative px-3 lg:px-4 py-2 text-sm font-medium transition-colors group ${isScrolled
-                      ? "text-muted-foreground hover:text-foreground"
-                      : isDarkBg
-                        ? "text-white hover:text-white/80"
-                        : "text-muted-foreground hover:text-foreground"
+                    ? "text-muted-foreground hover:text-foreground"
+                    : isDarkBg
+                      ? "text-white hover:text-white/80"
+                      : "text-muted-foreground hover:text-foreground"
                     }`}
                   whileHover={{ y: -2 }}
                   transition={{ duration: 0.2 }}
@@ -240,7 +240,7 @@ export default function Navigation({ isDarkBg = false }: { isDarkBg?: boolean })
                 item.submenu && item.submenu.length > 0 ? (
                   <div key={item.name}>
                     <button
-                      className="flex items-center justify-between w-full px-4 py-3 text-sm font-medium rounded-lg text-muted-foreground hover:bg-accent"
+                      className="flex items-center justify-between w-full px-4 py-3 text-xs md:text-sm font-medium rounded-lg text-muted-foreground hover:bg-accent"
                       onClick={() => setIsServicesOpen(!isServicesOpen)}
                     >
                       {item.name}
@@ -262,7 +262,7 @@ export default function Navigation({ isDarkBg = false }: { isDarkBg?: boolean })
                             <a
                               key={sub.name}
                               href={sub.href}
-                              className="block px-4 py-2 text-sm rounded-md text-muted-foreground hover:text-foreground hover:bg-accent"
+                              className="block px-4 py-2 text-xs md:text-sm rounded-md text-muted-foreground hover:text-foreground hover:bg-accent"
                               onClick={() =>
                                 setIsMobileMenuOpen(false)
                               }
@@ -278,7 +278,7 @@ export default function Navigation({ isDarkBg = false }: { isDarkBg?: boolean })
                   <a
                     key={item.name}
                     href={item.href}
-                    className="block px-4 py-3 text-sm font-medium transition-colors rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent"
+                    className="block px-4 py-3 text-xs md:text-sm font-medium transition-colors rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.name}

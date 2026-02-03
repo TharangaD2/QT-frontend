@@ -533,7 +533,7 @@ export default function Home({ initialData }: { initialData: Home | null }) {
       {/*  HERO SECTION */}
 
 
-      <section id="hero" className="relative w-full h-auto md:min-h-screen overflow-hidden">
+      <section id="hero" className="relative w-full h-auto md:min-h-screen flex items-center justify-center overflow-hidden">
 
         {/* Background slideshow */}
         {heroImages.map((image: string, index: number) => (
@@ -562,7 +562,7 @@ export default function Home({ initialData }: { initialData: Home | null }) {
         {page?.acf?.hero_slider?.map((slide: any, index: number) => (
           <motion.div
             key={index}
-            className="relative z-10 flex flex-col items-center justify-center h-full px-6 py-32 md:py-0"
+            className="relative z-10 flex flex-col items-center justify-center w-full h-full px-6 py-32 md:py-0 md:pb-32 md:pt-16"
             style={{
               opacity: opacityHero,
               display: currentImageIndex === index ? 'flex' : 'none'
@@ -574,11 +574,11 @@ export default function Home({ initialData }: { initialData: Home | null }) {
               transition={{ duration: 1, delay: 0.3 }}
               className="max-w-5xl space-y-6 text-center"
             >
-              <h3 className="text-lg font-semibold tracking-wide bg-gradient-to-r from-[oklch(0.62_0.18_195)] to-[oklch(0.55_0.15_200)] bg-clip-text text-transparent">
+              <h3 className="text-sm md:text-lg font-semibold tracking-wide bg-gradient-to-r from-[oklch(0.62_0.18_195)] to-[oklch(0.55_0.15_200)] bg-clip-text text-transparent">
                 {slide.slider_tag}
               </h3>
               <motion.h1
-                className="text-6xl font-bold tracking-tight md:text-6xl lg:text-7xl text-balance"
+                className="text-4xl font-bold tracking-tight md:text-6xl lg:text-7xl text-balance"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
@@ -589,7 +589,7 @@ export default function Home({ initialData }: { initialData: Home | null }) {
                 </span>
               </motion.h1>
               <motion.p
-                className="max-w-3xl mx-auto lg:text-lg md:text-xl text-muted-foreground"
+                className="max-w-3xl mx-auto text-sm md:text-xl lg:text-lg text-muted-foreground"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.7 }}
@@ -604,7 +604,7 @@ export default function Home({ initialData }: { initialData: Home | null }) {
                 }}
                 whileTap={{ scale: 0.95 }}
 
-                className="px-8 py-4  rounded-full bg-gradient-to-r from-[oklch(0.62_0.18_195)] to-[oklch(0.55_0.15_200)] text-white font-semibold text-lg shadow-lg transition-all duration-300 "
+                className="px-6 py-3 md:px-8 md:py-4 rounded-full bg-gradient-to-r from-[oklch(0.62_0.18_195)] to-[oklch(0.55_0.15_200)] text-white font-semibold text-base md:text-lg shadow-lg transition-all duration-300 "
               >
                 {slide.button_text}
               </motion.button>
@@ -612,7 +612,7 @@ export default function Home({ initialData }: { initialData: Home | null }) {
 
             {/* Scroll icon */}
             <motion.div
-              className="absolute bottom-12"
+              className="absolute bottom-12 left-1/2 -translate-x-1/2"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 1.2 }}
@@ -704,7 +704,7 @@ export default function Home({ initialData }: { initialData: Home | null }) {
 
 
                 <motion.h2
-                  className="sm:text-4xl md:text-5xl lg:text-5xl font-bold tracking-tight"
+                  className="text-2xl sm:text-4xl md:text-5xl lg:text-5xl font-bold tracking-tight"
                   initial={{ opacity: 0, x: -30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-100px" }}
@@ -715,7 +715,7 @@ export default function Home({ initialData }: { initialData: Home | null }) {
                 </motion.h2>
 
                 <motion.div
-                  className="space-y-4 lg:text-lg md:text-xl leading-relaxed text-muted-foreground"
+                  className="space-y-4 text-sm md:text-xl lg:text-lg leading-relaxed text-muted-foreground"
                   initial={{ opacity: 0, x: -30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-100px" }}
@@ -834,16 +834,16 @@ export default function Home({ initialData }: { initialData: Home | null }) {
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
               {serviceHeader?.service_tag}
             </motion.div>
-            <h2 className="mb-4  font-bold sm:text-4xl md:text-5xl text-foreground text-balance">
+            <h2 className="mb-4 font-bold text-2xl sm:text-4xl md:text-5xl text-foreground text-balance">
               {serviceHeader?.service_header}
             </h2>
-            <p className="max-w-3xl mx-auto text-lg text-muted-foreground text-balance">
+            <p className="max-w-3xl mx-auto text-sm md:text-lg text-muted-foreground text-balance">
               {serviceHeader?.service_para}
             </p>
           </motion.div>
 
           {/* Services Grid */}
-          <div className="grid gap-6  md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-2 gap-3 md:gap-6 md:grid-cols-2 lg:grid-cols-3">
             {services.map((service, index) => (
               <Link key={service.title} href={service.route}>
                 <motion.div
@@ -853,21 +853,21 @@ export default function Home({ initialData }: { initialData: Home | null }) {
                   whileHover={{ y: -10, scale: 1.03 }}
                   className="relative cursor-pointer group"
                 >
-                  <div className="h-full p-6 transition-all duration-300 border rounded-xl bg-card border-border/50 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10">
+                  <div className="h-full p-4 md:p-6 transition-all duration-300 border rounded-xl bg-card border-border/50 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10">
                     <motion.div
                       whileHover={{ scale: 1.1, rotate: 5 }}
                       animate={{ y: [0, -5, 0] }}
                       transition={{ y: { duration: 2, repeat: Infinity, ease: "easeInOut", delay: index * 0.2 } }}
-                      className="flex items-center justify-center mb-4 transition-all rounded-lg w-14 h-14 bg-linear-to-br from-primary/10 to-accent/10 group-hover:from-primary/20 group-hover:to-accent/20 group-hover:shadow-lg group-hover:shadow-primary/20"
+                      className="flex items-center justify-center mb-4 transition-all rounded-lg w-10 h-10 md:w-14 md:h-14 bg-linear-to-br from-primary/10 to-accent/10 group-hover:from-primary/20 group-hover:to-accent/20 group-hover:shadow-lg group-hover:shadow-primary/20"
                     >
-                      <service.icon className="w-7 h-7 text-primary" />
+                      <service.icon className="w-5 h-5 md:w-7 md:h-7 text-primary" />
                     </motion.div>
 
-                    <h3 className="mb-3 text-lg font-semibold transition-colors text-foreground group-hover:text-primary">
+                    <h3 className="mb-3 text-base md:text-lg font-semibold transition-colors text-foreground group-hover:text-primary">
                       {service.title}
                     </h3>
 
-                    <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+                    <p className="mb-4 text-[12px] md:text-sm leading-relaxed text-muted-foreground line-clamp-3">
                       {service.description}
                     </p>
 
@@ -914,16 +914,16 @@ export default function Home({ initialData }: { initialData: Home | null }) {
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
               {solutionHeader?.solution_tag}
             </motion.div>
-            <h2 className="mb-4 text-3xl font-bold sm:text-4xl md:text-5xl text-foreground text-balance">
+            <h2 className="mb-4 text-2xl font-bold sm:text-4xl md:text-5xl text-foreground text-balance">
               {solutionHeader?.solution_header}
             </h2>
-            <p className="max-w-3xl mx-auto text-lg text-muted-foreground text-balance">
+            <p className="max-w-3xl mx-auto text-sm md:text-lg text-muted-foreground text-balance">
               {solutionHeader?.solution_para}
             </p>
           </motion.div>
 
           {/* Solutions Grid */}
-          <div className="grid gap-6 mb-16 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 md:gap-6 mb-16 md:grid-cols-2 lg:grid-cols-4">
             {solutions.map((solution, index) => (
               <motion.div
                 key={solution.title}
@@ -933,16 +933,16 @@ export default function Home({ initialData }: { initialData: Home | null }) {
                 whileHover={{ y: -8 }}
                 className="group"
               >
-                <div className="h-full p-6 transition-all duration-300 border rounded-xl bg-card border-border/50 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10">
+                <div className="h-full p-4 md:p-6 transition-all duration-300 border rounded-xl bg-card border-border/50 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10">
                   <motion.div
                     whileHover={{ scale: 1.1, rotate: -5 }}
                     transition={{ duration: 0.3 }}
-                    className={`w-14 h-14 rounded-xl bg-linear-to-br ${solution.color} flex items-center justify-center mb-4 group-hover:shadow-lg transition-shadow`}
+                    className={`w-10 h-10 md:w-14 md:h-14 rounded-xl bg-linear-to-br ${solution.color} flex items-center justify-center mb-4 group-hover:shadow-lg transition-shadow`}
                   >
-                    <solution.icon className={`w-7 h-7 ${solution.iconColor}`} />
+                    <solution.icon className={`w-5 h-5 md:w-7 md:h-7 ${solution.iconColor}`} />
                   </motion.div>
-                  <h3 className="mb-3 text-lg font-semibold text-foreground">{solution.title}</h3>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{solution.description}</p>
+                  <h3 className="mb-3 text-base md:text-lg font-semibold text-foreground">{solution.title}</h3>
+                  <p className="text-[12px] md:text-sm leading-relaxed text-muted-foreground line-clamp-3">{solution.description}</p>
                 </div>
               </motion.div>
             ))}
@@ -981,16 +981,16 @@ export default function Home({ initialData }: { initialData: Home | null }) {
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
               {teamHeader?.team_tag}
             </motion.div>
-            <h2 className="mb-4 text-3xl font-bold sm:text-4xl md:text-5xl text-foreground text-balance">
+            <h2 className="mb-4 text-2xl font-bold sm:text-4xl md:text-5xl text-foreground text-balance">
               {teamHeader?.team_title}
             </h2>
-            <p className="max-w-3xl mx-auto text-lg text-muted-foreground text-balance">
+            <p className="max-w-3xl mx-auto text-sm md:text-lg text-muted-foreground text-balance">
               {teamHeader?.team_para}
             </p>
           </motion.div>
 
           {/* Team Grid */}
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 sm:gap-8">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4 md:gap-8">
             {teamMembers.map((member, index) => (
               <motion.div
                 key={member.name}
@@ -1033,10 +1033,10 @@ export default function Home({ initialData }: { initialData: Home | null }) {
                   </div>
 
                   {/* Content */}
-                  <div className="p-4 sm:p-6">
-                    <h3 className="mb-1 text-lg font-semibold transition-colors text-foreground group-hover:text-primary">{member.name}</h3>
-                    <p className="mb-2 text-sm font-medium text-primary">{member.role}</p>
-                    <p className="text-sm leading-relaxed text-muted-foreground">{member.bio}</p>
+                  <div className="p-3 md:p-6">
+                    <h3 className="mb-1 text-base md:text-lg font-semibold transition-colors text-foreground group-hover:text-primary">{member.name}</h3>
+                    <p className="mb-2 text-[12px] md:text-sm font-medium text-primary">{member.role}</p>
+                    <p className="text-[11px] md:text-sm leading-relaxed text-muted-foreground line-clamp-3">{member.bio}</p>
                   </div>
 
                   {/* Decorative corner */}
@@ -1063,7 +1063,7 @@ export default function Home({ initialData }: { initialData: Home | null }) {
         >
           {/* Header */}
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold">
+            <h2 className="text-2xl md:text-4xl font-bold">
               {techHeader?.technology_title}
             </h2>
             <p className="text-muted-foreground mt-2">
@@ -1094,7 +1094,7 @@ export default function Home({ initialData }: { initialData: Home | null }) {
                   whileHover={{ scale: 1.1 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <div className="relative w-[120px] h-[120px] rounded-2xl bg-card border border-border flex items-center justify-center shadow-lg group-hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                  <div className="relative w-[80px] h-[80px] md:w-[120px] md:h-[120px] rounded-2xl bg-card border border-border flex items-center justify-center shadow-lg group-hover:shadow-2xl transition-all duration-300 overflow-hidden">
                     {/* Glow */}
                     <motion.div
                       className="absolute inset-0 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
@@ -1109,7 +1109,7 @@ export default function Home({ initialData }: { initialData: Home | null }) {
                       <motion.img
                         src={tech.logo}
                         alt={tech.name}
-                        className="relative z-10 object-contain w-16 h-16 transition-all duration-300 filter  group-hover:grayscale-0"
+                        className="relative z-10 object-contain w-10 h-10 md:w-16 md:h-16 transition-all duration-300 filter  group-hover:grayscale-0"
                         whileHover={{ filter: "grayscale(0%)" }}
                       />
                     ) : null}
@@ -1136,7 +1136,7 @@ export default function Home({ initialData }: { initialData: Home | null }) {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="text-center"
           >
-            <p className="max-w-3xl mx-auto text-muted-foreground">
+            <p className="max-w-3xl mx-auto text-sm md:text-base text-muted-foreground">
               {techDescItem?.tech_desc}
             </p>
           </motion.div>
@@ -1183,11 +1183,11 @@ export default function Home({ initialData }: { initialData: Home | null }) {
               {feedbackHeader?.client_tag}
             </motion.div>
 
-            <h2 className="mb-4 text-3xl font-bold sm:text-4xl md:text-5xl text-foreground text-balance">
+            <h2 className="mb-4 text-2xl font-bold sm:text-4xl md:text-5xl text-foreground text-balance">
               {feedbackHeader?.client_title}
             </h2>
 
-            <p className="max-w-3xl mx-auto text-lg text-muted-foreground text-balance">
+            <p className="max-w-3xl mx-auto text-sm md:text-lg text-muted-foreground text-balance">
               {feedbackHeader?.client_para}
             </p>
           </motion.div>
@@ -1209,7 +1209,7 @@ export default function Home({ initialData }: { initialData: Home | null }) {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -100 }}
                   transition={{ duration: 0.5 }}
-                  className="p-8 border shadow-xl sm:p-12 rounded-2xl bg-card border-border/50 shadow-primary/5"
+                  className="p-5 md:p-12 border shadow-xl rounded-2xl bg-card border-border/50 shadow-primary/5"
                 >
                   {/* Quote Icon */}
                   <motion.div
@@ -1222,7 +1222,7 @@ export default function Home({ initialData }: { initialData: Home | null }) {
                   </motion.div>
 
                   {/* Content */}
-                  <p className="mb-8 text-lg leading-relaxed text-foreground">
+                  <p className="mb-8 text-sm md:text-lg leading-relaxed text-foreground">
                     "{testimonials[currentIndex].content}"
                   </p>
 

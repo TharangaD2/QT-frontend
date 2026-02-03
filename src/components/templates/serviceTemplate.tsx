@@ -90,7 +90,7 @@ export default function ServiceTemplate({ data }: { data: any }) {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight"
+            className="text-3xl md:text-6xl lg:text-7xl font-bold leading-tight"
           >
             {data.heroTitle} <br />
             {data.heroHighlight && (
@@ -104,7 +104,7 @@ export default function ServiceTemplate({ data }: { data: any }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35, duration: 0.6 }}
-            className="mt-6 md:text-xl lg:text-lg text-gray-200 max-w-3xl mx-auto"
+            className="mt-6 text-sm md:text-xl lg:text-lg text-gray-200 max-w-3xl mx-auto px-4"
           >
             {data.heroDescription}
           </motion.p>
@@ -140,12 +140,12 @@ export default function ServiceTemplate({ data }: { data: any }) {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h2 className=" sm:text-4xl md:text-5xl lg:text-5xl font-bold mb-6 lg:mr-28 ">{section.title}</h2>
+              <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-5xl font-bold mb-6 lg:mr-28 ">{section.title}</h2>
               {Array.isArray(section.text)
                 ? section.text.map((p: string, idx: number) => (
-                  <p key={idx} className="  md:text-xl lg:text-lg leading-relaxed mb-4">{p}</p>
+                  <p key={idx} className="text-sm md:text-xl lg:text-lg leading-relaxed mb-4">{p}</p>
                 ))
-                : <p className="md:text-xl lg:text-lg leading-relaxed lg:mr-40">{section.text}</p>}
+                : <p className="text-sm md:text-xl lg:text-lg leading-relaxed lg:mr-40">{section.text}</p>}
             </motion.div>
 
             {/* IMAGE */}
@@ -197,12 +197,12 @@ export default function ServiceTemplate({ data }: { data: any }) {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h2 className="sm:text-4xl md:text-5xl lg:text-5xl font-bold mb-6">{featureItems.title}</h2>
+              <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-5xl font-bold mb-6">{featureItems.title}</h2>
               {Array.isArray(featureItems.text)
                 ? featureItems.text.map((p: string, idx: number) => (
-                  <p key={idx} className="text-base sm:text-lg md:text-lg leading-relaxed mb-4 ">{p}</p>
+                  <p key={idx} className="text-sm sm:text-lg md:text-lg leading-relaxed mb-4 ">{p}</p>
                 ))
-                : <p className="text-base sm:text-lg md:text-lg leading-relaxed lg:mr-48 ">{featureItems.text}</p>}
+                : <p className="text-sm sm:text-lg md:text-lg leading-relaxed lg:mr-48 ">{featureItems.text}</p>}
             </motion.div>
 
             {/* IMAGE */}
@@ -228,7 +228,7 @@ export default function ServiceTemplate({ data }: { data: any }) {
 
         {/* PRODUCTS / TECHNOLOGIES */}
         <div className="container mx-auto mt-32">
-          <h2 className="text-center text-2xl sm:text-3xl md:text-5xl font-bold mb-12">
+          <h2 className="text-center text-2xl sm:text-3xl md:text-5xl font-bold mb-8 md:mb-12">
             {data.technologyTitle || "Products we offer"}
           </h2>
 
@@ -265,7 +265,7 @@ export default function ServiceTemplate({ data }: { data: any }) {
                     whileHover={{ scale: 1.1 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <div className="relative w-[100px] sm:w-[120px] h-[100px] sm:h-[120px] rounded-2xl bg-card border border-border flex items-center justify-center shadow-lg group-hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                    <div className="relative w-[80px] sm:w-[120px] h-[80px] sm:h-[120px] rounded-2xl bg-card border border-border flex items-center justify-center shadow-lg group-hover:shadow-2xl transition-all duration-300 overflow-hidden">
                       <motion.div
                         className="absolute inset-0 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
                         style={{
@@ -274,7 +274,7 @@ export default function ServiceTemplate({ data }: { data: any }) {
                         }}
                       />
                       <motion.div
-                        className="relative z-10 w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center transition-all duration-300 filter group-hover:grayscale-0"
+                        className="relative z-10 w-10 h-10 sm:w-16 sm:h-16 flex items-center justify-center transition-all duration-300 filter group-hover:grayscale-0"
                         whileHover={{ filter: "grayscale(0%)" }}
                       >
                         <Image

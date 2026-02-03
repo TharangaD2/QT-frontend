@@ -247,7 +247,7 @@ export default function ContactClient({ data }: { data: WPContactPage }) {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
-                        className="text-4xl md:text-5xl lg:text-7xl font-bold leading-tight"
+                        className="text-3xl md:text-5xl lg:text-7xl font-bold leading-tight"
                     >
                         {hero?.hero_title || "Contact Us"}
                     </motion.h1>
@@ -256,7 +256,7 @@ export default function ContactClient({ data }: { data: WPContactPage }) {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.3 }}
-                        className="max-w-3xl mx-auto mt-6 text-lg sm:text-xl text-white/90"
+                        className="max-w-3xl mx-auto mt-6 text-sm md:text-xl text-white/90 px-4"
                     >
                         {hero?.hero_para}
                     </motion.p>
@@ -297,10 +297,10 @@ export default function ContactClient({ data }: { data: WPContactPage }) {
                             initial={{ opacity: 0, x: -50 }}
                             animate={isInView ? { opacity: 1, x: 0 } : {}}
                             transition={{ duration: 0.6 }}
-                            className="space-y-8"
+                            className="space-y-6 md:space-y-8"
                         >
                             <div>
-                                <h3 className="mb-6 text-2xl font-semibold">
+                                <h3 className="mb-4 md:mb-6 text-xl md:text-2xl font-semibold">
                                     {content?.left_title || "Contact Information"}
                                 </h3>
 
@@ -321,12 +321,12 @@ export default function ContactClient({ data }: { data: WPContactPage }) {
                                                 ease: [0.22, 1, 0.36, 1],
                                             }}
                                             whileHover={{ y: -8, scale: 1.03 }}
-                                            className="flex w-full max-w-full gap-4 p-4 border rounded-xl bg-card sm:max-w-[500px] border-border/50 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10"
+                                            className="flex w-full max-w-full gap-3 md:gap-4 p-3 md:p-4 border rounded-xl bg-card sm:max-w-[500px] border-border/50 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10"
                                         >
                                             <info.icon className="text-primary shrink-0" />
                                             <div>
-                                                <h4 className="font-medium">{info.title}</h4>
-                                                <p className="text-sm text-muted-foreground break-words">
+                                                <h4 className="text-sm md:text-base font-medium">{info.title}</h4>
+                                                <p className="text-xs md:text-sm text-muted-foreground break-words">
                                                     {info.content}
                                                 </p>
                                             </div>
@@ -336,19 +336,19 @@ export default function ContactClient({ data }: { data: WPContactPage }) {
                             </div>
 
                             <div>
-                                <h3 className="mb-3 text-xl font-semibold">
+                                <h3 className="mb-2 md:mb-3 text-lg md:text-xl font-semibold">
                                     {content?.social_title || "Follow Us"}
                                 </h3>
-                                <div className="flex flex-wrap gap-3">
+                                <div className="flex flex-wrap gap-2 md:gap-3">
                                     {socialLinks.map((social) => (
                                         <a
                                             key={social.name}
                                             href={social.link}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className={`w-12 h-12 flex items-center justify-center border rounded-lg transition-colors ${social.color}`}
+                                            className={`w-10 h-10 md:w-12 md:h-12 flex items-center justify-center border rounded-lg transition-colors ${social.color}`}
                                         >
-                                            <social.icon />
+                                            <social.icon className="w-5 h-5 md:w-6 md:h-6" />
                                         </a>
                                     ))}
                                 </div>
@@ -360,13 +360,13 @@ export default function ContactClient({ data }: { data: WPContactPage }) {
                             animate={isInView ? { opacity: 1, x: 0 } : {}}
                             transition={{ duration: 0.6 }}
                         >
-                            <h3 className="mb-6 text-2xl font-semibold">
+                            <h3 className="mb-4 md:mb-6 text-xl md:text-2xl font-semibold">
                                 {content?.right_title || "Send Us a Message"}
                             </h3>
 
                             <form
                                 onSubmit={handleSubmit}
-                                className="p-6 sm:p-8 border rounded-2xl bg-card w-full max-w-full sm:max-w-[600px] border-border/50"
+                                className="p-4 md:p-8 border rounded-2xl bg-card w-full max-w-full sm:max-w-[600px] border-border/50"
                             >
                                 {Object.entries(formData).map(([key, val]) => {
                                     const isMessage = key === "message";
@@ -393,10 +393,10 @@ export default function ContactClient({ data }: { data: WPContactPage }) {
                                 <Button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="w-full mt-16"
+                                    className="w-full mt-8 md:mt-16"
                                 >
                                     {isSubmitting ? "Sending..." : "Send Message"}
-                                    <Send className="ml-2" />
+                                    <Send className="ml-2 w-4 h-4 md:w-5 md:h-5" />
                                 </Button>
                             </form>
                         </motion.div>

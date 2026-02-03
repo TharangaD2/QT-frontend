@@ -72,7 +72,7 @@ export default function BlogClient({ data }: { data: WPBlogPage }) {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
-                        className="text-4xl md:text-5xl lg:text-7xl font-bold leading-tight"
+                        className="text-3xl md:text-5xl lg:text-7xl font-bold leading-tight"
                     >
                         {hero?.hero_title}
                     </motion.h1>
@@ -81,7 +81,7 @@ export default function BlogClient({ data }: { data: WPBlogPage }) {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.3 }}
-                        className="max-w-3xl mx-auto mt-6 text-lg sm:text-xl text-white/90"
+                        className="max-w-3xl mx-auto mt-6 text-sm md:text-xl text-white/90 px-4"
                     >
                         {hero?.hero_para}
                     </motion.p>
@@ -109,7 +109,7 @@ export default function BlogClient({ data }: { data: WPBlogPage }) {
                 <div className="absolute inset-0 bg-linear-to-b from-background via-muted/20 to-background" />
 
                 <div className="container relative z-10 mx-auto mt-20 px-4">
-                    <div className="grid gap-8 mx-auto md:grid-cols-2 lg:grid-cols-2 max-w-7xl">
+                    <div className="grid grid-cols-2 gap-4 mx-auto md:grid-cols-2 lg:grid-cols-2 max-w-7xl">
                         {cards.map((study, index) => (
                             <Link href={`/category?type=${study.category}`} key={index} className="block">
                                 <motion.div
@@ -122,7 +122,7 @@ export default function BlogClient({ data }: { data: WPBlogPage }) {
                                     onHoverEnd={() => setHoveredIndex(null)}
                                     className="cursor-pointer group"
                                 >
-                                    <div className="relative h-[450px] rounded-3xl overflow-hidden shadow-2xl hover:shadow-primary/20 transition-all duration-500">
+                                    <div className="relative h-[300px] md:h-[450px] rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl hover:shadow-primary/20 transition-all duration-500">
                                         <motion.div
                                             className="absolute inset-0"
                                             animate={{ scale: hoveredIndex === index ? 1.1 : 1 }}
@@ -140,13 +140,13 @@ export default function BlogClient({ data }: { data: WPBlogPage }) {
                                             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
                                         </motion.div>
 
-                                        <div className="absolute inset-0 flex flex-col justify-end p-8">
+                                        <div className="absolute inset-0 flex flex-col justify-end p-4 md:p-8">
                                             <motion.div
                                                 initial={{ opacity: 0, y: 10 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 transition={{ duration: 0.3 }}
                                             >
-                                                <span className="inline-block px-4 py-1.5 text-xs font-bold uppercase tracking-wider rounded-full bg-primary/90 text-white backdrop-blur-md mb-4 shadow-lg border border-white/20">
+                                                <span className="inline-block px-3 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider rounded-full bg-primary/90 text-white backdrop-blur-md mb-2 md:mb-4 shadow-lg border border-white/20">
                                                     {study.category}
                                                 </span>
                                             </motion.div>
@@ -154,7 +154,7 @@ export default function BlogClient({ data }: { data: WPBlogPage }) {
                                             <motion.div
                                                 className="space-y-3"
                                             >
-                                                <h3 className="flex items-center gap-3 text-3xl font-extrabold text-white tracking-tight">
+                                                <h3 className="flex items-center gap-2 text-xl md:text-3xl font-extrabold text-white tracking-tight">
                                                     {study.card_title}
                                                     <motion.div
                                                         animate={{
@@ -162,11 +162,11 @@ export default function BlogClient({ data }: { data: WPBlogPage }) {
                                                             x: hoveredIndex === index ? 0 : -10,
                                                         }}
                                                     >
-                                                        <ExternalLink className="w-6 h-6 text-primary-foreground" />
+                                                        <ExternalLink className="w-4 h-4 md:w-6 md:h-6 text-primary-foreground" />
                                                     </motion.div>
                                                 </h3>
 
-                                                <p className="text-white/80 line-clamp-3 text-base leading-relaxed font-medium">
+                                                <p className="text-white/80 line-clamp-2 md:line-clamp-3 text-xs md:text-base leading-relaxed font-medium">
                                                     {study.card_desc}
                                                 </p>
                                             </motion.div>

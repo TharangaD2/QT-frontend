@@ -229,21 +229,21 @@ export default function Footer() {
   return (
     <footer className="border-t border-border/50 bg-gray-200">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 pt-10 pb-5">
-        <div className="grid grid-cols-1 gap-8 mb-10 md:grid-cols-2 lg:grid-cols-6 lg:gap-12">
+        <div className="grid grid-cols-2 lg:grid-cols-6 gap-8 mb-10 lg:gap-12">
 
           {/* Company Info */}
-          <div className="lg:col-span-2">
+          <div className="col-span-2 lg:col-span-2">
             <Link href="/" className="flex items-center mb-4 space-x-2">
               <div className="flex items-center justify-center w-[200px] rounded-lg">
                 <img
                   src="/img/logo.png"
                   alt="Logo"
-                  className="object-contain w-full h-full"
+                  className="object-contain w-full h-8 md:h-full"
                 />
               </div>
             </Link>
 
-            <p className="mb-2 text-[14px] leading-relaxed text-muted-foreground">
+            <p className="mb-2 text-[12px] md:text-[14px] leading-relaxed text-muted-foreground">
               Quintessential Technologies: ERP and Business Technology Consulting for Growth.
               We empower Trading & Service companies across MENA, North America, and MEA.
             </p>
@@ -267,8 +267,8 @@ export default function Footer() {
           </div>
 
           {/* Contact Info */}
-          <div className="space-y-6 text-sm">
-            <h3 className="mb-4 font-semibold capitalize text-foreground">Contact</h3>
+          <div className="space-y-4 md:space-y-6 text-[12px] md:text-sm">
+            <h3 className="mb-4 font-semibold capitalize text-foreground text-sm md:text-base">Contact</h3>
 
             <a
               href={`mailto:${contactDetails.email}`}
@@ -295,7 +295,7 @@ export default function Footer() {
           {/* Footer Navigation Links */}
           {Object.entries(footerLinks).map(([section, links]) => (
             <div key={section}>
-              <h3 className="mb-2 font-semibold capitalize text-foreground">{section}</h3>
+              <h3 className="mb-2 font-semibold capitalize text-foreground text-sm md:text-base">{section}</h3>
               <ul className="space-y-1">
                 {links.map((link) => (
                   <li key={link.name}>
@@ -332,7 +332,7 @@ export default function Footer() {
                     ) : (
                       <a
                         href={link.href}
-                        className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                        className="text-[12px] md:text-sm text-muted-foreground hover:text-primary transition-colors"
                       >
                         {link.name}
                       </a>
@@ -346,7 +346,7 @@ export default function Footer() {
 
         {/* Bottom Section – No space after copyright */}
         <div className="border-t ">
-          <p className="text-xs text-muted-foreground text-center">
+          <p className="text-[10px] md:text-xs text-muted-foreground text-center">
             Copyright © {currentYear}  Quintessential LLC ERP Consulting Services, Developments, and AI Solutions. All Rights Reserved
           </p>
         </div>
