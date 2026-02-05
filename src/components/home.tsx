@@ -326,7 +326,7 @@ export default function Home({ initialData }: { initialData: Home | null }) {
   const yAbout = useTransform(scrollYProgress, [0, 0.3], [80, 0]);
   const { scrollYProgress: techProgress } = useScroll({ target: techRef });
 
-  // Styles for solutions to be applied by index
+  //Styles for solutions to be applied by index 
   const solutionStyles = [
     { color: "from-blue-500/10 to-blue-600/10", iconColor: "text-blue-600" },
     { color: "from-purple-500/10 to-purple-600/10", iconColor: "text-purple-600" },
