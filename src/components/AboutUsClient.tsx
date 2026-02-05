@@ -6,6 +6,8 @@ import Image from "next/image";
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import { Compass, Eye, Heart, CircleCheckBig, BrainCircuit, Blocks, Lightbulb, LucideIcon } from "lucide-react";
+import { ReadMore } from "./ui/ReadMore";
+
 
 interface Card {
     icon: LucideIcon;
@@ -200,14 +202,15 @@ export default function AboutUsClient({ data }: { data: WpPage }) {
                         {heroData?.about_hero_title}
                     </motion.h1>
 
-                    <motion.p
+                    <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.3 }}
                         className="max-w-3xl mx-auto mt-6 text-sm md:text-xl text-white/90 px-4"
                     >
-                        {heroData?.about_hero_para}
-                    </motion.p>
+                        <ReadMore text={heroData?.about_hero_para} limit={3} />
+                    </motion.div>
+
 
                     <motion.button
                         initial={{ opacity: 0, scale: 0.9 }}
@@ -251,9 +254,10 @@ export default function AboutUsClient({ data }: { data: WpPage }) {
                             {descData?.about_desc_title}
                         </h2>
 
-                        <p className="max-w-3xl mx-auto text-sm sm:text-lg text-muted-foreground px-2">
-                            {descData?.about_desc_para}
-                        </p>
+                        <div className="max-w-3xl mx-auto text-sm sm:text-lg text-muted-foreground px-2">
+                            <ReadMore text={descData?.about_desc_para} limit={3} />
+                        </div>
+
                     </motion.div>
 
                     <div className="container relative z-10 mx-auto lg:ml-11 ">
@@ -271,16 +275,11 @@ export default function AboutUsClient({ data }: { data: WpPage }) {
                                     {descData?.about_title}{" "}
                                 </motion.h2>
 
-                                <motion.div
-                                    className="space-y-4 text-sm md:text-xl lg:text-lg leading-relaxed text-muted-foreground"
-                                    initial={{ opacity: 0, x: -30 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true, margin: "-100px" }}
-                                    transition={{ duration: 0.8, delay: 0.4 }}
-                                >
-                                    <p>{descData?.about_details}</p>
-                                    <p>{descData?.about_details2}</p>
-                                </motion.div>
+                                <div className="space-y-4 text-sm md:text-xl lg:text-lg leading-relaxed text-muted-foreground">
+                                    <ReadMore text={descData?.about_details} limit={3} />
+                                    <ReadMore text={descData?.about_details2} limit={3} />
+                                </div>
+
 
                                 <motion.div
                                     className="flex flex-wrap gap-6 sm:gap-8 pt-4"
@@ -493,9 +492,10 @@ export default function AboutUsClient({ data }: { data: WpPage }) {
                         <h2 className="mb-4 text-2xl font-bold sm:text-4xl md:text-5xl text-foreground text-balance">
                             {missionSectionData?.mission_sec_title}
                         </h2>
-                        <p className="max-w-3xl mx-auto text-sm md:text-lg text-muted-foreground text-balance px-4">
-                            {missionSectionData?.mission_sec_para}
-                        </p>
+                        <div className="max-w-3xl mx-auto text-sm md:text-lg text-muted-foreground text-balance px-4">
+                            <ReadMore text={missionSectionData?.mission_sec_para} limit={3} />
+                        </div>
+
                     </motion.div>
 
                     <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
@@ -525,7 +525,10 @@ export default function AboutUsClient({ data }: { data: WpPage }) {
 
                                     <h3 className="mb-3 text-lg md:text-2xl font-semibold text-foreground">{card.title}</h3>
 
-                                    <p className="text-[12px] md:text-sm leading-relaxed text-muted-foreground line-clamp-4">{card.content}</p>
+                                    <div className="text-[12px] md:text-sm leading-relaxed text-muted-foreground">
+                                        <ReadMore text={card.content} limit={3} />
+                                    </div>
+
 
                                     <div className="absolute w-8 h-8 transition-opacity border-t-2 border-r-2 rounded-tr-lg opacity-0 top-4 right-4 border-primary/20 group-hover:opacity-100" />
                                 </div>

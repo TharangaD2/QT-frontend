@@ -7,7 +7,9 @@ import Image from "next/image";
 import { useState, useRef } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { X, CheckCircle2 } from "lucide-react";
+import { ReadMore } from "./ui/ReadMore";
 import { toast } from "sonner";
+
 import { DigitalMarketingPageData, ServiceCard, FullParaData, FullParaPoint, FullParaKeyPoint, FullParaSection } from "@/types/digital-marketing";
 
 interface Props {
@@ -128,9 +130,10 @@ export default function DigitalMarketingClient({ pageData }: Props) {
                                 {about?.about_title || "Where Vision Meets Digital Mastery"}
                             </h2>
 
-                            <p className="leading-relaxed" style={{ color: '#1C2961' }}>
-                                {about?.about_para || "Quintessential Technologies is a full-service digital transformation and marketing agency..."}
-                            </p>
+                            <div className="leading-relaxed" style={{ color: '#1C2961' }}>
+                                <ReadMore text={about?.about_para || "Quintessential Technologies is a full-service digital transformation and marketing agency..."} limit={3} />
+                            </div>
+
 
                             <div className="flex gap-12 mt-8">
                                 {about?.about_section_analytics?.map((stat, idx) => (
@@ -212,9 +215,10 @@ export default function DigitalMarketingClient({ pageData }: Props) {
                                         )}
                                     </div>
                                     <h3 className="text-xl font-bold mb-4">{service.service_title}</h3>
-                                    <p className="text-sm text-gray-300 leading-relaxed line-clamp-4">
-                                        {service.card_para}
-                                    </p>
+                                    <div className="text-sm text-gray-300 leading-relaxed">
+                                        <ReadMore text={service.card_para} limit={3} />
+                                    </div>
+
                                     <div className="mt-auto transition-transform group-hover:translate-x-1">
                                         <img src={service.arrow_img ? service.arrow_img.url : "/img/arrow.png"} alt="arrow" className="w-8 h-8 object-contain" />
                                     </div>
@@ -552,9 +556,10 @@ const FAQ: React.FC<{ reasonSec?: any }> = ({ reasonSec }) => {
                         {reasonSec?.title || "Quintessential Technologies"}
                     </h2>
 
-                    <p className="max-w-2xl mx-auto mt-4 text-lg ">
-                        {reasonSec?.reason_para || "At Quintessential Technologies, we don’t just market brands, we build digital authority..."}
-                    </p>
+                    <div className="max-w-2xl mx-auto mt-4 text-lg ">
+                        <ReadMore text={reasonSec?.reason_para || "At Quintessential Technologies, we don’t just market brands, we build digital authority..."} limit={3} />
+                    </div>
+
                 </motion.div>
 
                 <div className="max-w-4xl mx-auto space-y-4">
@@ -612,9 +617,10 @@ const FAQ: React.FC<{ reasonSec?: any }> = ({ reasonSec }) => {
                                                     transition={{ delay: 0.1, duration: 0.3 }}
                                                     className="px-6 pb-6 md:px-8 md:pb-8"
                                                 >
-                                                    <p className="leading-relaxed text-foreground/80">
-                                                        {faq.reason_para}
-                                                    </p>
+                                                    <div className="leading-relaxed text-foreground/80">
+                                                        <ReadMore text={faq.reason_para} limit={3} />
+                                                    </div>
+
                                                 </motion.div>
                                             </motion.div>
                                         )}

@@ -34,6 +34,8 @@ import {
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useMetaEvents } from "./MetaEventsTracker";
+import { ReadMore } from "./ui/ReadMore";
+
 
 interface Service {
   icon: typeof Code2 | typeof Cloud | typeof Smartphone | typeof Database;
@@ -551,7 +553,7 @@ export default function Home({ initialData }: { initialData: Home | null }) {
               className="w-full h-full bg-center bg-cover"
               style={{
                 backgroundImage: `url(${image})`,
-                filter: "brightness(0.4) saturate(0.8)",
+                filter: "",
               }}
             />
           </motion.div>
@@ -588,14 +590,15 @@ export default function Home({ initialData }: { initialData: Home | null }) {
                   {slide.slider_header}
                 </span>
               </motion.h1>
-              <motion.p
+              <motion.div
                 className="max-w-3xl mx-auto text-sm md:text-xl lg:text-lg text-muted-foreground"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.7 }}
               >
-                {slide.hero_description}
-              </motion.p>
+                <ReadMore text={slide.hero_description} limit={3} />
+              </motion.div>
+
 
               <motion.button
                 whileHover={{
@@ -714,20 +717,11 @@ export default function Home({ initialData }: { initialData: Home | null }) {
 
                 </motion.h2>
 
-                <motion.div
-                  className="space-y-4 text-sm md:text-xl lg:text-lg leading-relaxed text-muted-foreground"
-                  initial={{ opacity: 0, x: -30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.8, delay: 0.4 }}
-                >
-                  <p>
-                    {aboutData?.about_para}
-                  </p>
-                  <p>
-                    {aboutData?.about_second_para}
-                  </p>
-                </motion.div>
+                <div className="space-y-4 text-sm md:text-xl lg:text-lg leading-relaxed text-muted-foreground">
+                  <ReadMore text={aboutData?.about_para} limit={3} />
+                  <ReadMore text={aboutData?.about_second_para} limit={3} />
+                </div>
+
 
                 {/* Stats with Hover Zoom Animation 
                 <motion.div
@@ -837,9 +831,10 @@ export default function Home({ initialData }: { initialData: Home | null }) {
             <h2 className="mb-4 font-bold text-2xl sm:text-4xl md:text-5xl text-foreground text-balance">
               {serviceHeader?.service_header}
             </h2>
-            <p className="max-w-3xl mx-auto text-sm md:text-lg text-muted-foreground text-balance">
-              {serviceHeader?.service_para}
-            </p>
+            <div className="max-w-3xl mx-auto text-sm md:text-lg text-muted-foreground text-balance">
+              <ReadMore text={serviceHeader?.service_para || ""} limit={3} />
+            </div>
+
           </motion.div>
 
           {/* Services Grid */}
@@ -867,9 +862,10 @@ export default function Home({ initialData }: { initialData: Home | null }) {
                       {service.title}
                     </h3>
 
-                    <p className="mb-4 text-[12px] md:text-sm leading-relaxed text-muted-foreground line-clamp-3">
-                      {service.description}
-                    </p>
+                    <div className="mb-4 text-[12px] md:text-sm leading-relaxed text-muted-foreground">
+                      <ReadMore text={service.description} limit={3} />
+                    </div>
+
 
                     <ul className="space-y-2">
                       {service.features.map((feature) => (
@@ -917,9 +913,10 @@ export default function Home({ initialData }: { initialData: Home | null }) {
             <h2 className="mb-4 text-2xl font-bold sm:text-4xl md:text-5xl text-foreground text-balance">
               {solutionHeader?.solution_header}
             </h2>
-            <p className="max-w-3xl mx-auto text-sm md:text-lg text-muted-foreground text-balance">
-              {solutionHeader?.solution_para}
-            </p>
+            <div className="max-w-3xl mx-auto text-sm md:text-lg text-muted-foreground text-balance">
+              <ReadMore text={solutionHeader?.solution_para || ""} limit={3} />
+            </div>
+
           </motion.div>
 
           {/* Solutions Grid */}
@@ -942,7 +939,10 @@ export default function Home({ initialData }: { initialData: Home | null }) {
                     <solution.icon className={`w-5 h-5 md:w-7 md:h-7 ${solution.iconColor}`} />
                   </motion.div>
                   <h3 className="mb-3 text-base md:text-lg font-semibold text-foreground">{solution.title}</h3>
-                  <p className="text-[12px] md:text-sm leading-relaxed text-muted-foreground line-clamp-3">{solution.description}</p>
+                  <div className="text-[12px] md:text-sm leading-relaxed text-muted-foreground">
+                    <ReadMore text={solution.description} limit={3} />
+                  </div>
+
                 </div>
               </motion.div>
             ))}
@@ -984,9 +984,10 @@ export default function Home({ initialData }: { initialData: Home | null }) {
             <h2 className="mb-4 text-2xl font-bold sm:text-4xl md:text-5xl text-foreground text-balance">
               {teamHeader?.team_title}
             </h2>
-            <p className="max-w-3xl mx-auto text-sm md:text-lg text-muted-foreground text-balance">
-              {teamHeader?.team_para}
-            </p>
+            <div className="max-w-3xl mx-auto text-sm md:text-lg text-muted-foreground text-balance">
+              <ReadMore text={teamHeader?.team_para || ""} limit={3} />
+            </div>
+
           </motion.div>
 
           {/* Team Grid */}
@@ -1036,7 +1037,10 @@ export default function Home({ initialData }: { initialData: Home | null }) {
                   <div className="p-3 md:p-6">
                     <h3 className="mb-1 text-base md:text-lg font-semibold transition-colors text-foreground group-hover:text-primary">{member.name}</h3>
                     <p className="mb-2 text-[12px] md:text-sm font-medium text-primary">{member.role}</p>
-                    <p className="text-[11px] md:text-sm leading-relaxed text-muted-foreground line-clamp-3">{member.bio}</p>
+                    <div className="text-[11px] md:text-sm leading-relaxed text-muted-foreground">
+                      <ReadMore text={member.bio} limit={3} />
+                    </div>
+
                   </div>
 
                   {/* Decorative corner */}
@@ -1066,9 +1070,10 @@ export default function Home({ initialData }: { initialData: Home | null }) {
             <h2 className="text-2xl md:text-4xl font-bold">
               {techHeader?.technology_title}
             </h2>
-            <p className="text-muted-foreground mt-2">
-              {techHeader?.technology_para}
-            </p>
+            <div className="text-muted-foreground mt-2">
+              <ReadMore text={techHeader?.technology_para || ""} limit={3} />
+            </div>
+
           </div>
 
           {/* Scrolling Logos */}
@@ -1136,9 +1141,10 @@ export default function Home({ initialData }: { initialData: Home | null }) {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="text-center"
           >
-            <p className="max-w-3xl mx-auto text-sm md:text-base text-muted-foreground">
-              {techDescItem?.tech_desc}
-            </p>
+            <div className="max-w-3xl mx-auto text-sm md:text-base text-muted-foreground">
+              <ReadMore text={techDescItem?.tech_desc || ""} limit={3} />
+            </div>
+
           </motion.div>
         </motion.div>
       </section>
@@ -1187,9 +1193,10 @@ export default function Home({ initialData }: { initialData: Home | null }) {
               {feedbackHeader?.client_title}
             </h2>
 
-            <p className="max-w-3xl mx-auto text-sm md:text-lg text-muted-foreground text-balance">
-              {feedbackHeader?.client_para}
-            </p>
+            <div className="max-w-3xl mx-auto text-sm md:text-lg text-muted-foreground text-balance">
+              <ReadMore text={feedbackHeader?.client_para || ""} limit={3} />
+            </div>
+
           </motion.div>
 
           {/* Testimonial Slider */}
@@ -1222,9 +1229,10 @@ export default function Home({ initialData }: { initialData: Home | null }) {
                   </motion.div>
 
                   {/* Content */}
-                  <p className="mb-8 text-sm md:text-lg leading-relaxed text-foreground">
-                    "{testimonials[currentIndex].content}"
-                  </p>
+                  <div className="mb-8 text-sm md:text-lg leading-relaxed text-foreground italic">
+                    <ReadMore text={`"${testimonials[currentIndex].content}"`} limit={3} />
+                  </div>
+
 
                   {/* Rating */}
                   <div className="flex gap-1 mb-6">
