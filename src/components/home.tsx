@@ -991,7 +991,7 @@ export default function Home({ initialData }: { initialData: Home | null }) {
           </motion.div>
 
           {/* Team Grid */}
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4 md:gap-8">
+          <div className={`grid grid-cols-2 gap-3 sm:grid-cols-2 md:gap-8 justify-items-center ${teamMembers.length === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-4'}`}>
             {teamMembers.map((member, index) => (
               <motion.div
                 key={member.name}
@@ -1150,13 +1150,13 @@ export default function Home({ initialData }: { initialData: Home | null }) {
       </section>
 
 
-      {/* Testimonials Section */}
+      {/* Testimonials Section 
 
       <section className="relative py-16 overflow-hidden sm:py-16 bg-linear-to-b from-background via-primary/5 to-background"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
       >
-        {/* Background decoration */}
+        
         <div className="absolute inset-0 overflow-hidden">
           <motion.div
             className="absolute rounded-full top-20 right-20 w-96 h-96 bg-accent/10 blur-3xl"
@@ -1199,7 +1199,7 @@ export default function Home({ initialData }: { initialData: Home | null }) {
 
           </motion.div>
 
-          {/* Testimonial Slider */}
+         
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -1208,7 +1208,8 @@ export default function Home({ initialData }: { initialData: Home | null }) {
           >
             <div className="relative">
 
-              {/* Main Testimonial Card */}
+          
+          
               {testimonials.length > 0 && (
                 <motion.div
                   key={currentIndex}
@@ -1218,7 +1219,7 @@ export default function Home({ initialData }: { initialData: Home | null }) {
                   transition={{ duration: 0.5 }}
                   className="p-5 md:p-12 border shadow-xl rounded-2xl bg-card border-border/50 shadow-primary/5"
                 >
-                  {/* Quote Icon */}
+             
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
@@ -1228,13 +1229,13 @@ export default function Home({ initialData }: { initialData: Home | null }) {
                     <Quote className="w-7 h-7 text-primary" />
                   </motion.div>
 
-                  {/* Content */}
+              
                   <div className="mb-8 text-sm md:text-lg leading-relaxed text-foreground italic">
                     <ReadMore text={`"${testimonials[currentIndex].content}"`} limit={3} />
                   </div>
 
 
-                  {/* Rating */}
+                 
                   <div className="flex gap-1 mb-6">
                     {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
                       <motion.div
@@ -1248,7 +1249,7 @@ export default function Home({ initialData }: { initialData: Home | null }) {
                     ))}
                   </div>
 
-                  {/* Author Info */}
+                 
                   <div className="flex items-center gap-4">
                     {testimonials[currentIndex].image ? (
                       <motion.img
@@ -1272,7 +1273,6 @@ export default function Home({ initialData }: { initialData: Home | null }) {
                 </motion.div>
               )}
 
-              {/* Navigation Buttons */}
               <div className="flex justify-center gap-4 mt-8">
                 <Button
                   variant="secondary"
@@ -1294,7 +1294,7 @@ export default function Home({ initialData }: { initialData: Home | null }) {
                 </Button>
               </div>
 
-              {/* Dots Indicator */}
+             
               <div className="flex justify-center gap-2 mt-6">
                 {testimonials.map((_, index) => (
                   <button
@@ -1311,7 +1311,9 @@ export default function Home({ initialData }: { initialData: Home | null }) {
             </div>
           </motion.div>
         </div>
+        
       </section>
+       */}
     </main>
   );
 }
