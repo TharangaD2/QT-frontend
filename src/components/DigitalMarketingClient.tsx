@@ -19,14 +19,28 @@ interface Props {
 export default function DigitalMarketingClient({ pageData }: Props) {
     const [selectedService, setSelectedService] = useState<ServiceCard | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [emailError, setEmailError] = useState("");
     const [formData, setFormData] = useState({
         name: "",
         email: "",
         mobile: ""
     });
 
+    const validateEmail = (email: string): boolean => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
     const handleSubscribe = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Validate email
+        if (!validateEmail(formData.email)) {
+            setEmailError("Please enter a valid email address");
+            return;
+        }
+
+        setEmailError("");
         setIsSubmitting(true);
 
         // Simulate API call
@@ -43,6 +57,10 @@ export default function DigitalMarketingClient({ pageData }: Props) {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
+        // Clear email error when user types
+        if (e.target.id === "email" && emailError) {
+            setEmailError("");
+        }
     };
 
     const acf = pageData.acf;
@@ -473,9 +491,12 @@ export default function DigitalMarketingClient({ pageData }: Props) {
                                     value={formData.email}
                                     onChange={handleInputChange}
                                     placeholder="Email"
-                                    className="bg-transparent border-b border-white/30 py-2 outline-none focus:border-white transition-colors text-white placeholder:text-white/80"
+                                    className={`bg-transparent border-b py-2 outline-none focus:border-white transition-colors text-white placeholder:text-white/80 ${emailError ? "border-red-500" : "border-white/30"}`}
                                     style={{ WebkitBoxShadow: '0 0 0 30px transparent inset', WebkitTextFillColor: 'white', transition: 'background-color 5000s ease-in-out 0s' }}
                                 />
+                                {emailError && (
+                                    <p className="text-sm text-red-400">{emailError}</p>
+                                )}
                             </div>
                             <div className="flex flex-col gap-2 text-left">
                                 <input

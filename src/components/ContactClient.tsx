@@ -97,6 +97,7 @@ export default function ContactClient({ data }: { data: WPContactPage }) {
     const isInView = useInView(ref, { once: true, margin: "-100px" });
 
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [emailError, setEmailError] = useState("");
     const [formData, setFormData] = useState<FormData>({
         name: "",
         email: "",
@@ -106,8 +107,21 @@ export default function ContactClient({ data }: { data: WPContactPage }) {
 
     const sectionRef = useRef<HTMLElement | null>(null);
 
+    const validateEmail = (email: string): boolean => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        // Validate email
+        if (!validateEmail(formData.email)) {
+            setEmailError("Please enter a valid email address");
+            return;
+        }
+
+        setEmailError("");
         setIsSubmitting(true);
 
         await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -125,6 +139,10 @@ export default function ContactClient({ data }: { data: WPContactPage }) {
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+        // Clear email error when user types
+        if (e.target.name === "email" && emailError) {
+            setEmailError("");
+        }
     };
 
     const hero = data.acf.contact_page?.[0];
@@ -370,6 +388,7 @@ export default function ContactClient({ data }: { data: WPContactPage }) {
                             >
                                 {Object.entries(formData).map(([key, val]) => {
                                     const isMessage = key === "message";
+                                    const isEmail = key === "email";
                                     const Component = isMessage ? Textarea : Input;
 
                                     return (
@@ -383,9 +402,11 @@ export default function ContactClient({ data }: { data: WPContactPage }) {
                                                 onChange={handleChange}
                                                 placeholder={`Enter your ${key}`}
                                                 required
-                                                className={`w-full ${isMessage ? "min-h-[140px] resize-none" : ""
-                                                    }`}
+                                                className={`w-full ${isMessage ? "min-h-[140px] resize-none" : ""} ${isEmail && emailError ? "border-red-500 focus:border-red-500" : ""}`}
                                             />
+                                            {isEmail && emailError && (
+                                                <p className="mt-1 text-sm text-red-500">{emailError}</p>
+                                            )}
                                         </div>
                                     );
                                 })}
