@@ -8,13 +8,17 @@ import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import { ApplicationData } from "@/data/applicationsData";
 
+
+
 export default function ApplicationTemplate({ data }: { data: ApplicationData }) {
-    const [expandedIndex, setExpandedIndex] = useState<number | null>(0);
+    const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
     const sectionRef = useRef<HTMLElement | null>(null);
 
     const toggleExpand = (index: number) => {
         setExpandedIndex(expandedIndex === index ? null : index);
     };
+
+    const [activeTab, setActiveTab] = useState(0);
 
     return (
         <>
@@ -50,7 +54,7 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.2 }}
-                            className="text-4xl md:text-5xl lg:text-7xl font-bold leading-tight"
+                            className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight"
                         >
                             {data.hero.title}
                         </motion.h1>
@@ -84,20 +88,20 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
                 </section>
 
                 {/* INTRODUCTION & FEATURES */}
-                <div id="main-content" className="py-20 px-6">
+                <div id="main-content" className="py-16 md:py-24 px-6 text-gray-800">
                     <div className="max-w-7xl mx-auto">
                         <div className="text-center mb-16">
-                            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                                 {data.introduction.title}
                             </h2>
-                            <p className="max-w-3xl mx-auto text-gray-600 text-lg leading-relaxed">
+                            <p className="max-w-3xl mx-auto text-gray-600 text-sm md:text-lg leading-relaxed">
                                 {data.introduction.description}
                             </p>
                         </div>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-                            <div className="flex justify-center">
-                                <div className="relative w-full max-w-xl aspect-square lg:mt-20">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-start">
+                            <div>
+                                <div className="relative w-full max-w-xl aspect-square">
                                     <Image
                                         src={data.mainContent.image}
                                         alt={data.introduction.title}
@@ -185,52 +189,11 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
                     </div>
                 </div>
 
-                {/* CUSTOMER SUCCESS */}
-                <section className="bg-gradient-to-b from-white to-gray-50 py-28 px-6">
-                    <div className="max-w-7xl mx-auto">
-                        <div className="text-center max-w-3xl mx-auto mb-20">
-                            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-                                {data.customerSuccess.title}
-                            </h2>
-                            <p className="mt-4 text-gray-600 text-lg">
-                                {data.customerSuccess.description}
-                            </p>
-                        </div>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-                            {data.customerSuccess.cards.map((item, index) => (
-                                <motion.div
-                                    key={index}
-                                    whileHover={{ y: -6 }}
-                                    transition={{ duration: 0.25 }}
-                                    className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl border border-gray-100 text-center"
-                                >
-                                    <div className="relative w-[140px] h-[70px] mx-auto mb-6">
-                                        <Image
-                                            src={item.img}
-                                            alt={item.title}
-                                            fill
-                                            className="object-contain"
-                                            unoptimized
-                                        />
-                                    </div>
-                                    <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                                        {item.title}
-                                    </h3>
-                                    <p className="text-sm text-gray-600 leading-relaxed">
-                                        {item.text}
-                                    </p>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-
                 {/* VIDEO SECTION */}
-                <section className="py-24 bg-white px-6">
+                <section className="py-16 md:py-24 bg-white px-6">
                     <div className="max-w-5xl mx-auto">
                         <div className="text-center mb-14">
-                            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+                            <h2 className="text-2xl md:text-4xl font-bold text-gray-900">
                                 {data.video.title}
                             </h2>
                         </div>
@@ -247,6 +210,161 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
                         </div>
                     </div>
                 </section>
+
+                {/* TAB SECTION */}
+                {data.tabSection && (
+                    <section className="py-16 md:py-24 bg-gray-50 px-6">
+                        <div className="max-w-7xl mx-auto">
+                            {/* Tab Navigation */}
+                            <div className="flex overflow-x-auto scrollbar-hide gap-8 sm:gap-12 md:justify-center mb-16 pb-2 border-b border-gray-100">
+                                {data.tabSection.tabs.map((tab, index) => (
+                                    <motion.button
+                                        key={index}
+                                        onClick={() => setActiveTab(index)}
+                                        onMouseEnter={() => { }} // Just to trigger hover states if needed
+                                        initial="initial"
+                                        whileHover="hover"
+                                        className={`relative pb-4 text-xs md:text-lg tracking-widest transition-colors duration-300 whitespace-nowrap flex items-center ${activeTab === index
+                                            ? "text-primary font-bold"
+                                            : "text-gray-400 hover:text-gray-600"
+                                            }`}
+                                    >
+                                        <span className="flex items-center">
+                                            <span>{tab.label.split(' ')[0]}</span>
+                                            <motion.span
+                                                variants={{
+                                                    initial: { width: 0, opacity: 0, marginLeft: 0 },
+                                                    hover: { width: "auto", opacity: 1, marginLeft: 4 }
+                                                }}
+                                                transition={{ duration: 0.3, ease: "easeOut" }}
+                                                className="overflow-hidden whitespace-nowrap"
+                                            >
+                                                {tab.label.split(' ').slice(1).join(' ')}
+                                            </motion.span>
+                                        </span>
+                                        {activeTab === index && (
+                                            <motion.div
+                                                layoutId="activeTabIndicator"
+                                                className="absolute bottom-0 left-0 right-0 h-1 bg-primary rounded-full"
+                                                transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                                            />
+                                        )}
+                                    </motion.button>
+                                ))}
+                            </div>
+
+                            {/* Tab Content */}
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    key={activeTab}
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: -20 }}
+                                    transition={{ duration: 0.5, ease: "easeOut" }}
+                                    className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-center"
+                                >
+                                    {/* Image */}
+                                    {data.tabSection.tabs[activeTab].image && (
+                                        <motion.div
+                                            initial={{ opacity: 0, scale: 0.95 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            transition={{ duration: 0.6 }}
+                                            className="relative w-full h-[300px] md:h-[400px] "
+                                        >
+                                            <Image
+                                                src={data.tabSection.tabs[activeTab].image!}
+                                                alt={data.tabSection.tabs[activeTab].title}
+                                                fill
+                                                className="object-contain p-4"
+                                                unoptimized
+                                            />
+                                        </motion.div>
+                                    )}
+
+                                    {/* Text Content */}
+                                    <div className="">
+                                        <motion.h3
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: 0.2 }}
+                                            className="text-3xl md:text-4xl font-bold text-gray-900 mb-6"
+                                        >
+                                            {data.tabSection.tabs[activeTab].title}
+                                        </motion.h3>
+
+                                        <motion.p
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: 0.3 }}
+                                            className="text-gray-600 text-lg md:text-xl leading-relaxed mb-8"
+                                        >
+                                            {data.tabSection.tabs[activeTab].description}
+                                        </motion.p>
+
+                                        {data.tabSection.tabs[activeTab].buttonText && (
+                                            <motion.a
+                                                href={data.tabSection.tabs[activeTab].buttonLink}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                initial={{ opacity: 0, y: 20 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: 0.4 }}
+                                                whileHover={{ scale: 1.05 }}
+                                                whileTap={{ scale: 0.95 }}
+                                                className="inline-block bg-primary hover:bg-primary/90 transition text-white font-medium px-8 py-3 rounded-md shadow-md uppercase tracking-wider"
+                                            >
+                                                {data.tabSection.tabs[activeTab].buttonText}
+                                            </motion.a>
+                                        )}
+                                    </div>
+                                </motion.div>
+                            </AnimatePresence>
+                        </div>
+                    </section>
+                )}
+
+                {/* QUICK CONTACT SECTION */}
+                <section className="py-16 md:py-24 bg-white px-6">
+                    <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                        {/* Text Section */}
+                        <div className="lg:pr-10">
+                            <h4 className="text-lg md:text-xl font-bold mb-6 text-gray-900">{data.quickContact?.tag || "Reach Us"}</h4>
+                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 text-gray-900">{data.quickContact?.title || "Quick Contact"}</h2>
+                            <p className="text-gray-700 text-sm md:text-lg mb-8 leading-relaxed">
+                                {data.quickContact?.para || "Call our hotline for a quick inquiry. If you can wait, send us a message here. We will get back to you within 3 working days. Schedule a call for an online meeting appointment."}
+                            </p>
+                            <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="px-8 py-3 rounded-md bg-primary text-white font-semibold hover:bg-primary/90 transition shadow-lg"
+                                onClick={() => {
+                                    // Navigate to contact or handle action
+                                    window.location.href = data.quickContact?.btnLink || "/contact";
+                                }}
+                            >
+                                {data.quickContact?.btnText}
+                            </motion.button>
+                        </div>
+
+                        {/* Map Section */}
+                        <div className="w-full h-[200px] lg:h-[300px] rounded-2xl overflow-hidden shadow-xl border border-gray-100">
+                            <iframe
+                                title="Office Location"
+                                src={data.locationUrl || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3609.1751683141873!2d55.23054007500027!3d25.123540883887027!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f433dcb9cb5b7%3A0x9b3a2fdbb9f2b2d0!2sAl%20Quoz%2C%20Dubai%2C%20UAE!5e0!3m2!1sen!2sus!4v1670000000000!5m2!1sen!2sus"}
+                                width="100%"
+                                height="100%"
+                                style={{ border: 0 }}
+                                allowFullScreen={true}
+                                loading="lazy"
+                            ></iframe>
+                        </div>
+                    </div>
+                </section>
+
+
+
+
+
             </main>
 
             <Footer />

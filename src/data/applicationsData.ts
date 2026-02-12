@@ -15,6 +15,19 @@ export interface CustomerSuccessCard {
     text: string;
 }
 
+export interface Tab {
+    label: string;
+    title: string;
+    description: string;
+    buttonText?: string;
+    buttonLink?: string;
+    image?: string;
+}
+
+export interface TabSection {
+    tabs: Tab[];
+}
+
 export interface ApplicationData {
     title: string;
     hero: {
@@ -44,6 +57,15 @@ export interface ApplicationData {
     video: {
         title: string;
         youtubeId: string;
+    };
+    tabSection?: TabSection;
+    locationUrl?: string;
+    quickContact?: {
+        tag: string;
+        title: string;
+        para: string;
+        btnText: string;
+        btnLink: string;
     };
 }
 

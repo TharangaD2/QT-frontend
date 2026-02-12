@@ -13,6 +13,12 @@ interface WPImage {
     title: string;
 }
 
+interface WPLink {
+    url: string;
+    title?: string;
+    target?: string;
+}
+
 interface WPHeroData {
     page_title: string;
     hero_title: string;
@@ -62,6 +68,23 @@ interface WPReferenceData {
     youtube_id: string;
 }
 
+interface WPTabData {
+    tab_header: string;
+    tab_image?: WPImage;
+    title: string;
+    small_para: string;
+    btn_text: string;
+    btn_link: string | WPLink;
+}
+
+interface WPQuickContactData {
+    tag: string;
+    title: string;
+    para: string;
+    btn_text: string;
+    btn_link: string;
+}
+
 interface WPApplication {
     applications_hero: WPHeroData[];
     content_section: WPContentData[];
@@ -69,6 +92,7 @@ interface WPApplication {
     button_data: WPButtonData[];
     customer_data: WPCustomerData[];
     reference_section: WPReferenceData[];
+    tab_section: WPTabData[];
 }
 
 export async function generateMetadata({
@@ -158,7 +182,14 @@ export default async function CatchAllSlugPage({
     // 2. Try to handle as an Application
     let displayData: ApplicationData | null = null;
     try {
-        const wpPage = await getPage("applications");
+        const [wpPage, contactPage] = await Promise.all([
+            getPage("applications"),
+            getPage("contact")
+        ]);
+
+        const locationUrl = contactPage?.acf?.location_data?.[0]?.location_url;
+        const quickContact = wpPage?.acf?.contact_data?.[0] as WPQuickContactData | undefined;
+
         if (wpPage && wpPage.acf) {
             const applications = wpPage.acf.applications as WPApplication[];
             if (applications && applications.length > 0) {
@@ -166,8 +197,12 @@ export default async function CatchAllSlugPage({
 
                 if (slug === "businessOne") {
                     wpApp = applications[0];
-                } else if (slug === "sapDesign") {
+                } else if (slug === "microsoftDynamic") {
                     wpApp = applications[1];
+                } else if (slug === "zoho") {
+                    wpApp = applications[2];
+                } else if (slug === "salesforce") {
+                    wpApp = applications[3];
                 } else {
                     wpApp = applications.find(app =>
                         app.applications_hero?.[0]?.hero_title.toLowerCase().includes(slug.toLowerCase())
@@ -175,7 +210,7 @@ export default async function CatchAllSlugPage({
                 }
 
                 if (wpApp) {
-                    displayData = mapWpApplicationData(wpApp, slug);
+                    displayData = mapWpApplicationData(wpApp, slug, locationUrl, quickContact);
                 }
             }
         }
@@ -243,13 +278,14 @@ export default async function CatchAllSlugPage({
 }
 
 // --- Mapping function for Applications ---
-function mapWpApplicationData(wpApp: WPApplication, id: string): ApplicationData {
+function mapWpApplicationData(wpApp: WPApplication, id: string, locationUrl?: string, quickContact?: WPQuickContactData): ApplicationData {
     const hero = wpApp.applications_hero?.[0];
     const content = wpApp.content_section?.[0];
     const features = wpApp.feature_section || [];
     const button = wpApp.button_data?.[0];
     const customer = wpApp.customer_data?.[0];
     const video = wpApp.reference_section?.[0];
+    const tabs = wpApp.tab_section || [];
 
     return {
         title: hero?.page_title || "Application",
@@ -294,6 +330,24 @@ function mapWpApplicationData(wpApp: WPApplication, id: string): ApplicationData
             title: video?.reference_title || "",
             youtubeId: video?.youtube_id || "",
         },
+        tabSection: tabs.length > 0 ? {
+            tabs: tabs.map(t => ({
+                label: t.tab_header,
+                title: t.title,
+                description: t.small_para,
+                buttonText: t.btn_text,
+                image: t.tab_image?.url,
+                buttonLink: typeof t.btn_link === "string" ? t.btn_link : t.btn_link?.url,
+            }))
+        } : undefined,
+        locationUrl: locationUrl,
+        quickContact: quickContact ? {
+            tag: quickContact.tag,
+            title: quickContact.title,
+            para: quickContact.para,
+            btnText: quickContact.btn_text,
+            btnLink: quickContact.btn_link,
+        } : undefined,
     };
 }
 

@@ -146,10 +146,9 @@ export default function Footer() {
       };
     }) : [
     { name: "SAP Business One", href: "/businessOne" },
-    { name: "SAP by Design", href: "/sapDesign" },
-    { name: "Microsoft Dynamic 365", href: "#" },
-    { name: "SAGE ERP 300", href: "#" },
-    { name: "Oracle Netsuit", href: "#" },
+    { name: "Microsoft Dynamic 365", href: "/microsoftDynamic" },
+    { name: "Zoho", href: "/zoho" },
+    { name: "Salesforce", href: "/salesforce" },
   ];
 
   const footerLinks: Record<string, FooterLink[]> = {
@@ -228,7 +227,7 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-border/50 bg-gray-200">
-      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 pt-10 pb-5">
+      <div className="mx-auto max-w-7xl pt-10 pb-5">
         <div className="grid grid-cols-2 lg:grid-cols-6 gap-8 mb-10 lg:gap-12">
 
           {/* Company Info */}

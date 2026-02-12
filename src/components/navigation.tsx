@@ -131,12 +131,12 @@ export default function Navigation({ isDarkBg = false }: { isDarkBg?: boolean })
         : "bg-transparent"
         }`}
     >
-      <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="flex items-center justify-between h-16 sm:h-20">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex items-center justify-between h-20 sm:h-24">
           {/* Logo */}
           <a href="/" className="flex items-center space-x-2">
             <motion.div whileHover={{ scale: 1.05 }} className="flex items-center">
-              <div className="w-20 sm:w-32 md:w-40 h-6 sm:h-9 md:h-16 overflow-hidden rounded-lg">
+              <div className="w-28 sm:w-48 md:w-50 h-10 sm:h-14 md:h-20 overflow-hidden rounded-lg">
                 <img
                   src={logoUrl}
                   alt="Logo"
@@ -206,9 +206,7 @@ export default function Navigation({ isDarkBg = false }: { isDarkBg?: boolean })
               )
             )}
 
-            <Button size="sm" className="ml-2 lg:ml-4" asChild>
-              <a href={btnLink}>{btnText}</a>
-            </Button>
+
           </div>
 
           {/* Mobile menu button */}
@@ -286,14 +284,7 @@ export default function Navigation({ isDarkBg = false }: { isDarkBg?: boolean })
                 )
               )}
 
-              <Button className="w-full mt-2" asChild>
-                <a
-                  href={btnLink}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {btnText}
-                </a>
-              </Button>
+
             </div>
           </motion.div>
         )}
