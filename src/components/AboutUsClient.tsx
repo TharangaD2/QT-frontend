@@ -6,8 +6,8 @@ import Image from "next/image";
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import { Compass, Eye, Heart, CircleCheckBig, BrainCircuit, Blocks, Lightbulb, LucideIcon } from "lucide-react";
+import { getPage } from "@/lib/wordpress";
 import { ReadMore } from "./ui/ReadMore";
-
 
 interface Card {
     icon: LucideIcon;
@@ -125,6 +125,22 @@ export default function AboutUsClient({ data }: { data: WpPage }) {
     const excellenceInView = useInView(excellenceRef, { once: true, margin: "-120px" });
     const aboutInView = useInView(aboutRef, { once: true, margin: "-100px" });
 
+    const [meetingLink, setMeetingLink] = useState<string>("https://qintella.zohobookings.com/#/ScheduleaConsultation");
+
+    useEffect(() => {
+        const fetchMeetingLink = async () => {
+            try {
+                const wpData = await getPage("contact");
+                if (wpData?.acf?.meeting_data?.[0]) {
+                    setMeetingLink(wpData.acf.meeting_data[0].meeting_url);
+                }
+            } catch (error) {
+                console.error("Failed to fetch meeting link in AboutUsClient:", error);
+            }
+        };
+        fetchMeetingLink();
+    }, []);
+
     const { scrollYProgress } = useScroll({
         target: sectionRef,
         offset: ["start end", "end start"],
@@ -212,22 +228,19 @@ export default function AboutUsClient({ data }: { data: WpPage }) {
                     </motion.div>
 
 
-                    <motion.button
+                    <motion.a
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.6, delay: 0.4 }}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="mt-8 px-8 py-3 rounded-full border-2 border-white text-white font-semibold hover:bg-[#EC9E35] hover:text-white transition"
-                        onClick={() => {
-                            const aboutSection = document.getElementById("about");
-                            if (aboutSection) {
-                                aboutSection.scrollIntoView({ behavior: "smooth" });
-                            }
-                        }}
+                        href={meetingLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-8 px-8 py-3 rounded-full border-2 border-white text-white font-semibold hover:bg-[#EC9E35] hover:text-white transition inline-block text-center"
                     >
-                        {(heroData as any)?.about_hero_btn_text || "Learn More"}
-                    </motion.button>
+                        {(heroData as any)?.about_hero_btn_text || "Schedule Meeting"}
+                    </motion.a>
                 </div>
             </section>
 
@@ -552,10 +565,12 @@ export default function AboutUsClient({ data }: { data: WpPage }) {
                                 </p>
                             </div>
                             <motion.a
-                                href="#contact"
+                                href={meetingLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.98 }}
-                                className="px-6 py-3 font-medium transition-shadow rounded-lg bg-primary text-primary-foreground hover:shadow-lg hover:shadow-primary/30"
+                                className="px-6 py-3 font-medium transition-shadow rounded-lg bg-primary text-primary-foreground hover:shadow-lg hover:shadow-primary/30 inline-block text-center"
                             >
                                 {scheduleData?.schedule_btn_text}
                             </motion.a>

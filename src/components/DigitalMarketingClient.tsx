@@ -127,7 +127,7 @@ export default function DigitalMarketingClient({ pageData }: Props) {
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.2 }}
-                            className="text-4xl md:text-5xl font-bold leading-tight"
+                            className="text-2xl md:text-5xl font-bold leading-tight"
                         >
                             {hero?.hero_para || "Crafting Prestige Online"} <br />
                             <span style={{ color: '#EC9E35' }}>
@@ -221,16 +221,16 @@ export default function DigitalMarketingClient({ pageData }: Props) {
                 <section className="py-20">
                     <div className="max-w-6xl mx-auto px-6">
 
-                        <h2 className="text-center text-5xl font-bold mb-12">
-                            <p className="mb-3 text-sm font-medium">
+                        <h2 className="text-center text-3xl md:text-5xl font-bold mb-12">
+                            <p className="mb-3 text-xs md:text-sm font-medium">
                                 {servicesGrid?.service_tag || "We enable"}
                             </p>
 
-                            <span className="text-blue-600 text-5xl">{servicesGrid?.highlight_tag || "Prestige Services"}</span><br />
+                            <span className="text-blue-600 text-3xl md:text-5xl">{servicesGrid?.highlight_tag || "Prestige Services"}</span><br />
                             {servicesGrid?.service_title || "& Solutions offered by us"}
                         </h2>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 justify-items-center">
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-10 justify-items-center">
                             {(servicesGrid?.dm_service_card || []).map((service, index) => (
                                 <motion.div
                                     key={`${service.service_title}-${index}`}
@@ -239,10 +239,10 @@ export default function DigitalMarketingClient({ pageData }: Props) {
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.5, delay: index * 0.1 }}
                                     onClick={() => setSelectedService(service)}
-                                    className="text-white rounded-xl p-8 hover:-translate-y-2 transition flex flex-col items-center text-center w-[270px] h-[380px] cursor-pointer group"
+                                    className="text-white rounded-xl p-4 md:p-8 hover:-translate-y-2 transition flex flex-col items-center text-center w-full max-w-[270px] aspect-[4/5] md:h-[380px] cursor-pointer group"
                                     style={{ backgroundColor: '#1C2961' }}
                                 >
-                                    <div className="w-16 h-16 mb-6 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                    <div className="w-12 h-12 md:w-16 md:h-16 mb-4 md:mb-6 flex items-center justify-center group-hover:scale-110 transition-transform">
                                         {service.service_image?.url && (
                                             <img
                                                 src={service.service_image.url}
@@ -251,7 +251,7 @@ export default function DigitalMarketingClient({ pageData }: Props) {
                                             />
                                         )}
                                     </div>
-                                    <h3 className="text-xl font-bold mb-4">{service.service_title}</h3>
+                                    <h3 className="mb-2 md:mb-3 text-sm md:text-xl font-semibold">{service.service_title}</h3>
                                     <div className="text-sm text-gray-300 leading-relaxed">
                                         <ReadMore text={service.card_para} limit={3} />
                                     </div>
