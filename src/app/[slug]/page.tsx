@@ -63,14 +63,18 @@ interface WPCustomerData {
     customer_card: WPCustomerCard[];
 }
 
-interface WPReferenceData {
-    reference_title: string;
-    youtube_id: string;
+interface WPTabCard {
+    card_icon?: WPImage | false;
+    card_title: string;
+    card_para: string;
+    btn_text: string;
+    btn_link: string | WPLink;
 }
 
 interface WPTabData {
     tab_header: string;
-    tab_image?: WPImage;
+    tab_image?: WPImage | false;
+    cards: WPTabCard[] | false;
     title: string;
     small_para: string;
     btn_text: string;
@@ -83,6 +87,11 @@ interface WPQuickContactData {
     para: string;
     btn_text: string;
     btn_link: string;
+}
+
+interface WPReferenceData {
+    reference_title: string;
+    youtube_id: string;
 }
 
 interface WPApplication {
@@ -306,7 +315,7 @@ function mapWpApplicationData(wpApp: WPApplication, id: string, locationUrl?: st
                 title: f.feature_title,
                 description: f.feature_para,
                 subFeatures: (f.feature_point || [])
-                    .filter(p => p.point_title && p.point_para)
+                    .filter(p => p.point_title)
                     .map(p => ({
                         title: p.point_title,
                         description: p.point_para,
@@ -336,8 +345,15 @@ function mapWpApplicationData(wpApp: WPApplication, id: string, locationUrl?: st
                 title: t.title,
                 description: t.small_para,
                 buttonText: t.btn_text,
-                image: t.tab_image?.url,
+                image: t.tab_image ? t.tab_image.url : undefined,
                 buttonLink: typeof t.btn_link === "string" ? t.btn_link : t.btn_link?.url,
+                cards: Array.isArray(t.cards) ? t.cards.map(c => ({
+                    icon: c.card_icon ? c.card_icon.url : undefined,
+                    title: c.card_title,
+                    text: c.card_para,
+                    buttonText: c.btn_text,
+                    buttonLink: typeof c.btn_link === "string" ? c.btn_link : c.btn_link?.url,
+                })) : false
             }))
         } : undefined,
         locationUrl: locationUrl,

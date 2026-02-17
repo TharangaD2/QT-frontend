@@ -63,7 +63,7 @@ export default function SocialSidebar() {
         // Return original static fallback if no data yet (to avoid layout shift or empty sidebar)
         return (
             <div className="social-sidebar">
-                <a href="https://facebook.com/QuintessentialTechnologies" className="facebook" target="_blank" rel="noopener noreferrer">
+                <a href="" className="facebook" target="_blank" rel="noopener noreferrer">
                     <i className="fab fa-facebook-f"></i>
                     <span className="ml-5">Facebook</span>
                 </a>
@@ -79,7 +79,7 @@ export default function SocialSidebar() {
                     <i className="fab fa-whatsapp"></i>
                     <span className="ml-5">WhatsApp</span>
                 </a>
-                <a href="#schedule" className="meeting">
+                <a href="https://qintella.zohobookings.com/#/ScheduleaConsultation" className="meeting">
                     <i className="fa-solid fa-calendar-check"></i>
                     <span className="ml-5">Schedule Meeting</span>
                 </a>
@@ -101,7 +101,7 @@ export default function SocialSidebar() {
                     <span className="ml-5">{getSocialName(item)}</span>
                 </a>
             ))}
-            <a href="#schedule" className="meeting">
+            <a href="https://qintella.zohobookings.com/#/ScheduleaConsultation" className="meeting">
                 <i className="fa-solid fa-calendar-check"></i>
                 <span className="ml-5">Schedule Meeting</span>
             </a>

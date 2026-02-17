@@ -15,6 +15,14 @@ export interface CustomerSuccessCard {
     text: string;
 }
 
+export interface TabCard {
+    icon?: string;
+    title: string;
+    text: string;
+    buttonText?: string;
+    buttonLink?: string;
+}
+
 export interface Tab {
     label: string;
     title: string;
@@ -22,6 +30,7 @@ export interface Tab {
     buttonText?: string;
     buttonLink?: string;
     image?: string;
+    cards?: TabCard[] | false;
 }
 
 export interface TabSection {

@@ -10,6 +10,38 @@ import { ApplicationData } from "@/data/applicationsData";
 
 
 
+const ReadMore = ({ text, limit = 150 }: { text: string; limit?: number }) => {
+    const [isReadMore, setIsReadMore] = useState(true);
+    if (!text) return null;
+
+    return (
+        <>
+            {/* Desktop: Show full text */}
+            <span className="hidden md:inline">{text}</span>
+
+            {/* Mobile: Truncated text with toggle */}
+            <span className="md:hidden">
+                {text.length <= limit ? (
+                    text
+                ) : (
+                    <>
+                        {isReadMore ? text.slice(0, limit) + "..." : text}
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setIsReadMore(!isReadMore);
+                            }}
+                            className="ml-1 text-primary font-bold hover:underline focus:outline-none"
+                        >
+                            {isReadMore ? "Read More" : "Read Less"}
+                        </button>
+                    </>
+                )}
+            </span>
+        </>
+    );
+};
+
 export default function ApplicationTemplate({ data }: { data: ApplicationData }) {
     const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
     const sectionRef = useRef<HTMLElement | null>(null);
@@ -45,7 +77,7 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6 }}
-                            className="text-sm tracking-widest uppercase text-gray-300 mb-3"
+                            className="text-[10px] md:text-sm tracking-widest uppercase text-gray-300 mb-3"
                         >
                             Advanced Solutions
                         </motion.p>
@@ -54,19 +86,19 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.2 }}
-                            className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight"
+                            className="text-2xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight"
                         >
                             {data.hero.title}
                         </motion.h1>
 
-                        <motion.p
+                        <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.3 }}
-                            className="max-w-3xl mx-auto mt-6 text-lg sm:text-xl text-white/90"
+                            className="max-w-3xl mx-auto mt-6 text-sm md:text-xl text-white/90"
                         >
-                            {data.hero.description}
-                        </motion.p>
+                            <ReadMore text={data.hero.description} limit={120} />
+                        </motion.div>
 
                         <motion.button
                             initial={{ opacity: 0, scale: 0.9 }}
@@ -91,12 +123,12 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
                 <div id="main-content" className="py-16 md:py-24 px-6 text-gray-800">
                     <div className="max-w-7xl mx-auto">
                         <div className="text-center mb-16">
-                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                            <h2 className="text-xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                                 {data.introduction.title}
                             </h2>
-                            <p className="max-w-3xl mx-auto text-gray-600 text-sm md:text-lg leading-relaxed">
-                                {data.introduction.description}
-                            </p>
+                            <div className="max-w-3xl mx-auto text-gray-600 text-xs md:text-lg leading-relaxed">
+                                <ReadMore text={data.introduction.description} limit={150} />
+                            </div>
                         </div>
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-start">
@@ -114,9 +146,9 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
                             </div>
 
                             <div>
-                                <p className="text-gray-700 mb-10 leading-relaxed text-lg">
-                                    {data.mainContent.text}
-                                </p>
+                                <div className="text-gray-700 mb-10 leading-relaxed text-sm md:text-lg">
+                                    <ReadMore text={data.mainContent.text} limit={200} />
+                                </div>
 
                                 <div className="space-y-6 mb-10">
                                     {data.mainContent.features.map((feature, index) => {
@@ -129,7 +161,7 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
                                                     className="w-full flex justify-between items-start text-left"
                                                 >
                                                     <div>
-                                                        <h3 className="text-2xl font-semibold text-gray-900">
+                                                        <h3 className="text-lg md:text-2xl font-semibold text-gray-900">
                                                             {feature.title}
                                                         </h3>
                                                     </div>
@@ -152,15 +184,15 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
                                                             className="overflow-hidden"
                                                         >
                                                             <div className="mt-8 space-y-6">
-                                                                <p className="text-gray-600 max-w-xl">
+                                                                <p className="text-xs md:text-base text-gray-600 max-w-xl">
                                                                     {feature.description}
                                                                 </p>
                                                                 {feature.subFeatures.map((sub, i) => (
                                                                     <div key={i}>
-                                                                        <h4 className="text-lg font-semibold text-gray-900">
+                                                                        <h4 className="text-sm md:text-lg font-semibold text-gray-900">
                                                                             {sub.title}
                                                                         </h4>
-                                                                        <p className="mt-1 text-gray-600 leading-relaxed max-w-xl">
+                                                                        <p className="mt-1 text-xs md:text-base text-gray-600 leading-relaxed max-w-xl">
                                                                             {sub.description}
                                                                         </p>
                                                                     </div>
@@ -179,7 +211,7 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
                                         href={data.pdfLink.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="inline-block bg-primary hover:bg-primary/90 transition text-white font-medium px-8 py-3 rounded-md shadow-md"
+                                        className="inline-block bg-primary hover:bg-primary/90 transition text-white font-medium px-8 py-3 rounded-md shadow-md text-sm md:text-base"
                                     >
                                         {data.pdfLink.text}
                                     </a>
@@ -193,7 +225,7 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
                 <section className="py-16 md:py-24 bg-white px-6">
                     <div className="max-w-5xl mx-auto">
                         <div className="text-center mb-14">
-                            <h2 className="text-2xl md:text-4xl font-bold text-gray-900">
+                            <h2 className="text-xl md:text-4xl font-bold text-gray-900">
                                 {data.video.title}
                             </h2>
                         </div>
@@ -261,62 +293,104 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
                                     animate={{ opacity: 1, x: 0 }}
                                     exit={{ opacity: 0, x: -20 }}
                                     transition={{ duration: 0.5, ease: "easeOut" }}
-                                    className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-center"
+                                    className="w-full"
                                 >
-                                    {/* Image */}
-                                    {data.tabSection.tabs[activeTab].image && (
-                                        <motion.div
-                                            initial={{ opacity: 0, scale: 0.95 }}
-                                            animate={{ opacity: 1, scale: 1 }}
-                                            transition={{ duration: 0.6 }}
-                                            className="relative w-full h-[300px] md:h-[400px] "
-                                        >
-                                            <Image
-                                                src={data.tabSection.tabs[activeTab].image!}
-                                                alt={data.tabSection.tabs[activeTab].title}
-                                                fill
-                                                className="object-contain p-4"
-                                                unoptimized
-                                            />
-                                        </motion.div>
+                                    {data.tabSection.tabs[activeTab].cards && data.tabSection.tabs[activeTab].cards!.length > 0 ? (
+                                        /* Cards Grid Layout */
+                                        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
+                                            {data.tabSection.tabs[activeTab].cards!.map((card, cardIndex) => (
+                                                <motion.div
+                                                    key={cardIndex}
+                                                    initial={{ opacity: 0, y: 20 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    transition={{ delay: cardIndex * 0.1 }}
+                                                    className="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 group"
+                                                >
+                                                    {card.icon && (
+                                                        <div className="relative w-10 h-10 md:w-16 md:h-16 mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300">
+                                                            <Image
+                                                                src={card.icon}
+                                                                alt={card.title}
+                                                                fill
+                                                                className="object-contain"
+                                                                unoptimized
+                                                            />
+                                                        </div>
+                                                    )}
+                                                    <h4 className="text-sm md:text-xl font-bold text-gray-900 mb-2 md:mb-4 group-hover:text-primary transition-colors">
+                                                        {card.title}
+                                                    </h4>
+                                                    <div className="text-xs md:text-base text-gray-600 leading-relaxed mb-4 md:mb-6">
+                                                        <ReadMore text={card.text} limit={60} />
+                                                    </div>
+                                                    {card.buttonText && card.buttonLink && (
+                                                        <a
+                                                            href={card.buttonLink}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="inline-flex items-center text-primary text-xs md:text-base font-semibold hover:gap-2 transition-all"
+                                                        >
+                                                            {card.buttonText}
+                                                            <span className="ml-1">→</span>
+                                                        </a>
+                                                    )}
+                                                </motion.div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        /* Default Image/Text Layout */
+                                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                                            {/* Image */}
+                                            {data.tabSection.tabs[activeTab].image && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, scale: 0.95 }}
+                                                    animate={{ opacity: 1, scale: 1 }}
+                                                    transition={{ duration: 0.6 }}
+                                                    className="relative w-full h-[200px] md:h-[400px]"
+                                                >
+                                                    <Image
+                                                        src={data.tabSection.tabs[activeTab].image!}
+                                                        alt={data.tabSection.tabs[activeTab].title}
+                                                        fill
+                                                        className="object-contain p-4"
+                                                        unoptimized
+                                                    />
+                                                </motion.div>
+                                            )}
+
+                                            {/* Text Content */}
+                                            <div className="">
+                                                <motion.h3
+                                                    initial={{ opacity: 0, y: 20 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    transition={{ delay: 0.2 }}
+                                                    className="text-xl md:text-4xl font-bold text-gray-900 mb-6"
+                                                >
+                                                    {data.tabSection.tabs[activeTab].title}
+                                                </motion.h3>
+
+                                                <div className="text-gray-600 text-sm md:text-xl leading-relaxed mb-8">
+                                                    <ReadMore text={data.tabSection.tabs[activeTab].description} limit={150} />
+                                                </div>
+
+                                                {data.tabSection.tabs[activeTab].buttonText && (
+                                                    <motion.a
+                                                        href={data.tabSection.tabs[activeTab].buttonLink}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        initial={{ opacity: 0, y: 20 }}
+                                                        animate={{ opacity: 1, y: 0 }}
+                                                        transition={{ delay: 0.4 }}
+                                                        whileHover={{ scale: 1.05 }}
+                                                        whileTap={{ scale: 0.95 }}
+                                                        className="inline-block bg-primary hover:bg-primary/90 transition text-white text-xs md:text-base font-medium px-8 py-3 rounded-md shadow-md uppercase tracking-wider"
+                                                    >
+                                                        {data.tabSection.tabs[activeTab].buttonText}
+                                                    </motion.a>
+                                                )}
+                                            </div>
+                                        </div>
                                     )}
-
-                                    {/* Text Content */}
-                                    <div className="">
-                                        <motion.h3
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: 0.2 }}
-                                            className="text-3xl md:text-4xl font-bold text-gray-900 mb-6"
-                                        >
-                                            {data.tabSection.tabs[activeTab].title}
-                                        </motion.h3>
-
-                                        <motion.p
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: 0.3 }}
-                                            className="text-gray-600 text-lg md:text-xl leading-relaxed mb-8"
-                                        >
-                                            {data.tabSection.tabs[activeTab].description}
-                                        </motion.p>
-
-                                        {data.tabSection.tabs[activeTab].buttonText && (
-                                            <motion.a
-                                                href={data.tabSection.tabs[activeTab].buttonLink}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                initial={{ opacity: 0, y: 20 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                transition={{ delay: 0.4 }}
-                                                whileHover={{ scale: 1.05 }}
-                                                whileTap={{ scale: 0.95 }}
-                                                className="inline-block bg-primary hover:bg-primary/90 transition text-white font-medium px-8 py-3 rounded-md shadow-md uppercase tracking-wider"
-                                            >
-                                                {data.tabSection.tabs[activeTab].buttonText}
-                                            </motion.a>
-                                        )}
-                                    </div>
                                 </motion.div>
                             </AnimatePresence>
                         </div>
@@ -328,15 +402,15 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
                     <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                         {/* Text Section */}
                         <div className="lg:pr-10">
-                            <h4 className="text-lg md:text-xl font-bold mb-6 text-gray-900">{data.quickContact?.tag || "Reach Us"}</h4>
-                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 text-gray-900">{data.quickContact?.title || "Quick Contact"}</h2>
-                            <p className="text-gray-700 text-sm md:text-lg mb-8 leading-relaxed">
-                                {data.quickContact?.para || "Call our hotline for a quick inquiry. If you can wait, send us a message here. We will get back to you within 3 working days. Schedule a call for an online meeting appointment."}
-                            </p>
+                            <h4 className="text-sm md:text-xl font-bold mb-6 text-gray-900">{data.quickContact?.tag || "Reach Us"}</h4>
+                            <h2 className="text-xl sm:text-3xl md:text-4xl font-bold mb-6 text-gray-900">{data.quickContact?.title || "Quick Contact"}</h2>
+                            <div className="text-gray-700 text-xs md:text-lg mb-8 leading-relaxed">
+                                <ReadMore text={data.quickContact?.para || "Call our hotline for a quick inquiry. If you can wait, send us a message here. We will get back to you within 3 working days. Schedule a call for an online meeting appointment."} limit={150} />
+                            </div>
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="px-8 py-3 rounded-md bg-primary text-white font-semibold hover:bg-primary/90 transition shadow-lg"
+                                className="px-8 py-3 rounded-md bg-primary text-white text-sm md:text-base font-semibold hover:bg-primary/90 transition shadow-lg"
                                 onClick={() => {
                                     // Navigate to contact or handle action
                                     window.location.href = data.quickContact?.btnLink || "/contact";

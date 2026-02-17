@@ -10,6 +10,9 @@ import {
     Send,
     MessageCircle,
     CheckCircle2,
+    Facebook,
+    Instagram,
+    Linkedin,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -174,7 +177,7 @@ export default function ContactClient({ data }: { data: WPContactPage }) {
             icon: MapPin,
             title: "Visit Us",
             content: "No:401, Mohammad Saleh al GURG, Dubai, UAE",
-            link: "#",
+            link: "https://qintella.zohobookings.com/#/ScheduleaConsultation",
         },
     ];
 
@@ -206,6 +209,10 @@ export default function ContactClient({ data }: { data: WPContactPage }) {
         })
         : defaultContactInfo;
 
+    const defaultSocialLinks: SocialLink[] = [
+
+    ];
+
     const socialLinks: SocialLink[] = wpSocialMedia.length > 0
         ? wpSocialMedia.map((item) => {
             const icon = getIconComponent(item.soical_icon);
@@ -224,7 +231,7 @@ export default function ContactClient({ data }: { data: WPContactPage }) {
                 color: colorMap[item.soical_icon] || "hover:text-primary",
             };
         })
-        : [];
+        : defaultSocialLinks;
 
     const { scrollYProgress } = useScroll({
         target: sectionRef,
@@ -371,6 +378,7 @@ export default function ContactClient({ data }: { data: WPContactPage }) {
                                     ))}
                                 </div>
                             </div>
+
                         </motion.div>
 
                         <motion.div
