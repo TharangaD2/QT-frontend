@@ -3,6 +3,11 @@
 import { useEffect, useState } from "react";
 import { getPage } from "@/lib/wordpress";
 
+interface WPMeetingData {
+    meeting_label: string;
+    meeting_url: string;
+}
+
 interface WPSocialMediaData {
     acf_fc_layout: "social_media_data";
     soical_icon: string;
@@ -15,6 +20,7 @@ interface WPSocialMediaData {
 
 export default function SocialSidebar() {
     const [socials, setSocials] = useState<WPSocialMediaData[]>([]);
+    const [meetingLink, setMeetingLink] = useState<string>("https://qintella.zohobookings.com/#/ScheduleaConsultation");
 
     useEffect(() => {
         const fetchSocials = async () => {
@@ -22,6 +28,9 @@ export default function SocialSidebar() {
                 const wpData = await getPage("contact");
                 if (wpData?.acf?.social_media) {
                     setSocials(wpData.acf.social_media);
+                }
+                if (wpData?.acf?.meeting_data?.[0]) {
+                    setMeetingLink(wpData.acf.meeting_data[0].meeting_url);
                 }
             } catch (error) {
                 console.error("Failed to fetch sidebar socials:", error);
@@ -63,7 +72,7 @@ export default function SocialSidebar() {
         // Return original static fallback if no data yet (to avoid layout shift or empty sidebar)
         return (
             <div className="social-sidebar">
-                <a href="" className="facebook" target="_blank" rel="noopener noreferrer">
+                <a href="https://facebook.com/QuintessentialTechnologies" className="facebook" target="_blank" rel="noopener noreferrer">
                     <i className="fab fa-facebook-f"></i>
                     <span className="ml-5">Facebook</span>
                 </a>
@@ -79,7 +88,7 @@ export default function SocialSidebar() {
                     <i className="fab fa-whatsapp"></i>
                     <span className="ml-5">WhatsApp</span>
                 </a>
-                <a href="https://qintella.zohobookings.com/#/ScheduleaConsultation" className="meeting">
+                <a href={meetingLink} className="meeting">
                     <i className="fa-solid fa-calendar-check"></i>
                     <span className="ml-5">Schedule Meeting</span>
                 </a>
@@ -101,7 +110,7 @@ export default function SocialSidebar() {
                     <span className="ml-5">{getSocialName(item)}</span>
                 </a>
             ))}
-            <a href="https://qintella.zohobookings.com/#/ScheduleaConsultation" className="meeting">
+            <a href={meetingLink} className="meeting">
                 <i className="fa-solid fa-calendar-check"></i>
                 <span className="ml-5">Schedule Meeting</span>
             </a>

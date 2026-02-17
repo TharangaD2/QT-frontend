@@ -54,6 +54,12 @@ interface WPLocationData {
     location_url: string;
 }
 
+interface WPMeetingData {
+    acf_fc_layout: "meeting_data";
+    meeting_label: string;
+    meeting_url: string;
+}
+
 interface WPSocialMediaData {
     acf_fc_layout: "social_media_data";
     soical_icon: string;
@@ -70,6 +76,7 @@ interface WPContactPage {
         content_data: WPContentData[];
         contact_data: WPContactDetail[];
         location_data: WPLocationData[];
+        meeting_data: WPMeetingData[];
         social_media: WPSocialMediaData[];
     };
 }
@@ -153,6 +160,7 @@ export default function ContactClient({ data }: { data: WPContactPage }) {
     const wpContactData = data.acf.contact_data || [];
     const wpSocialMedia = data.acf.social_media || [];
     const wpLocation = data.acf.location_data?.[0];
+    const wpMeeting = data.acf.meeting_data?.[0];
 
     const defaultContactInfo: ContactInfo[] = [
         {
@@ -177,9 +185,18 @@ export default function ContactClient({ data }: { data: WPContactPage }) {
             icon: MapPin,
             title: "Visit Us",
             content: "No:401, Mohammad Saleh al GURG, Dubai, UAE",
-            link: "https://qintella.zohobookings.com/#/ScheduleaConsultation",
+            link: "",
         },
     ];
+
+    if (wpMeeting) {
+        defaultContactInfo.push({
+            icon: CheckCircle2,
+            title: wpMeeting.meeting_label || "Schedule Meeting",
+            content: "Book a consultation",
+            link: wpMeeting.meeting_url || "https://qintella.zohobookings.com/#/ScheduleaConsultation",
+        });
+    }
 
     const contactInfo: ContactInfo[] = wpContactData.length > 0
         ? wpContactData.map((item) => {

@@ -43,9 +43,15 @@ interface WPNavigationData {
   btn_link: string;
 }
 
+interface WPMeetingData {
+  meeting_label: string;
+  meeting_url: string;
+}
+
 interface WPContactPage {
   acf: {
     navigation: WPNavigationData[];
+    meeting_data: WPMeetingData[];
   };
 }
 
@@ -118,8 +124,9 @@ export default function Navigation({ isDarkBg = false }: { isDarkBg?: boolean })
   ];
 
   const logoUrl = navData?.logo?.url || "/img/logo.png";
-  const btnText = navData?.btn_text || "Schedule A Meeting";
-  const btnLink = navData?.btn_link || "/contact";
+  const meetingData = data?.acf?.meeting_data?.[0];
+  const btnText = navData?.btn_text || meetingData?.meeting_label || "Schedule A Meeting";
+  const btnLink = meetingData?.meeting_url || "https://qintella.zohobookings.com/#/ScheduleaConsultation";
 
   return (
     <motion.nav

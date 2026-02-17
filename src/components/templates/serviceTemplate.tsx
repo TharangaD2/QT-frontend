@@ -3,6 +3,7 @@
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
+import { getPage } from "@/lib/wordpress";
 
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
@@ -17,8 +18,21 @@ interface TechnologyItem {
 export default function ServiceTemplate({ data }: { data: any }) {
   const ref = useRef(null);
   const [particles, setParticles] = useState<any[]>([]);
+  const [meetingLink, setMeetingLink] = useState<string>("https://qintella.zohobookings.com/#/ScheduleaConsultation");
 
   useEffect(() => {
+    const fetchMeetingLink = async () => {
+      try {
+        const wpData = await getPage("contact");
+        if (wpData?.acf?.meeting_data?.[0]) {
+          setMeetingLink(wpData.acf.meeting_data[0].meeting_url);
+        }
+      } catch (error) {
+        console.error("Failed to fetch meeting link in ServiceTemplate:", error);
+      }
+    };
+    fetchMeetingLink();
+
     const generatedParticles = [...Array(6)].map((_, i) => ({
       left: `${Math.random() * 100}%`,
       top: `${Math.random() * 100}%`,
@@ -109,16 +123,19 @@ export default function ServiceTemplate({ data }: { data: any }) {
             {data.heroDescription}
           </motion.p>
 
-          <motion.button
+          <motion.a
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.4 }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="mt-8 px-8 py-3 rounded-full border-2 border-white text-white font-semibold hover:bg-[#EC9E35] hover:text-white transition"
+            href={meetingLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-8 px-8 py-3 rounded-full border-2 border-white text-white font-semibold hover:bg-[#EC9E35] hover:text-white transition inline-block"
           >
             {data.heroBtnText || "Schedule a Meeting"}
-          </motion.button>
+          </motion.a>
         </div>
       </section>
 

@@ -4,9 +4,10 @@ import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { X, CheckCircle2 } from "lucide-react";
+import { getPage } from "@/lib/wordpress";
 import { ReadMore } from "./ui/ReadMore";
 import { toast } from "sonner";
 
@@ -20,11 +21,26 @@ export default function DigitalMarketingClient({ pageData }: Props) {
     const [selectedService, setSelectedService] = useState<ServiceCard | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [emailError, setEmailError] = useState("");
+    const [meetingLink, setMeetingLink] = useState<string>("https://qintella.zohobookings.com/#/ScheduleaConsultation");
     const [formData, setFormData] = useState({
         name: "",
         email: "",
         mobile: ""
     });
+
+    useEffect(() => {
+        const fetchMeetingLink = async () => {
+            try {
+                const wpData = await getPage("contact");
+                if (wpData?.acf?.meeting_data?.[0]) {
+                    setMeetingLink(wpData.acf.meeting_data[0].meeting_url);
+                }
+            } catch (error) {
+                console.error("Failed to fetch meeting link in DigitalMarketingClient:", error);
+            }
+        };
+        fetchMeetingLink();
+    }, []);
 
     const validateEmail = (email: string): boolean => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -119,16 +135,19 @@ export default function DigitalMarketingClient({ pageData }: Props) {
                             </span>
                         </motion.h1>
 
-                        <motion.button
+                        <motion.a
                             initial={{ opacity: 0, scale: 0.9 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.6, delay: 0.4 }}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="mt-8 px-8 py-3 rounded-full border-2 border-white text-white font-semibold hover:bg-[#EC9E35] hover:text-white transition"
+                            href={meetingLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-8 px-8 py-3 rounded-full border-2 border-white text-white font-semibold hover:bg-[#EC9E35] hover:text-white transition inline-block text-center"
                         >
                             {hero?.hero_btn_text || "Schedule a Meeting"}
-                        </motion.button>
+                        </motion.a>
                     </div>
                 </section>
 
@@ -350,9 +369,14 @@ export default function DigitalMarketingClient({ pageData }: Props) {
                                                                         {fullPara.booking_para1}
                                                                         {fullPara.booking_para2}
                                                                     </p>
-                                                                    <Link href={fullPara.book_btn_link || "/contact"} className="inline-block px-8 py-3 bg-[#EC9E35] text-white font-bold rounded-full hover:scale-105 transition-transform">
+                                                                    <a
+                                                                        href={meetingLink}
+                                                                        target="_blank"
+                                                                        rel="noopener noreferrer"
+                                                                        className="inline-block px-8 py-3 bg-[#EC9E35] text-white font-bold rounded-full hover:scale-105 transition-transform"
+                                                                    >
                                                                         {fullPara.book_btn_text || "Book Now"}
-                                                                    </Link>
+                                                                    </a>
                                                                 </div>
                                                             )}
                                                         </div>
@@ -389,12 +413,14 @@ export default function DigitalMarketingClient({ pageData }: Props) {
                             </h1>
 
                             <div className="mt-6">
-                                <Link
-                                    href={videoSec?.btn_link || "/contact"}
+                                <a
+                                    href={meetingLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     className="inline-flex items-center justify-center rounded-full border-2 border-[#1E2B6D] px-6 py-2 text-sm font-semibold text-[#1E2B6D] transition hover:bg-[#1E2B6D] hover:text-white"
                                 >
                                     {videoSec?.section_btn_text || "Schedule a Meeting"}
-                                </Link>
+                                </a>
                             </div>
                         </motion.div>
 

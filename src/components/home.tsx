@@ -12,7 +12,7 @@ import Image from "next/image";
 import ThreeDImageRing from "./ui/imageRing";
 import Link from "next/link";
 
-import { getHomePage } from "@/lib/wordpress";
+import { getHomePage, getPage } from "@/lib/wordpress";
 
 import {
   Code2,
@@ -227,6 +227,7 @@ export default function Home({ initialData }: { initialData: Home | null }) {
 
 
   const [page, setPage] = useState<Home | null>(initialData);
+  const [meetingLink, setMeetingLink] = useState<string>("https://qintella.zohobookings.com/#/ScheduleaConsultation");
 
 
   const heroImages = page?.acf?.hero_slider
@@ -479,12 +480,18 @@ export default function Home({ initialData }: { initialData: Home | null }) {
 
     async function fetchData() {
       try {
-        const data = await getHomePage();
+        const [data, contactData] = await Promise.all([
+          getHomePage(),
+          getPage("contact")
+        ]);
         if (data) {
           setPage(data);
         }
+        if (contactData?.acf?.meeting_data?.[0]) {
+          setMeetingLink(contactData.acf.meeting_data[0].meeting_url);
+        }
       } catch (error) {
-        console.error("Error fetching home page:", error);
+        console.error("Error fetching home page or meeting data:", error);
       }
     }
     fetchData();
@@ -600,17 +607,19 @@ export default function Home({ initialData }: { initialData: Home | null }) {
               </motion.div>
 
 
-              <motion.button
+              <motion.a
                 whileHover={{
                   scale: 1.05,
                   boxShadow: "0 0 30px rgba(0, 217, 255, 0.5)",
                 }}
                 whileTap={{ scale: 0.95 }}
-
-                className="px-6 py-3 md:px-8 md:py-4 rounded-full bg-gradient-to-r from-[oklch(0.62_0.18_195)] to-[oklch(0.55_0.15_200)] text-white font-semibold text-base md:text-lg shadow-lg transition-all duration-300 "
+                href={meetingLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3 md:px-8 md:py-4 rounded-full bg-gradient-to-r from-[oklch(0.62_0.18_195)] to-[oklch(0.55_0.15_200)] text-white font-semibold text-base md:text-lg shadow-lg transition-all duration-300 inline-block text-center"
               >
                 {slide.button_text}
-              </motion.button>
+              </motion.a>
             </motion.div>
 
             {/* Scroll icon */}
