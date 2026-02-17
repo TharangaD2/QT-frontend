@@ -101,9 +101,9 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
                         </motion.div>
 
                         <motion.button
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.6, delay: 0.4 }}
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.4 }}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             className="mt-8 px-8 py-3 rounded-full border-2 border-white text-white font-semibold hover:bg-[#EC9E35] hover:text-white transition"
@@ -121,7 +121,13 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
 
                 {/* INTRODUCTION & FEATURES */}
                 <div id="main-content" className="py-16 md:py-24 px-6 text-gray-800">
-                    <div className="max-w-7xl mx-auto">
+                    <motion.div
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8 }}
+                        className="max-w-7xl mx-auto"
+                    >
                         <div className="text-center mb-16">
                             <h2 className="text-xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                                 {data.introduction.title}
@@ -132,7 +138,12 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
                         </div>
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-start">
-                            <div>
+                            <motion.div
+                                initial={{ opacity: 0, x: -30 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true, margin: "-100px" }}
+                                transition={{ duration: 0.8, delay: 0.2 }}
+                            >
                                 <div className="relative w-full max-w-xl aspect-square">
                                     <Image
                                         src={data.mainContent.image}
@@ -143,9 +154,14 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
                                         unoptimized
                                     />
                                 </div>
-                            </div>
+                            </motion.div>
 
-                            <div>
+                            <motion.div
+                                initial={{ opacity: 0, x: 30 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true, margin: "-100px" }}
+                                transition={{ duration: 0.8, delay: 0.2 }}
+                            >
                                 <div className="text-gray-700 mb-10 leading-relaxed text-sm md:text-lg">
                                     <ReadMore text={data.mainContent.text} limit={200} />
                                 </div>
@@ -155,7 +171,14 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
                                         const isExpanded = expandedIndex === index;
 
                                         return (
-                                            <div key={index} className="border-b border-gray-200 pb-6">
+                                            <motion.div
+                                                key={index}
+                                                initial={{ opacity: 0, y: 20 }}
+                                                whileInView={{ opacity: 1, y: 0 }}
+                                                viewport={{ once: true }}
+                                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                                className="border-b border-gray-200 pb-6"
+                                            >
                                                 <button
                                                     onClick={() => toggleExpand(index)}
                                                     className="w-full flex justify-between items-start text-left"
@@ -201,36 +224,52 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
                                                         </motion.div>
                                                     )}
                                                 </AnimatePresence>
-                                            </div>
+                                            </motion.div>
                                         );
                                     })}
                                 </div>
 
                                 {data.pdfLink && (
-                                    <a
+                                    <motion.a
+                                        initial={{ opacity: 0, y: 20 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 0.5, delay: 0.5 }}
                                         href={data.pdfLink.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="inline-block bg-primary hover:bg-primary/90 transition text-white font-medium px-8 py-3 rounded-md shadow-md text-sm md:text-base"
                                     >
                                         {data.pdfLink.text}
-                                    </a>
+                                    </motion.a>
                                 )}
-                            </div>
+                            </motion.div>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
 
                 {/* VIDEO SECTION */}
                 <section className="py-16 md:py-24 bg-white px-6">
-                    <div className="max-w-5xl mx-auto">
+                    <motion.div
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8 }}
+                        className="max-w-5xl mx-auto"
+                    >
                         <div className="text-center mb-14">
                             <h2 className="text-xl md:text-4xl font-bold text-gray-900">
                                 {data.video.title}
                             </h2>
                         </div>
 
-                        <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-xl">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                            className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-xl"
+                        >
                             <iframe
                                 className="absolute inset-0 w-full h-full"
                                 src={`https://www.youtube.com/embed/${data.video.youtubeId}`}
@@ -239,14 +278,20 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen
                             />
-                        </div>
-                    </div>
+                        </motion.div>
+                    </motion.div>
                 </section>
 
                 {/* TAB SECTION */}
                 {data.tabSection && (
                     <section className="py-16 md:py-24 bg-gray-50 px-6">
-                        <div className="max-w-7xl mx-auto">
+                        <motion.div
+                            initial={{ opacity: 0, y: 40 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-100px" }}
+                            transition={{ duration: 0.8 }}
+                            className="max-w-7xl mx-auto"
+                        >
                             {/* Tab Navigation */}
                             <div className="flex overflow-x-auto scrollbar-hide gap-8 sm:gap-12 md:justify-center mb-16 pb-2 border-b border-gray-100">
                                 {data.tabSection.tabs.map((tab, index) => (
@@ -302,8 +347,9 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
                                                 <motion.div
                                                     key={cardIndex}
                                                     initial={{ opacity: 0, y: 20 }}
-                                                    animate={{ opacity: 1, y: 0 }}
-                                                    transition={{ delay: cardIndex * 0.1 }}
+                                                    whileInView={{ opacity: 1, y: 0 }}
+                                                    viewport={{ once: true }}
+                                                    transition={{ duration: 0.5, delay: cardIndex * 0.1 }}
                                                     className="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 group"
                                                 >
                                                     {card.icon && (
@@ -393,15 +439,27 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
                                     )}
                                 </motion.div>
                             </AnimatePresence>
-                        </div>
+                        </motion.div>
                     </section>
                 )}
 
                 {/* QUICK CONTACT SECTION */}
                 <section className="py-16 md:py-24 bg-white px-6">
-                    <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <motion.div
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8 }}
+                        className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+                    >
                         {/* Text Section */}
-                        <div className="lg:pr-10">
+                        <motion.div
+                            initial={{ opacity: 0, x: -30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                            className="lg:pr-10"
+                        >
                             <h4 className="text-sm md:text-xl font-bold mb-6 text-gray-900">{data.quickContact?.tag || "Reach Us"}</h4>
                             <h2 className="text-xl sm:text-3xl md:text-4xl font-bold mb-6 text-gray-900">{data.quickContact?.title || "Quick Contact"}</h2>
                             <div className="text-gray-700 text-xs md:text-lg mb-8 leading-relaxed">
@@ -418,10 +476,16 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
                             >
                                 {data.quickContact?.btnText}
                             </motion.button>
-                        </div>
+                        </motion.div>
 
                         {/* Map Section */}
-                        <div className="w-full h-[200px] lg:h-[300px] rounded-2xl overflow-hidden shadow-xl border border-gray-100">
+                        <motion.div
+                            initial={{ opacity: 0, x: 30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                            className="w-full h-[200px] lg:h-[300px] rounded-2xl overflow-hidden shadow-xl border border-gray-100"
+                        >
                             <iframe
                                 title="Office Location"
                                 src={data.locationUrl || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3609.1751683141873!2d55.23054007500027!3d25.123540883887027!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f433dcb9cb5b7%3A0x9b3a2fdbb9f2b2d0!2sAl%20Quoz%2C%20Dubai%2C%20UAE!5e0!3m2!1sen!2sus!4v1670000000000!5m2!1sen!2sus"}
@@ -431,8 +495,8 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
                                 allowFullScreen={true}
                                 loading="lazy"
                             ></iframe>
-                        </div>
-                    </div>
+                        </motion.div>
+                    </motion.div>
                 </section>
 
 
