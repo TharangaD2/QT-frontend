@@ -341,47 +341,60 @@ export default function ApplicationTemplate({ data }: { data: ApplicationData })
                                     className="w-full"
                                 >
                                     {data.tabSection.tabs[activeTab].cards && data.tabSection.tabs[activeTab].cards!.length > 0 ? (
-                                        /* Cards Grid Layout */
-                                        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
-                                            {data.tabSection.tabs[activeTab].cards!.map((card, cardIndex) => (
-                                                <motion.div
-                                                    key={cardIndex}
-                                                    initial={{ opacity: 0, y: 20 }}
-                                                    whileInView={{ opacity: 1, y: 0 }}
-                                                    viewport={{ once: true }}
-                                                    transition={{ duration: 0.5, delay: cardIndex * 0.1 }}
-                                                    className="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 group"
-                                                >
-                                                    {card.icon && (
-                                                        <div className="relative w-10 h-10 md:w-16 md:h-16 mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300">
-                                                            <Image
-                                                                src={card.icon}
-                                                                alt={card.title}
-                                                                fill
-                                                                className="object-contain"
-                                                                unoptimized
-                                                            />
+                                        /* Marquee Cards Layout */
+                                        <div className="relative overflow-hidden py-10">
+                                            <motion.div
+                                                className="flex gap-4 md:gap-6"
+                                                animate={{
+                                                    x: [0, -1 * data.tabSection.tabs[activeTab].cards!.length * (324)], // 324 is approximate width + gap
+                                                }}
+                                                transition={{
+                                                    x: {
+                                                        repeat: Infinity,
+                                                        repeatType: "loop",
+                                                        duration: 30, // Slower duration for better readability
+                                                        ease: "linear",
+                                                    },
+                                                }}
+                                                drag="x" // Enable drag for manual exploration
+                                                dragConstraints={{ left: -1 * data.tabSection.tabs[activeTab].cards!.length * 324, right: 0 }}
+                                            >
+                                                {[...data.tabSection.tabs[activeTab].cards!, ...data.tabSection.tabs[activeTab].cards!].map((card, cardIndex) => (
+                                                    <motion.div
+                                                        key={cardIndex}
+                                                        className="flex-shrink-0 w-[260px] md:w-[300px] bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 group"
+                                                    >
+                                                        {card.icon && (
+                                                            <div className="relative w-8 h-8 md:w-12 md:h-12 mb-3 md:mb-4 group-hover:scale-110 transition-transform duration-300">
+                                                                <Image
+                                                                    src={card.icon}
+                                                                    alt={card.title}
+                                                                    fill
+                                                                    className="object-contain"
+                                                                    unoptimized
+                                                                />
+                                                            </div>
+                                                        )}
+                                                        <h4 className="text-xs md:text-lg font-bold text-gray-900 mb-2 md:mb-3 group-hover:text-primary transition-colors">
+                                                            {card.title}
+                                                        </h4>
+                                                        <div className="text-[10px] md:text-sm text-gray-600 leading-relaxed mb-3 md:mb-4">
+                                                            <ReadMore text={card.text} limit={50} />
                                                         </div>
-                                                    )}
-                                                    <h4 className="text-sm md:text-xl font-bold text-gray-900 mb-2 md:mb-4 group-hover:text-primary transition-colors">
-                                                        {card.title}
-                                                    </h4>
-                                                    <div className="text-xs md:text-base text-gray-600 leading-relaxed mb-4 md:mb-6">
-                                                        <ReadMore text={card.text} limit={60} />
-                                                    </div>
-                                                    {card.buttonText && card.buttonLink && (
-                                                        <a
-                                                            href={card.buttonLink}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            className="inline-flex items-center text-primary text-xs md:text-base font-semibold hover:gap-2 transition-all"
-                                                        >
-                                                            {card.buttonText}
-                                                            <span className="ml-1">→</span>
-                                                        </a>
-                                                    )}
-                                                </motion.div>
-                                            ))}
+                                                        {card.buttonText && card.buttonLink && (
+                                                            <a
+                                                                href={card.buttonLink}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="inline-flex items-center text-primary text-[10px] md:text-sm font-semibold hover:gap-2 transition-all"
+                                                            >
+                                                                {card.buttonText}
+                                                                <span className="ml-1">→</span>
+                                                            </a>
+                                                        )}
+                                                    </motion.div>
+                                                ))}
+                                            </motion.div>
                                         </div>
                                     ) : (
                                         /* Default Image/Text Layout */
